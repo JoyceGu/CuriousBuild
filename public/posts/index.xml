@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>CuriousBuild</title>
-    <link>http://localhost:1313/CuriousBuild/</link>
-    <description>Recent content on CuriousBuild</description>
+    <title>Posts on CuriousBuild</title>
+    <link>http://localhost:1313/CuriousBuild/posts/</link>
+    <description>Recent content in Posts on CuriousBuild</description>
     <image>
       <title>CuriousBuild</title>
       <url>http://localhost:1313/CuriousBuild/images/papermod-cover.png</url>
@@ -13,7 +13,7 @@
     <language>en</language>
     <copyright>PaperMod Contributors</copyright>
     <lastBuildDate>Sun, 19 Jan 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/CuriousBuild/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/CuriousBuild/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hello 2025!</title>
       <link>http://localhost:1313/CuriousBuild/posts/hello-2025/</link>

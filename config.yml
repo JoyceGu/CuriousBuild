@@ -1,7 +1,7 @@
 # If your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would
 # contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
 baseURL: "https://joycegu.github.io/CuriousBuild/"
-title: PaperMod
+title: CuriousBuild
 copyright: "© [PaperMod Contributors](https://github.com/adityatelange/hugo-PaperMod/graphs/contributors)"
 paginate: 5
 theme: [PaperMod]
@@ -29,78 +29,12 @@ languages:
       series: series
     menu:
       main:
-        - name: Archive
+        - name: Archive 归档
           url: archives
           weight: 5
-        - name: Search
-          url: search/
-          weight: 10
-        - name: Tags
+        - name: Tags 标签
           url: tags/
           weight: 10
-        - name: WiKi
-          url: https://github.com/adityatelange/hugo-PaperMod/wiki/
-
-  fr:
-    languageName: ":fr:"
-    weight: 2
-    title: PaperModL2
-    taxonomies:
-      category: FRcategories
-      tag: FRtags
-      series: FRseries
-    menu:
-      main:
-        - name: Archive
-          url: archives/
-          weight: 5
-        - name: FRTags
-          url: frtags
-          weight: 10
-        - name: FRCategories
-          url: frcategories
-          weight: 10
-        - name: FRSeries
-          url: frseries
-          weight: 10
-        - name: NullLink
-          url: "#"
-
-    # custom params for each language should be under [langcode].parms - hugo v0.120.0
-    params:
-      languageAltTitle: French
-      profileMode:
-        enabled: true
-        title: PaperMod
-        imageUrl: "https://raw.githubusercontent.com/googlefonts/noto-emoji/master/svg/emoji_u1f9d1_1f3fb_200d_1f4bb.svg"
-        imageTitle: ProfileMode image
-        # imageWidth: 120
-        # imageHeight: 120
-        subtitle: "☄️ Fast | ☁️ Fluent | 🌙 Smooth | 📱 Responsive"
-        buttons:
-          - name: Blog
-            url: posts
-          - name: Profile Mode
-            url: https://github.com/adityatelange/hugo-PaperMod/wiki/Features#profile-mode
-
-  fa:
-    languagedirection: rtl
-    weight: 3
-    title: PaperMod RTL
-    taxonomies:
-      category: FAcategories
-      tag: FAtags
-      series: FAseries
-    menu:
-      main:
-        - name: FATags
-          url: fatags
-          weight: 10
-    # custom params for each language should be under [langcode].parms - hugo v0.120.0
-    params:
-      homeInfoParams:
-        Title: "Hi there \U0001F44B"
-        Content: Welcome to RTL layout
 
 outputs:
   home:
@@ -116,7 +50,7 @@ params:
 
   defaultTheme: auto
   # disableThemeToggle: true
-  ShowShareButtons: true
+  ShowShareButtons: false
   ShowReadingTime: true
   # disableSpecial1stPost: true
   displayFullLangName: true
@@ -144,29 +78,21 @@ params:
         url: tags
 
   homeInfoParams:
-    Title: "PaperMod's Demo"
+    Title: "About Me & About Here"
     Content: >
-      👋 Welcome to demo page of Hugo's theme PaperMod!
-
-      - **PaperMod**  is designed to be clean and simple but fast and responsive theme with useful feature-set that enhances UX.
-
-      - Feel free to show your support by giving us a star 🌟 on GitHub and sharing with your friends and social media .
-
-      - PaperMod is based on theme [Paper](https://github.com/nanxiaobei/hugo-paper/tree/4330c8b12aa48bfdecbcad6ad66145f679a430b3).
+      Hello! - 
+      I'm currently a Data Scientist at Microsoft 📊. This blog is my little corner to build knowledge 💡, explore interests ✨, and document the intricate but fun moments of everyday life. 🌱
+      <br><br>
+      欢迎来到我的博客！
+      我是微软的一名数据科学家📊，在这里，我希望和大家一起分享我的知识💡、兴趣✨，以及记录生活中那些繁杂却有趣的小事。期待与你们一起交流与成长！🌱
 
   socialIcons:
     - name: github
       title: View Source on Github
-      url: "https://github.com/adityatelange/hugo-PaperMod"
-    - name: Discord
-      title: Join discord community
-      url: "https://discord.gg/ahpmTvhVmp"
-    - name: X
-      title: Share PaperMod on X/Twitter
-      url: "https://x.com/intent/tweet/?text=Checkout%20Hugo%20PaperMod%20%E2%9C%A8%0AA%20fast,%20clean,%20responsive%20Hugo%20theme.&url=https://github.com/adityatelange/hugo-PaperMod&hashtags=Hugo,PaperMod"
-    - name: KoFi
-      title: Buy me a Ko-Fi :)
-      url: "https://ko-fi.com/adityatelange"
+      url: "https://github.com/joycegu"
+    - name: instagram
+      title: Follow me on Instagram
+      url: "https://www.instagram.com/joyceguuu?igsh=MWN4MDFqYmM3M2h1dQ%3D%3D&utm_source=qr"
 
   editPost:
     URL: "https://github.com/adityatelange/hugo-PaperMod/tree/exampleSite/content"
