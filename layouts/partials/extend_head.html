@@ -1,0 +1,7 @@
+<script>
+// Add Content Security Policy to allow Google Translate API
+const meta = document.createElement('meta');
+meta.httpEquiv = "Content-Security-Policy";
+meta.content = "connect-src 'self' https://translate.googleapis.com";
+document.head.appendChild(meta);
+</script> 

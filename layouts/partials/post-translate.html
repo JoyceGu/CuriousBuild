@@ -1,0 +1,41 @@
+<div class="post-translate">
+  <button onclick="translatePost()" class="translate-button">
+    🌐 Translate
+  </button>
+</div>
+
+<script>
+let isTranslated = false;
+
+function translatePost() {
+  const postContent = document.querySelector('.post-content');
+  const button = document.querySelector('.translate-button');
+  
+  if (!isTranslated) {
+    // Save original content
+    if (!postContent.getAttribute('data-original')) {
+      postContent.setAttribute('data-original', postContent.innerHTML);
+    }
+    
+    // Call Google Translate API
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=${encodeURIComponent(postContent.innerText)}`;
+    
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const translatedText = data[0].map(item => item[0]).join(' ');
+        postContent.innerHTML = translatedText;
+        button.textContent = '🌐 Show Original';
+        isTranslated = true;
+      })
+      .catch(error => {
+        console.error('Translation error:', error);
+      });
+  } else {
+    // Restore original content
+    postContent.innerHTML = postContent.getAttribute('data-original');
+    button.textContent = '🌐 Translate';
+    isTranslated = false;
+  }
+}
+</script> 
