@@ -12,6 +12,42 @@
     <generator>Hugo -- 0.141.0</generator>
     <language>en</language>
     <copyright>PaperMod Contributors</copyright>
+    <lastBuildDate>Sat, 25 Jan 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/CuriousBuild/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Data Science</title>
+      <link>http://localhost:1313/CuriousBuild/tags/data-science/</link>
+      <pubDate>Sat, 25 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/CuriousBuild/tags/data-science/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Learning</title>
+      <link>http://localhost:1313/CuriousBuild/tags/learning/</link>
+      <pubDate>Sat, 25 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/CuriousBuild/tags/learning/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Life</title>
+      <link>http://localhost:1313/CuriousBuild/tags/life/</link>
+      <pubDate>Sun, 19 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/CuriousBuild/tags/life/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tag1</title>
+      <link>http://localhost:1313/CuriousBuild/tags/tag1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/CuriousBuild/tags/tag1/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tag2</title>
+      <link>http://localhost:1313/CuriousBuild/tags/tag2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/CuriousBuild/tags/tag2/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

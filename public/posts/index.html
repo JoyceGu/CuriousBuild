@@ -166,6 +166,25 @@ document.head.appendChild(meta);
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Kaplan-Meier和Piecewise Exponential 生存分析在用户留存分析中的应用
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>最近又在做客户留存的项目，因为老板建议用 Kaplan-Meier 生存分析， 所以仔细琢磨了一下这个方法。这篇文章不讨论具体公式，但是会讨论将其用于用户留存分析时候的一些注意点。
+Kaplan-Meier 生存分析 简单地说，Kaplan-Meier 生存分析是一种非参数统计方法，用于估计生存函数（即个体存活时间的分布）， 特别适用于右删失数据（right-censored data），所谓右删失就是在研究期间，某些个体的最终状态尚 未发生或者无法观测，但我们至少知道他们活过了某个时间点。
+用户留存分析 用户留存分析中，我们关心的是用户在某个时间点是否留存，以及留存的时间。Kaplan-Meier 生存分析 在这种情况下可以很好地描述用户留存的情况。
+比如下面的Python代码，我们计算了用户留存率：
+import pandas as pd from lifelines import KaplanMeierFitter # 创建一个示例数据集 data = pd.DataFrame({ &#39;user_id&#39;: [1, 2, 3, 4, 5], &#39;join_date&#39;: pd.to_datetime([&#39;2020-01-01&#39;, &#39;2020-01-02&#39;, &#39;2020-01-03&#39;, &#39;2020-01-04&#39;, &#39;2020-01-05&#39;]), &#39;churn_date&#39;: pd.to_datetime([&#39;2020-01-03&#39;, &#39;2020-01-04&#39;, &#39;2020-01-05&#39;, &#39;2020-01-06&#39;, &#39;2020-01-07&#39;])， &#39;durations&#39;: [5, 6, 7, 8, 9], &#39;event&#39;: [1, 0, 1, 0, 1] # 1 表示用户留存，0 表示用户流失 }) # 使用 KaplanMeierFitter 进行生存分析 kmf = KaplanMeierFitter() ## 注意这里使用durations 而非churn_date kmf.fit(data[&#39;durations&#39;], event_observed=data[&#39;event&#39;]) # 计算留存率 survival_prob = kmf.survival_function_ # 打印结果 print(survival_prob) 局限性 然而我发现它也有一定的局限性，
+其中一个比较常见的局限是：比如在真实的生存分析中，我们知道个体一定是每天都存活着一直到死亡或者故障发生，但是在留存分析中，我们可能只关心用户在某一天是否留存，而不关心他之前或者之后的情况。在这种情况下，Kaplan-Meier 生存分析可能会低估用户的留存率。 使用Kaplan-Meier 生存分析，我们无法得知用户在留存的这段时间内实际使用产品的天数，比如用户在第1天和第15天留存，但是其实只用了这两天，另一个用户则在前14天内每天都使用产品，但是第15天没有使用，所以第15天流失了，但是Kaplan-Meier 生存分析会认为他没有留存。 Piecewise Survival Analysis 另一种方法是分段生存分析（Piecewise Survival Analysis），它将时间分成多个时间段，然后对每个时间段进行生存分析。我让chatgpt生成了一个dummy data，然后分别用两种方法作比较。从图中可以看到，分段生存分析（Piecewise Exponential）的曲线更加平滑，而 Kaplan-Meier 的曲线则更加波动。
+所用的代码如下：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-01-25 00:00:00 +0000 UTC'>January 25, 2025</span>&nbsp;·&nbsp;2 min</footer>
+  <a class="entry-link" aria-label="post link to Kaplan-Meier和Piecewise Exponential 生存分析在用户留存分析中的应用" href="http://localhost:1313/CuriousBuild/posts/kaplan-meier-%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E7%94%A8%E4%BA%8E%E5%AE%A2%E6%88%B7%E7%95%99%E5%AD%98/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Hello 2025!
     </h2>
   </header>
