@@ -1,0 +1,65 @@
+---
+title: "Kaplan-Meier 生存分析在用户留存分析中的应用"
+date: 2025-01-25
+---
+
+
+最近又在做客户留存的项目，因为老板建议用 Kaplan-Meier 生存分析， 所以仔细琢磨了一下这个方法。这篇文章不讨论具体公式，但是会讨论将其用于用户留存分析时候的一些注意点。
+
+## Kaplan-Meier 生存分析
+
+简单地说，Kaplan-Meier 生存分析是一种非参数统计方法，用于估计生存函数（即个体存活时间的分布），
+特别适用于右删失数据（right-censored data），所谓右删失就是在研究期间，某些个体的最终状态尚
+未发生或者无法观测，但我们至少知道他们活过了某个时间点。
+
+## 用户留存分析
+
+用户留存分析中，我们关心的是用户在某个时间点是否留存，以及留存的时间。Kaplan-Meier 生存分析
+在这种情况下可以很好地描述用户留存的情况。
+
+比如下面的Python代码，我们计算了用户留存率：
+
+```python
+import pandas as pd
+from lifelines import KaplanMeierFitter
+
+# 创建一个示例数据集
+data = pd.DataFrame({   
+    'user_id': [1, 2, 3, 4, 5],
+    'join_date': pd.to_datetime(['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05']),
+    'churn_date': pd.to_datetime(['2020-01-03', '2020-01-04', '2020-01-05', '2020-01-06', '2020-01-07'])，
+    'durations': [5, 6, 7, 8, 9],
+    'event': [1, 0, 1, 0, 1] # 1 表示用户留存，0 表示用户流失
+})
+
+# 使用 KaplanMeierFitter 进行生存分析
+kmf = KaplanMeierFitter()
+
+## 注意这里使用durations 而非churn_date
+kmf.fit(data['durations'], event_observed=data['event'])
+
+
+# 计算留存率
+survival_prob = kmf.survival_function_
+
+# 打印结果
+print(survival_prob)
+```
+
+
+## 局限性
+然而我发现它也有一定的局限性，比如在真实的生存分析中，
+我们知道个体一定是每天都存活着一直到死亡或者故障发生，但是在留存分析中，我们可能只关心用户在
+某一天是否留存，而不关心他之前或者之后的情况。在这种情况下，Kaplan-Meier 生存分析可能会低估
+用户的留存率。
+
+## 改进
+
+为了改进这个问题，我们可以使用分段生存分析（Piecewise Survival Analysis），它将时间分成多个
+时间段，然后对每个时间段进行生存分析。
+
+
+
+## 其他
+关于公式，可以参考 [生存分析简明教程](http://thisis.yorven.site/blog/index.php/2020/04/06/survival-analysis/) 这篇文章，欢迎有兴趣的人继续阅读。
+

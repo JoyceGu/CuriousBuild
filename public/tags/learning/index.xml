@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>CuriousBuild</title>
-    <link>http://localhost:1313/CuriousBuild/</link>
-    <description>Recent content on CuriousBuild</description>
+    <title>Learning on CuriousBuild</title>
+    <link>http://localhost:1313/CuriousBuild/tags/learning/</link>
+    <description>Recent content in Learning on CuriousBuild</description>
     <image>
       <title>CuriousBuild</title>
       <url>http://localhost:1313/CuriousBuild/images/papermod-cover.png</url>
@@ -13,9 +13,9 @@
     <language>en</language>
     <copyright>PaperMod Contributors</copyright>
     <lastBuildDate>Sat, 25 Jan 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/CuriousBuild/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/CuriousBuild/tags/learning/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Kaplan-Meier和Piecewise Exponential 生存分析在用户留存分析中的应用</title>
+      <title>Kaplan-Meier 生存分析在用户留存分析中的应用</title>
       <link>http://localhost:1313/CuriousBuild/posts/kaplan-meier-%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E7%94%A8%E4%BA%8E%E5%AE%A2%E6%88%B7%E7%95%99%E5%AD%98/</link>
       <pubDate>Sat, 25 Jan 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/CuriousBuild/posts/kaplan-meier-%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E7%94%A8%E4%BA%8E%E5%AE%A2%E6%88%B7%E7%95%99%E5%AD%98/</guid>
@@ -53,22 +53,15 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 打印结果&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;survival_prob&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;局限性&#34;&gt;局限性&lt;/h2&gt;
-&lt;p&gt;然而我发现它也有一定的局限性，&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;其中一个比较常见的局限是：比如在真实的生存分析中，我们知道个体一定是每天都存活着一直到死亡或者故障发生，但是在留存分析中，我们可能只关心用户在某一天是否留存，而不关心他之前或者之后的情况。在这种情况下，Kaplan-Meier 生存分析可能会低估用户的留存率。&lt;/li&gt;
-&lt;li&gt;使用Kaplan-Meier 生存分析，我们无法得知用户在留存的这段时间内实际使用产品的天数，比如用户在第1天和第15天留存，但是其实只用了这两天，另一个用户则在前14天内每天都使用产品，但是第15天没有使用，所以第15天流失了，但是Kaplan-Meier 生存分析会认为他没有留存。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;piecewise-survival-analysis&#34;&gt;Piecewise Survival Analysis&lt;/h2&gt;
-&lt;p&gt;另一种方法是分段生存分析（Piecewise Survival Analysis），它将时间分成多个时间段，然后对每个时间段进行生存分析。我让chatgpt生成了一个dummy data，然后分别用两种方法作比较。从图中可以看到，分段生存分析（Piecewise Exponential）的曲线更加平滑，而 Kaplan-Meier 的曲线则更加波动。&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;Comparison of Kaplan-Meier and Piecewise Survival Analysis&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/CuriousBuild/images/KMandPW.png&#34;&gt;
-所用的代码如下：&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Hello 2025!</title>
-      <link>http://localhost:1313/CuriousBuild/posts/hello-2025/</link>
-      <pubDate>Sun, 19 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/CuriousBuild/posts/hello-2025/</guid>
-      <description>&lt;p&gt;你好，2025！&lt;/p&gt;</description>
+&lt;p&gt;然而我发现它也有一定的局限性，比如在真实的生存分析中，
+我们知道个体一定是每天都存活着一直到死亡或者故障发生，但是在留存分析中，我们可能只关心用户在
+某一天是否留存，而不关心他之前或者之后的情况。在这种情况下，Kaplan-Meier 生存分析可能会低估
+用户的留存率。&lt;/p&gt;
+&lt;h2 id=&#34;改进&#34;&gt;改进&lt;/h2&gt;
+&lt;p&gt;为了改进这个问题，我们可以使用分段生存分析（Piecewise Survival Analysis），它将时间分成多个
+时间段，然后对每个时间段进行生存分析。&lt;/p&gt;
+&lt;h2 id=&#34;其他&#34;&gt;其他&lt;/h2&gt;
+&lt;p&gt;关于公式，可以参考 &lt;a href=&#34;http://thisis.yorven.site/blog/index.php/2020/04/06/survival-analysis/&#34;&gt;生存分析简明教程&lt;/a&gt; 这篇文章，欢迎有兴趣的人继续阅读。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

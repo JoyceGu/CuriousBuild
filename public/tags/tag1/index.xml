@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tag1 on CuriousBuild</title>
+    <link>http://localhost:1313/CuriousBuild/tags/tag1/</link>
+    <description>Recent content in Tag1 on CuriousBuild</description>
+    <image>
+      <title>CuriousBuild</title>
+      <url>http://localhost:1313/CuriousBuild/images/papermod-cover.png</url>
+      <link>http://localhost:1313/CuriousBuild/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- 0.141.0</generator>
+    <language>en</language>
+    <copyright>PaperMod Contributors</copyright>
+    <lastBuildDate>Tue, 10 Oct 2023 12:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/CuriousBuild/tags/tag1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Your Post Title</title>
+      <link>http://localhost:1313/CuriousBuild/posts/new-post/</link>
+      <pubDate>Tue, 10 Oct 2023 12:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/CuriousBuild/posts/new-post/</guid>
+      <description>&lt;h1 id=&#34;your-post-title&#34;&gt;Your Post Title&lt;/h1&gt;
+&lt;p&gt;Start your post content here. You can write in markdown, which allows you to format your text easily. For example, you can use:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Bold text&lt;/strong&gt;: &lt;code&gt;**Bold text**&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Italic text&lt;/em&gt;: &lt;code&gt;*Italic text*&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://example.com&#34;&gt;Links&lt;/a&gt;: &lt;code&gt;[Links](https://example.com)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;subheading&#34;&gt;Subheading&lt;/h2&gt;
+&lt;p&gt;Continue your content here. You can add images, code snippets, and more.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Example of a code block&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;hello_world&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Hello, world!&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Feel free to add more sections and content as needed.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
