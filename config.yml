@@ -96,10 +96,10 @@ params:
     Title: "About Me & About Here"
     Content: >
       欢迎来到我的博客！
-      我是微软的一名数据科学家，在这里，我希望和大家一起分享我的知识💡、兴趣✨，以及记录生活中那些繁杂却有趣的小事。期待与你们一起交流与成长！🌱
+      我是科技公司的一名数据科学家，在这里，我希望和大家一起分享我的知识💡、兴趣✨，以及记录生活中那些繁杂却有趣的小事。期待与你们一起交流与成长！🌱
       <br><br>
       Hello! - 
-      I'm currently a Data Scientist at Microsoft. This blog is my little corner to build knowledge 💡, explore interests ✨, and document the intricate but fun moments of everyday life. 🌱
+      I'm currently a Data Scientist at a tech company. This blog is my little corner to build knowledge 💡, explore interests ✨, and document the intricate but fun moments of everyday life. 🌱
       
   socialIcons:
     - name: github
