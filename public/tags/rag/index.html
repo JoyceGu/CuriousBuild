@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Data Science | CuriousBuild</title>
+<title>RAG | CuriousBuild</title>
 <meta name="keywords" content="">
 <meta name="description" content="Theme PaperMod - https://github.com/adityatelange/hugo-PaperMod">
 <meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/CuriousBuild/tags/data-science/">
+<link rel="canonical" href="http://localhost:1313/CuriousBuild/tags/rag/">
 <link crossorigin="anonymous" href="/CuriousBuild/assets/css/stylesheet.7d579a17dc5f874107a4ed623cba1b9c78233f210ece649e7f1ced6b0f9dcc21.css" integrity="sha256-fVeaF9xfh0EHpO1iPLobnHgjPyEOzmSefxztaw&#43;dzCE=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/CuriousBuild/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/CuriousBuild/favicon-16x16.png">
@@ -18,8 +18,8 @@
 <link rel="mask-icon" href="http://localhost:1313/CuriousBuild/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/CuriousBuild/tags/data-science/index.xml">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/CuriousBuild/tags/data-science/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/CuriousBuild/tags/rag/index.xml">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/CuriousBuild/tags/rag/">
 <noscript>
     <style>
         #theme-toggle,
@@ -62,16 +62,16 @@ const meta = document.createElement('meta');
 meta.httpEquiv = "Content-Security-Policy";
 meta.content = "connect-src 'self' https://translate.googleapis.com";
 document.head.appendChild(meta);
-</script> <meta property="og:url" content="http://localhost:1313/CuriousBuild/tags/data-science/">
+</script> <meta property="og:url" content="http://localhost:1313/CuriousBuild/tags/rag/">
   <meta property="og:site_name" content="CuriousBuild">
-  <meta property="og:title" content="Data Science">
+  <meta property="og:title" content="RAG">
   <meta property="og:description" content="Theme PaperMod - https://github.com/adityatelange/hugo-PaperMod">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="website">
       <meta property="og:image" content="http://localhost:1313/CuriousBuild/images/papermod-cover.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://localhost:1313/CuriousBuild/images/papermod-cover.png">
-<meta name="twitter:title" content="Data Science">
+<meta name="twitter:title" content="RAG">
 <meta name="twitter:description" content="Theme PaperMod - https://github.com/adityatelange/hugo-PaperMod">
 
 </head>
@@ -137,8 +137,8 @@ document.head.appendChild(meta);
 <main class="main"> 
 <header class="page-header"><div class="breadcrumbs"><a href="http://localhost:1313/CuriousBuild/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/CuriousBuild/tags/">Tags</a></div>
   <h1>
-    Data Science
-    <a href="/CuriousBuild/tags/data-science/index.xml" title="RSS" aria-label="RSS">
+    RAG
+    <a href="/CuriousBuild/tags/rag/index.xml" title="RSS" aria-label="RSS">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round" height="23">
         <path d="M4 11a9 9 0 0 1 9 9" />
@@ -151,21 +151,19 @@ document.head.appendChild(meta);
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Kaplan-Meier和Piecewise Exponential 生存分析在用户留存分析中的应用
+    <h2 class="entry-hint-parent">RAG 学习笔记 （1）
     </h2>
   </header>
   <div class="entry-content">
-    <p>最近又在做客户留存的项目，因为老板建议用 Kaplan-Meier 生存分析， 所以仔细琢磨了一下这个方法。这篇文章不讨论具体公式，但是会讨论将其用于用户留存分析时候的一些注意点。
-Kaplan-Meier 生存分析 简单地说，Kaplan-Meier 生存分析是一种非参数统计方法，用于估计生存函数（即个体存活时间的分布）， 特别适用于右删失数据（right-censored data），所谓右删失就是在研究期间，某些个体的最终状态尚 未发生或者无法观测，但我们至少知道他们活过了某个时间点。
-用户留存分析 用户留存分析中，我们关心的是用户在某个时间点是否留存，以及留存的时间。Kaplan-Meier 生存分析 在这种情况下可以很好地描述用户留存的情况。
-比如下面的Python代码，我们计算了用户留存率：
-import pandas as pd from lifelines import KaplanMeierFitter # 创建一个示例数据集 data = pd.DataFrame({ &#39;user_id&#39;: [1, 2, 3, 4, 5], &#39;join_date&#39;: pd.to_datetime([&#39;2020-01-01&#39;, &#39;2020-01-02&#39;, &#39;2020-01-03&#39;, &#39;2020-01-04&#39;, &#39;2020-01-05&#39;]), &#39;churn_date&#39;: pd.to_datetime([&#39;2020-01-03&#39;, &#39;2020-01-04&#39;, &#39;2020-01-05&#39;, &#39;2020-01-06&#39;, &#39;2020-01-07&#39;])， &#39;durations&#39;: [5, 6, 7, 8, 9], &#39;event&#39;: [1, 0, 1, 0, 1] # 1 表示用户留存，0 表示用户流失 }) # 使用 KaplanMeierFitter 进行生存分析 kmf = KaplanMeierFitter() ## 注意这里使用durations 而非churn_date kmf.fit(data[&#39;durations&#39;], event_observed=data[&#39;event&#39;]) # 计算留存率 survival_prob = kmf.survival_function_ # 打印结果 print(survival_prob) 局限性 然而我发现它也有一定的局限性，
-其中一个比较常见的局限是：比如在真实的生存分析中，我们知道个体一定是每天都存活着一直到死亡或者故障发生，但是在留存分析中，我们可能只关心用户在某一天是否留存，而不关心他之前或者之后的情况。在这种情况下，Kaplan-Meier 生存分析可能会低估用户的留存率。 使用Kaplan-Meier 生存分析，我们无法得知用户在留存的这段时间内实际使用产品的天数，比如用户在第1天和第15天留存，但是其实只用了这两天，另一个用户则在前14天内每天都使用产品，但是第15天没有使用，所以第15天流失了，但是Kaplan-Meier 生存分析会认为他没有留存。 Piecewise Survival Analysis 另一种方法是分段生存分析（Piecewise Survival Analysis），它将时间分成多个时间段，然后对每个时间段进行生存分析。我让chatgpt生成了一个dummy data，然后分别用两种方法作比较。从图中可以看到，分段生存分析（Piecewise Exponential）的曲线更加平滑，而 Kaplan-Meier 的曲线则更加波动。
-所用的代码如下：
-...</p>
+    <p>什么是RAG 知识检索增强的一种技术
+为什么需要RAG LLM会有token的限制，比如GPT-4o有128k tokens限制，那我们的输入输出便被限制
+RAG的技术流派（思路） 知识灌注：让模型永久地记住某些信息，模型的参数会改变， 增加模型上下文长度：典型代表GLM4-long，允许上下文拓展，但是无法无线拓展，每拓展一倍，算力可能要拓展5-6倍。 知识检索：先检索与问题相关的内容，然后再输入给模型 两代发展 切分，将长文本切分成小文本 graphRAG，挖掘不同文本之间的关系 通用流程 (关键问题：如何优化每个环节） 按照某种方式 （根据长度、关键词语、滑动窗口切分来避免关键字符被断开-每个短文本之间会有overlap、补全切分），将长文本切成短文本 （文本数据清洗占绝大多数时间 - 比如文字照片混合，也是本关节提效的关键） 根据问题和短文档进行匹配，找到相关的topK个段文档 （选择好的embedding model - 给每个文本打个“标签”向量，以及匹配后文本增强、重拍，是优化的关键，但是embedding技术上限比较低，模型之间差异较小，所以会使用即可） 将短文档作为系统消息输入给模型，并引导模型回答用户原始问题 （真实性检验、后处理、用户意图判断是本环节优化的关键 - 是根据输入文档片段回答还是根本大语言模型本身回答） =》门槛低，但做得好比较难
+RAG实践落地策略
+手动搭建RAG引擎 使用LangChain、LLama-index等开源项目项目快速搭建 使用GLM、OPenAI Assistant API等进行快速实现 （限制于各自公司） 参考 九天Hector 从零到一快速搭建本地RAG引擎｜大模型私有知识库问答技术快速实践｜本地RAG引擎搭建流程
+</p>
   </div>
-  <footer class="entry-footer"><span title='2025-01-25 00:00:00 +0000 UTC'>January 25, 2025</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to Kaplan-Meier和Piecewise Exponential 生存分析在用户留存分析中的应用" href="http://localhost:1313/CuriousBuild/posts/2025-01-25-kaplan-meier-%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E7%94%A8%E4%BA%8E%E5%AE%A2%E6%88%B7%E7%95%99%E5%AD%98/"></a>
+  <footer class="entry-footer"><span title='2025-02-02 00:00:00 +0000 UTC'>February 2, 2025</span>&nbsp;·&nbsp;1 min</footer>
+  <a class="entry-link" aria-label="post link to RAG 学习笔记 （1）" href="http://localhost:1313/CuriousBuild/posts/2025-02-02-rag-learning/"></a>
 </article>
     </main>
     

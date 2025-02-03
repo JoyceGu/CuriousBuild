@@ -16,9 +16,9 @@
     <atom:link href="http://localhost:1313/CuriousBuild/tags/data-science/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kaplan-Meier和Piecewise Exponential 生存分析在用户留存分析中的应用</title>
-      <link>http://localhost:1313/CuriousBuild/posts/kaplan-meier-%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E7%94%A8%E4%BA%8E%E5%AE%A2%E6%88%B7%E7%95%99%E5%AD%98/</link>
+      <link>http://localhost:1313/CuriousBuild/posts/2025-01-25-kaplan-meier-%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E7%94%A8%E4%BA%8E%E5%AE%A2%E6%88%B7%E7%95%99%E5%AD%98/</link>
       <pubDate>Sat, 25 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/CuriousBuild/posts/kaplan-meier-%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E7%94%A8%E4%BA%8E%E5%AE%A2%E6%88%B7%E7%95%99%E5%AD%98/</guid>
+      <guid>http://localhost:1313/CuriousBuild/posts/2025-01-25-kaplan-meier-%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E7%94%A8%E4%BA%8E%E5%AE%A2%E6%88%B7%E7%95%99%E5%AD%98/</guid>
       <description>&lt;p&gt;最近又在做客户留存的项目，因为老板建议用 Kaplan-Meier 生存分析， 所以仔细琢磨了一下这个方法。这篇文章不讨论具体公式，但是会讨论将其用于用户留存分析时候的一些注意点。&lt;/p&gt;
 &lt;h2 id=&#34;kaplan-meier-生存分析&#34;&gt;Kaplan-Meier 生存分析&lt;/h2&gt;
 &lt;p&gt;简单地说，Kaplan-Meier 生存分析是一种非参数统计方法，用于估计生存函数（即个体存活时间的分布），
