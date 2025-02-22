@@ -12,8 +12,35 @@
     <generator>Hugo -- 0.141.0</generator>
     <language>en</language>
     <copyright>PaperMod Contributors</copyright>
-    <lastBuildDate>Sun, 02 Feb 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 16 Feb 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/CuriousBuild/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>长周末记事 - Brunch @ l&#39;experience, Bellevue | 哪吒2</title>
+      <link>http://localhost:1313/CuriousBuild/posts/2025-02-09-long-weekend/</link>
+      <pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/CuriousBuild/posts/2025-02-09-long-weekend/</guid>
+      <description>&lt;p&gt;在家待久了，即使在阴雨绵绵的日子总想出去走走。&lt;/p&gt;
+&lt;p&gt;去吃了l&amp;rsquo;experience的brunch，在园区cafe吃的蛋糕和可颂，有点小贵，但味道确实不错。趁着周末出来dine in，&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;l&amp;rsquo;experience brunch&#34; loading=&#34;lazy&#34; src=&#34;../static/images/posts/2025-02-16-lexperience.jpeg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;吃完又去了吃茶三千，永远的国王奶茶。&lt;/p&gt;
+&lt;p&gt;下午去了Bellevue Library, 陪着老张写作业，同时也自己写写程序。有时候在思考工作的意义，我的老板和组都不错，但被签证束缚着动弹不得极度难受，希望我能早日自由。&lt;/p&gt;
+&lt;p&gt;晚上去了Square，看了哪吒2，感觉比第一部好看，希望世界和平吧。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>RAG 学习笔记 （2）</title>
+      <link>http://localhost:1313/CuriousBuild/posts/2025-02-09-rag-learning2/</link>
+      <pubDate>Sat, 08 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/CuriousBuild/posts/2025-02-09-rag-learning2/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;RAG系统的核心组件&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;向量化模块：用于将文档剪短转换为向量表示，以便后续检索&lt;/li&gt;
+&lt;li&gt;文档加载与切分模块：负责加载文档并chunk （方式：滑动窗口，根据符号，等等）&lt;/li&gt;
+&lt;li&gt;数据库模块：用于储存文档片段及其对应的向量表示&lt;/li&gt;
+&lt;li&gt;检索模块：根据用户输入的查询，检索与其相关的文档片段&lt;/li&gt;
+&lt;li&gt;生成模块：调用语言模型生成基于检索信息的回答&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;默认情况下， text-embedding-3-small生成的向量长度为1536， text-embedding-3-large的向量长度为3072。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>RAG 学习笔记 （1）</title>
       <link>http://localhost:1313/CuriousBuild/posts/2025-02-02-rag-learning/</link>
@@ -46,9 +73,7 @@
 &lt;li&gt;手动搭建RAG引擎&lt;/li&gt;
 &lt;li&gt;使用LangChain、LLama-index等开源项目项目快速搭建&lt;/li&gt;
 &lt;li&gt;使用GLM、OPenAI Assistant API等进行快速实现 （限制于各自公司）&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.bilibili.com/video/BV1H22DYqEqV?vd_source=feac4161ac00de3d87bf7282f9b65244&amp;amp;spm_id_from=333.788.videopod.episodes&#34;&gt;九天Hector 从零到一快速搭建本地RAG引擎｜大模型私有知识库问答技术快速实践｜本地RAG引擎搭建流程&lt;/a&gt;&lt;/p&gt;</description>
+&lt;/ol&gt;</description>
     </item>
     <item>
       <title>Kaplan-Meier和Piecewise Exponential 生存分析在用户留存分析中的应用</title>

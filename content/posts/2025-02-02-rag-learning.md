@@ -37,7 +37,3 @@ RAG实践落地策略
 1. 手动搭建RAG引擎
 2. 使用LangChain、LLama-index等开源项目项目快速搭建
 3. 使用GLM、OPenAI Assistant API等进行快速实现 （限制于各自公司）
-
-
-## 参考
-[九天Hector 从零到一快速搭建本地RAG引擎｜大模型私有知识库问答技术快速实践｜本地RAG引擎搭建流程](https://www.bilibili.com/video/BV1H22DYqEqV?vd_source=feac4161ac00de3d87bf7282f9b65244&spm_id_from=333.788.videopod.episodes)
