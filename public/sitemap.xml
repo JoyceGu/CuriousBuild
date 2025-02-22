@@ -2,25 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/CuriousBuild/tags/artifical-intelligence/</loc>
-    <lastmod>2025-02-02T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/CuriousBuild/</loc>
-    <lastmod>2025-02-02T00:00:00+00:00</lastmod>
+    <lastmod>2025-02-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/CuriousBuild/tags/learning/</loc>
-    <lastmod>2025-02-02T00:00:00+00:00</lastmod>
+    <loc>http://localhost:1313/CuriousBuild/tags/food/</loc>
+    <lastmod>2025-02-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/CuriousBuild/tags/life/</loc>
+    <lastmod>2025-02-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/CuriousBuild/posts/</loc>
-    <lastmod>2025-02-02T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/CuriousBuild/tags/rag/</loc>
-    <lastmod>2025-02-02T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/CuriousBuild/posts/2025-02-02-rag-learning/</loc>
-    <lastmod>2025-02-02T00:00:00+00:00</lastmod>
+    <lastmod>2025-02-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/CuriousBuild/tags/</loc>
+    <lastmod>2025-02-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/CuriousBuild/posts/2025-02-16-long-weekend/</loc>
+    <lastmod>2025-02-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/CuriousBuild/tags/artifical-intelligence/</loc>
+    <lastmod>2025-02-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/CuriousBuild/tags/learning/</loc>
+    <lastmod>2025-02-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/CuriousBuild/tags/rag/</loc>
+    <lastmod>2025-02-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/CuriousBuild/posts/2025-02-09-rag-learning2/</loc>
+    <lastmod>2025-02-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/CuriousBuild/posts/2025-02-02-rag-learning/</loc>
     <lastmod>2025-02-02T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/CuriousBuild/tags/data-science/</loc>
@@ -30,9 +42,6 @@
     <lastmod>2025-01-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/CuriousBuild/posts/2025-01-19-hello-2025/</loc>
-    <lastmod>2025-01-19T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/CuriousBuild/tags/life/</loc>
     <lastmod>2025-01-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/CuriousBuild/archives/</loc>
