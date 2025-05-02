@@ -1,0 +1,116 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* 树的容器 */
+.tree-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    height: 80vh;
+    margin: 0 auto;
+}
+
+/* 树的背景图 */
+.tree-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700"><rect width="900" height="700" fill="%2387CEEB"/><path d="M450,600 Q300,500 350,400 Q250,350 300,250 Q350,150 450,100 Q550,150 600,250 Q650,350 550,400 Q600,500 450,600" fill="%23855E42"/><ellipse cx="450" cy="100" rx="150" ry="90" fill="%23FFD700"/><ellipse cx="300" cy="250" rx="100" ry="70" fill="%23FFD700"/><ellipse cx="600" cy="250" rx="100" ry="70" fill="%23FFD700"/><ellipse cx="350" cy="400" rx="120" ry="80" fill="%23FFD700"/><ellipse cx="550" cy="400" rx="120" ry="80" fill="%23FFD700"/></svg>');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 果实样式 */
+.fruit {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fruit:hover {
+    transform: scale(1.2);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 果实变种 - 全部设为透明 */
+.fruit-1, .fruit-2, .fruit-3, .fruit-4, .fruit-5 {
+    background-color: transparent;
+}
+
+/* 悬停提示框样式 */
+.tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    max-width: 200px;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* 页脚样式 */
+footer {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    margin-top: auto;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .tree-container {
+        height: 60vh;
+    }
+    
+    .fruit {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tree-container {
+        height: 50vh;
+    }
+    
+    .fruit {
+        width: 25px;
+        height: 25px;
+    }
+} 

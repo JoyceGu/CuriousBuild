@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CuriousBuild</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="custom.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* 使用本地图片而不是base64编码 */
+        .tree-background {
+            background-image: url('images/image.png') !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tree-container">
+            <!-- 树和人物的背景图 -->
+            <div class="tree-background"></div>
+            
+            <!-- 果实将通过JavaScript动态添加 -->
+            <div id="fruits-container"></div>
+            
+            <!-- 悬停提示框 -->
+            <div id="tooltip" class="tooltip"></div>
+        </div>
+        
+        <footer>
+            <h1>Joyce's Playground</h1>
+            <p class="hint">Hover over the fruits and click to visit various websites</p>
+        </footer>
+    </div>
+    
+    <!-- 引入果实配置文件 -->
+    <script src="fruits-config.js"></script>
+    <!-- 引入主脚本文件 -->
+    <script src="script.js"></script>
+</body>
+</html> 
