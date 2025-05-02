@@ -1,4 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
+# Updated for the new repository name and to force redeployment after repository name conflict
 name: Deploy static content to Pages
 
 on:
