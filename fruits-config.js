@@ -32,5 +32,27 @@ const fruitLinks = [
         url: "https://shopsentry.cloudautofish.com/",
         position: { x: 35, y: 55 },
         type: 3  // 黄色
+    },
+    {
+        id: "fruit5",
+        name: "ClarifAI - Bridge for Better Collaboration",
+        shortName: "ClarifAI",
+        url: "https://github.com/JoyceGu/ClarifAI",
+        position: { x: 10, y: 45 },
+        type: 3  // 黄色
+    },
+    {
+        id: "fruit6",
+        name: "Caisalyze - AI-Powered Causal Analysis",
+        shortName: "Causalyze",
+        url: "https://github.com/JoyceGu/Causalyze",
+        position: { x: 20, y: 43 },
+        type: 3  // 黄色
+    },
+    {
+        id: "fruit7",
+        name: "StackInsights - Listen to Customers on Stack Overflow",
+        shortName: "StackInsights",
+        url: "https://github.com/JoyceGu/StackInsightsV2",
     }
 ]; 
