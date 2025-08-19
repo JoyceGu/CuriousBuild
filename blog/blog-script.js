@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Handle external links
     initExternalLinks();
+    
+    // Initialize search functionality
+    initSearch();
 });
 
 // Smooth scrolling for anchor links
@@ -91,3 +94,131 @@ window.addEventListener('load', function() {
 // Set initial opacity to 0 for loading animation
 document.body.style.opacity = '0';
 document.body.style.transition = 'opacity 0.3s ease';
+
+// Search functionality
+function initSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const searchResults = document.getElementById('searchResults');
+    
+    if (!searchInput || !searchBtn || !searchResults) return;
+    
+    // Article data for search
+    const articles = [
+        {
+            title: "How to Set Up Notion and Blog Sync",
+            summary: "Overview This integration system allows you to write blog posts directly in Notion and automatically sync them to your website! Fully compatible with ...",
+            date: "2025-08-18",
+            url: "posts/how-to-set-up-notion-and-blog-sync.html",
+            content: "notion integration blog sync automatic website markdown"
+        },
+        {
+            title: "Set Up Notion and Blog Sync",
+            summary: "markdown 🚀 Notion Blog Integration Setup Guide 📋 Overview This integration system allows you to write blog posts directly in Notion and automatically ...",
+            date: "2025-08-18",
+            url: "posts/set-up-notion-and-blog-sync.html",
+            content: "notion blog integration setup guide markdown automatic sync"
+        },
+        {
+            title: "Hello to My Little World",
+            summary: "Welcome to my personal corner of the internet! This is where I'll be sharing my thoughts, discoveries, and adventures in technology, life, and everything in between.",
+            date: "2024-01-18",
+            url: "posts/hello-to-my-little-world.html",
+            content: "personal blog welcome introduction digital garden technology life thoughts discoveries adventures"
+        }
+    ];
+    
+    let searchTimeout;
+    
+    // Search function
+    function performSearch(query) {
+        if (!query.trim()) {
+            hideSearchResults();
+            return;
+        }
+        
+        const results = articles.filter(article => {
+            const searchText = (article.title + ' ' + article.summary + ' ' + article.content).toLowerCase();
+            return searchText.includes(query.toLowerCase());
+        });
+        
+        displaySearchResults(results, query);
+    }
+    
+    // Display search results
+    function displaySearchResults(results, query) {
+        if (results.length === 0) {
+            searchResults.innerHTML = '<div class="search-no-results">No articles found matching your search.</div>';
+        } else {
+            const resultsHTML = results.map(article => {
+                const highlightedTitle = highlightText(article.title, query);
+                const highlightedSummary = highlightText(article.summary, query);
+                const date = new Date(article.date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                return `
+                    <div class="search-result-item" onclick="window.location.href='${article.url}'">
+                        <div class="search-result-title">${highlightedTitle}</div>
+                        <div class="search-result-summary">${highlightedSummary}</div>
+                        <div class="search-result-meta">${date}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            searchResults.innerHTML = resultsHTML;
+        }
+        
+        searchResults.style.display = 'block';
+    }
+    
+    // Hide search results
+    function hideSearchResults() {
+        searchResults.style.display = 'none';
+    }
+    
+    // Highlight search terms
+    function highlightText(text, query) {
+        if (!query.trim()) return text;
+        
+        const regex = new RegExp(`(${escapeRegExp(query)})`, 'gi');
+        return text.replace(regex, '<span class="search-highlight">$1</span>');
+    }
+    
+    // Escape special regex characters
+    function escapeRegExp(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+    
+    // Event listeners
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            performSearch(this.value);
+        }, 300);
+    });
+    
+    searchBtn.addEventListener('click', function() {
+        performSearch(searchInput.value);
+    });
+    
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            performSearch(this.value);
+        }
+        if (e.key === 'Escape') {
+            hideSearchResults();
+            this.blur();
+        }
+    });
+    
+    // Hide search results when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-container')) {
+            hideSearchResults();
+        }
+    });
+}
