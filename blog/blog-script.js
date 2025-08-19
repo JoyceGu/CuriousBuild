@@ -120,13 +120,7 @@ function initSearch() {
             url: "posts/how-to-set-up-notion-and-blog-sync.html",
             content: "notion integration blog sync automatic website markdown"
         },
-        {
-            title: "Set Up Notion and Blog Sync",
-            summary: "markdown 🚀 Notion Blog Integration Setup Guide 📋 Overview This integration system allows you to write blog posts directly in Notion and automatically ...",
-            date: "2025-08-18",
-            url: "posts/set-up-notion-and-blog-sync.html",
-            content: "notion blog integration setup guide markdown automatic sync"
-        },
+
         {
             title: "Hello to My Little World",
             summary: "Welcome to my personal corner of the internet! This is where I'll be sharing my thoughts, discoveries, and adventures in technology, life, and everything in between.",

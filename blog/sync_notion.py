@@ -8,6 +8,20 @@ import os
 import sys
 from pathlib import Path
 
+def load_env_file():
+    """Load environment variables from .env file"""
+    env_path = Path(__file__).parent.parent / '.env'
+    if env_path.exists():
+        with open(env_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    os.environ[key.strip()] = value.strip()
+
+# Load environment variables from .env file
+load_env_file()
+
 # 添加scripts目录到路径
 script_dir = Path(__file__).parent / "scripts"
 sys.path.insert(0, str(script_dir))

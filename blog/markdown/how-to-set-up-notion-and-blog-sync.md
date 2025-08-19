@@ -159,24 +159,3 @@ A: Check Notion database field names match (Title, Status, Date, Tags, Summary)
 
 **Q: GitHub Actions fails**
 A: Check if GitHub Secrets are properly set
-
-### Debugging Steps
-
-1. Test locally first: 'python3 sync_notion.py'
-1. Check generated markdown files: 'blog/markdown/'
-1. Manual build test: 'python3 [build.py](http://build.py/)'
-## Usage Tips
-
-### Best Practices
-
-1. **Draft First**: Set to Draft first, then Published when ready
-1. **Meaningful Titles**: Will auto-generate URLs
-1. **Add Summaries**: Shows on blog homepage
-1. **Use Tags Wisely**: Helps categorize articles
-1. **Regular Checks**: Occasionally verify sync results
-### Tag Suggestions
-
-Use your previously defined tags:
-
-- 'Data Science', 'Learning', 'Analytics'
-- 'Tools', 'Productivity', 'Tech Tips'
