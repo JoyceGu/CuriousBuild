@@ -61,7 +61,7 @@ const fruitLinks = [
         id: "fruit8",
         name: "Joyce's Personal Blog - Thoughts and Insights",
         shortName: "Blog",
-        url: "/blog",
+        url: "./blog/",
         position: { x: 90, y: 20 },  // 向右上移动 (从85,25到90,20)
         type: 6  // 紫色 - 为博客使用特殊颜色
     }

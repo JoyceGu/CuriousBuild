@@ -41,9 +41,9 @@ class BlogConverter:
         <!-- Header -->
         <header class="header">
             <div class="nav">
-                <a href="/" class="site-title">Back to Joyce's Playground</a>
+                <a href="../../" class="site-title">Back to Joyce's Playground</a>
                 <div class="nav-links">
-                    <a href="/blog/" class="nav-link">Home</a>
+                    <a href="../" class="nav-link">Home</a>
                     <a href="#archives" class="nav-link">Archives</a>
                     <a href="#tags" class="nav-link">Tags</a>
                 </div>
@@ -74,7 +74,7 @@ class BlogConverter:
                 <!-- Article Footer -->
                 <footer class="article-footer">
                     <div class="article-navigation">
-                        <a href="/blog/" class="nav-prev">← Back to Blog</a>
+                        <a href="../" class="nav-prev">← Back to Blog</a>
                         <a href="#" class="nav-next">Next Article →</a>
                     </div>
                     
@@ -173,7 +173,7 @@ class BlogConverter:
             reading_time=reading_time,
             tags_html=tags_html,
             content=html_content,
-            url=f"https://yoursite.com/blog/posts/{filename}"
+            url=f"https://joycegu.github.io/CuriousBuild/blog/posts/{filename}"
         )
         
         # Write HTML file
