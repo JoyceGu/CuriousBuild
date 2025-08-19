@@ -139,7 +139,16 @@ class BlogConverter:
         # Extract metadata with defaults
         title = metadata.get('title', 'Untitled')
         date_str = metadata.get('date', datetime.now().strftime('%Y-%m-%d'))
-        tags = metadata.get('tags', [])
+        
+        # Handle tags - can be string or list
+        tags_raw = metadata.get('tags', [])
+        if isinstance(tags_raw, str):
+            # Split comma-separated string into list
+            tags = [tag.strip() for tag in tags_raw.split(',') if tag.strip()]
+        elif isinstance(tags_raw, list):
+            tags = tags_raw
+        else:
+            tags = []
         
         # Convert date
         try:

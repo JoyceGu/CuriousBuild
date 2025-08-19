@@ -196,11 +196,23 @@ class NotionBlogSync:
         if date_prop and date_prop.get('date') and date_prop['date'].get('start'):
             date = date_prop['date']['start']
         
-        # 标签
+        # 标签 - 尝试多种可能的字段名
         tags = []
-        tags_prop = properties.get('Tags')
-        if tags_prop and tags_prop.get('multi_select'):
-            tags = [tag['name'] for tag in tags_prop['multi_select']]
+        # 尝试常见的标签字段名
+        possible_tag_fields = ['Tags', 'Tag', 'tags', 'tag', 'Labels', 'Category', 'Categories']
+        
+        for field_name in possible_tag_fields:
+            tags_prop = properties.get(field_name)
+            if tags_prop:
+                if tags_prop.get('multi_select'):
+                    tags = [tag['name'] for tag in tags_prop['multi_select']]
+                    break
+                elif tags_prop.get('select') and tags_prop['select']:
+                    tags = [tags_prop['select']['name']]
+                    break
+                elif tags_prop.get('status') and tags_prop['status']:
+                    tags = [tags_prop['status']['name']]
+                    break
         
         # 摘要
         summary = ""
