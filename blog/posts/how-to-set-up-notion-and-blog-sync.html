@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Set Up Notion and Blog Sync - Joyce's Blog</title>
+    <link rel="stylesheet" href="../blog-styles.css">
+    <link rel="stylesheet" href="../templates/article-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="nav">
+                <a href="/" class="site-title">Back to Joyce's Playground</a>
+                <div class="nav-links">
+                    <a href="/blog/" class="nav-link">Home</a>
+                    <a href="#archives" class="nav-link">Archives</a>
+                    <a href="#tags" class="nav-link">Tags</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Article Content -->
+        <main class="main">
+            <article class="article">
+                <!-- Article Header -->
+                <header class="article-header">
+                    <h1 class="article-title">How to Set Up Notion and Blog Sync</h1>
+                    <div class="article-meta">
+                        <time datetime="2025-08-18">August 18, 2025</time>
+                        <span class="reading-time">3 min</span>
+                        <span class="author">Joyce Gu</span>
+                    </div>
+                    <div class="article-tags">
+                        <span class="tag">Personal</span>
+                    </div>
+                </header>
+
+                <!-- Article Content -->
+                <div class="article-content">
+                    <h1>Overview</h1>
+
+<p>This integration system allows you to write blog posts directly in Notion and automatically sync them to your website!</p>
+
+<strong>Fully compatible with existing system</strong> ✓ - Won't change any existing blog templates or styles
+
+<h2>Workflow</h2>
+
+<p>Notion Database → Auto Sync → Markdown Files → Blog HTML → Website Update</p>
+
+<h2>Step 1: Create Notion Database</h2>
+
+<h3>1.1 Create New Database</h3>
+
+<ol>
+<li>Create a new page in Notion</li>
+<li>Add a Database</li>
+<li>Select "Table" view</li>
+</ol>
+<h3>1.2 Setup Database Fields</h3>
+
+<strong>Required Fields:</strong>
+
+<ul>
+<li><strong>Title</strong> - Title type - Article title</li>
+<li><strong>Status</strong> - Select type - Options: 'Draft', 'Published'</li>
+<li><strong>Date</strong> - Date type - Publication date</li>
+</ul>
+<strong>Optional Fields:</strong>
+
+<ul>
+<li><strong>Tags</strong> - Multi-select type - Article tags</li>
+<li><strong>Summary</strong> - Text type - Article summary</li>
+</ul>
+<h3>1.3 Database Example</h3>
+
+<h2>Step 2: Get Notion API Key</h2>
+
+<h3>2.1 Create Integration</h3>
+
+<ol>
+<li>Visit <a href="https://www.notion.so/my-integrations">Notion Integrations</a></li>
+<li>Click "New integration"</li>
+<li>Fill in the information:</li>
+</ol>
+
+<ol>
+<li>Click "Submit"</li>
+<li>Copy the <strong>Internal Integration Token</strong> (keep it secret!)</li>
+</ol>
+<h3>2.2 Connect Database</h3>
+
+<ol>
+<li>Go back to your Notion database page</li>
+<li>Click the "..." menu in the top right</li>
+<li>Select "Add connections"</li>
+<li>Choose your newly created "Blog Sync" integration</li>
+</ol>
+<h3>2.3 Get Database ID</h3>
+
+<ol>
+<li>Open your database in the browser</li>
+<li>Copy the database ID from the URL (32-character string)<a href="https://notion.so/your-workspace/DATABASE_ID?v=">https://notion.so/your-workspace/DATABASE_ID?v=</a>...</li>
+</ol>
+                                ^^^^^^^^^^^
+<h2>Step 3: Local Setup</h2>
+
+<h3>3.1 Set Environment Variables</h3>
+
+<strong>MacOS/Linux:</strong>
+
+<h1>Add to ~/.zshrc or ~/.bash_profile</h1>
+
+<p>export NOTION_TOKEN="your_integration_token_here"
+export NOTION_DATABASE_ID="your_database_id_here"</p>
+
+<h1>Reload configuration</h1>
+
+<p>source ~/.zshrc</p>
+
+<strong>Temporary Setup (current session only):</strong>
+
+<p>export NOTION_TOKEN="your_integration_token_here"
+export NOTION_DATABASE_ID="your_database_id_here"</p>
+
+<h3>3.2 Test Sync</h3>
+
+<p>cd blog
+python3 sync_notion.py</p>
+
+<p>If successful, you'll see:</p>
+
+<h1>🚀 Notion Blog Local Sync</h1>
+
+<p>✅ Found Notion credentials
+📚 Found X published articles
+📄 Processing article: My First Article
+✅ Sync successful: <a href="http://my-first-article.md/">my-first-article.md</a>
+🎉 Sync complete! Processed X articles
+✅ Blog build successful!</p>
+
+<h2>Step 4: GitHub Automation Setup</h2>
+
+<h3>4.1 Setup GitHub Secrets</h3>
+
+<ol>
+<li>Visit your GitHub repository</li>
+<li>Click "Settings" → "Secrets and variables" → "Actions"</li>
+<li>Click "New repository secret"</li>
+<li>Add two secrets:</li>
+</ol>
+
+<h3>4.2 Auto Sync</h3>
+
+<p>GitHub Actions will:</p>
+
+<ul>
+<li>Automatically check Notion updates daily</li>
+<li>Sync published articles</li>
+<li>Auto build and deploy blog</li>
+</ul>
+<h2>Step 5: Writing Workflow</h2>
+
+<h3>5.1 Writing in Notion</h3>
+
+<ol>
+<li>Create a new row in the database</li>
+<li>Fill in title, tags, summary</li>
+<li><strong>Set Status to 'Draft'</strong></li>
+<li>Write content in the page (supports all Notion formats)</li>
+</ol>
+<h3>5.2 Publishing Articles</h3>
+
+<ol>
+<li>After finishing content, change <strong>Status to 'Published'</strong></li>
+<li>Set publication date</li>
+<li>Wait for auto sync (daily) or trigger manually</li>
+</ol>
+<h3>5.3 Manual Sync</h3>
+
+<strong>Local Sync:</strong>
+
+<p>cd blog
+python3 sync_notion.py</p>
+
+<strong>GitHub Manual Trigger:</strong>
+
+<ol>
+<li>Visit GitHub repository</li>
+<li>Click "Actions" → "Notion Blog Auto-Sync"</li>
+<li>Click "Run workflow"</li>
+</ol>
+<h2>Supported Notion Formats</h2>
+
+<p>✓ <strong>Text Formatting:</strong> Bold, italic, inline code  
+✓ <strong>Headings:</strong> H1, H2, H3  
+✓ <strong>Lists:</strong> Ordered lists, unordered lists  
+✓ <strong>Quote Blocks:</strong> > Quote text  
+✓ <strong>Code Blocks:</strong> Syntax highlighting support  
+✓ <strong>Dividers:</strong> ---  
+✓ <strong>Links:</strong> Auto conversion</p>
+
+<h2>Troubleshooting</h2>
+
+<h3>Common Issues</h3>
+
+<strong>Q: Sync fails with 401 error</strong>
+A: Check if Integration Token is correct, ensure database is connected
+
+<strong>Q: No articles found</strong>
+A: Make sure article Status is "Published", verify database ID is correct
+
+<strong>Q: Article format is wrong</strong>
+A: Check Notion database field names match (Title, Status, Date, Tags, Summary)
+
+<strong>Q: GitHub Actions fails</strong>
+A: Check if GitHub Secrets are properly set
+
+<h3>Debugging Steps</h3>
+
+<ol>
+<li>Test locally first: 'python3 sync_notion.py'</li>
+<li>Check generated markdown files: 'blog/markdown/'</li>
+<li>Manual build test: 'python3 <a href="http://build.py/">build.py</a>'</li>
+</ol>
+<h2>Usage Tips</h2>
+
+<h3>Best Practices</h3>
+
+<ol>
+<li><strong>Draft First</strong>: Set to Draft first, then Published when ready</li>
+<li><strong>Meaningful Titles</strong>: Will auto-generate URLs</li>
+<li><strong>Add Summaries</strong>: Shows on blog homepage</li>
+<li><strong>Use Tags Wisely</strong>: Helps categorize articles</li>
+<li><strong>Regular Checks</strong>: Occasionally verify sync results</li>
+</ol>
+<h3>Tag Suggestions</h3>
+
+<p>Use your previously defined tags:</p>
+
+<ul>
+<li>'Data Science', 'Learning', 'Analytics'</li>
+<li>'Tools', 'Productivity', 'Tech Tips'</li>
+</ul>
+                </div>
+
+                <!-- Article Footer -->
+                <footer class="article-footer">
+                    <div class="article-navigation">
+                        <a href="/blog/" class="nav-prev">← Back to Blog</a>
+                        <a href="#" class="nav-next">Next Article →</a>
+                    </div>
+                    
+                    <div class="article-share">
+                        <p>Share this article:</p>
+                        <div class="share-buttons">
+                            <a href="https://twitter.com/intent/tweet?text=How to Set Up Notion and Blog Sync&url=https://yoursite.com/blog/posts/how-to-set-up-notion-and-blog-sync.html" class="share-button" target="_blank">Twitter</a>
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://yoursite.com/blog/posts/how-to-set-up-notion-and-blog-sync.html" class="share-button" target="_blank">LinkedIn</a>
+                            <a href="#" class="share-button" onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied to clipboard!')">Copy Link</a>
+                        </div>
+                    </div>
+                </footer>
+            </article>
+        </main>
+    </div>
+
+    <script src="../blog-script.js"></script>
+</body>
+</html>

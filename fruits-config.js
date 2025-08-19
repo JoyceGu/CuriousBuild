@@ -38,7 +38,7 @@ const fruitLinks = [
         name: "ClarifAI - Bridge for Better Collaboration",
         shortName: "ClarifAI",
         url: "https://github.com/JoyceGu/ClarifAI",
-        position: { x: 10, y: 45 },
+        position: { x: 8, y: 42 },  // 稍微向左上调整
         type: 3  // 黄色
     },
     {
@@ -46,7 +46,7 @@ const fruitLinks = [
         name: "Caisalyze - AI-Powered Causal Analysis",
         shortName: "Causalyze",
         url: "https://github.com/JoyceGu/Causalyze",
-        position: { x: 20, y: 43 },
+        position: { x: 22, y: 40 },  // 稍微向右上调整
         type: 3  // 黄色
     },
     {
@@ -54,5 +54,15 @@ const fruitLinks = [
         name: "StackInsights - Listen to Customers on Stack Overflow",
         shortName: "StackInsights",
         url: "https://github.com/JoyceGu/StackInsightsV2",
+        position: { x: 20, y: 35 },  // 向右移动 (从75到82)
+        type: 2  // 橙色
+    },
+    {
+        id: "fruit8",
+        name: "Joyce's Personal Blog - Thoughts and Insights",
+        shortName: "Blog",
+        url: "/blog",
+        position: { x: 90, y: 20 },  // 向右上移动 (从85,25到90,20)
+        type: 6  // 紫色 - 为博客使用特殊颜色
     }
 ]; 

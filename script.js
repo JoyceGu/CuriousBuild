@@ -33,7 +33,12 @@ function createFruits() {
         
         // 添加点击事件
         fruitElement.addEventListener('click', () => {
-            window.open(fruit.url, '_blank');
+            // Check if it's an internal link (starts with /)
+            if (fruit.url.startsWith('/')) {
+                window.location.href = fruit.url;
+            } else {
+                window.open(fruit.url, '_blank');
+            }
         });
         
         // 创建标签元素
@@ -202,7 +207,12 @@ window.addNewFruit = function(name, url, positionX, positionY, type = 1, shortNa
     
     // 添加点击事件
     fruitElement.addEventListener('click', () => {
-        window.open(newFruit.url, '_blank');
+        // Check if it's an internal link (starts with /)
+        if (newFruit.url.startsWith('/')) {
+            window.location.href = newFruit.url;
+        } else {
+            window.open(newFruit.url, '_blank');
+        }
     });
     
     // 创建标签元素

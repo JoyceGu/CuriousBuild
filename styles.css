@@ -67,6 +67,18 @@ body {
     background-color: transparent;
 }
 
+/* 博客果实特殊样式 */
+.fruit-6 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 2px solid #ffffff;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.fruit-6:hover {
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    transform: scale(1.3);
+}
+
 /* 悬停提示框样式 */
 .tooltip {
     position: absolute;
