@@ -97,11 +97,19 @@ document.body.style.transition = 'opacity 0.3s ease';
 
 // Search functionality
 function initSearch() {
+    console.log('initSearch called');
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
     const searchResults = document.getElementById('searchResults');
     
-    if (!searchInput || !searchBtn || !searchResults) return;
+    console.log('Search elements:', { searchInput, searchBtn, searchResults });
+    
+    if (!searchInput || !searchBtn || !searchResults) {
+        console.error('Search elements not found!');
+        return;
+    }
+    
+    console.log('Search functionality initialized successfully');
     
     // Article data for search
     const articles = [
@@ -132,6 +140,7 @@ function initSearch() {
     
     // Search function
     function performSearch(query) {
+        console.log('Performing search for:', query);
         if (!query.trim()) {
             hideSearchResults();
             return;
@@ -142,6 +151,7 @@ function initSearch() {
             return searchText.includes(query.toLowerCase());
         });
         
+        console.log('Search results:', results);
         displaySearchResults(results, query);
     }
     
@@ -194,6 +204,7 @@ function initSearch() {
     
     // Event listeners
     searchInput.addEventListener('input', function() {
+        console.log('Search input changed:', this.value);
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             performSearch(this.value);
@@ -201,6 +212,7 @@ function initSearch() {
     });
     
     searchBtn.addEventListener('click', function() {
+        console.log('Search button clicked');
         performSearch(searchInput.value);
     });
     
