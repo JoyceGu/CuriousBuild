@@ -2,17 +2,18 @@ name: Notion Blog Auto-Sync
 
 on:
   schedule:
-    # 每天早上8点(UTC 0点)自动同步
-    - cron: '0 0 * * *'
+    # 每天 UTC 时间 02:00 (北京时间 10:00) 自动运行
+    - cron: '0 2 * * *'
   workflow_dispatch:
-    # 手动触发同步
-  push:
-    paths:
-      - 'blog/scripts/notion_sync.py'
-      - '.github/workflows/notion-sync.yml'
+    # 允许手动触发
+
+permissions:
+  contents: write  # 允许推送到仓库
+  pages: write     # 允许部署到 GitHub Pages
+  id-token: write  # 允许 OIDC token
 
 jobs:
-  sync-notion-to-blog:
+  sync-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
@@ -20,15 +21,22 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0  # 获取完整历史记录
     
-    - name: Setup Python
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
     
     - name: Install dependencies
       run: |
-        pip install requests
+        python -m pip install --upgrade pip
+        pip install requests pyyaml markdown
+    
+    - name: Configure Git
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
     
     - name: Sync from Notion
       env:
@@ -36,27 +44,47 @@ jobs:
         NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
       run: |
         cd blog
-        python3 scripts/notion_sync.py
+        python3 sync_notion.py
     
     - name: Check for changes
       id: verify-changed-files
       run: |
         if [ -n "$(git status --porcelain)" ]; then
           echo "changed=true" >> $GITHUB_OUTPUT
+          echo "Changes detected:"
+          git status --short
         else
           echo "changed=false" >> $GITHUB_OUTPUT
+          echo "No changes detected"
         fi
     
     - name: Commit and push changes
       if: steps.verify-changed-files.outputs.changed == 'true'
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "Notion Auto-Sync"
         git add .
         git commit -m "🔄 Auto-sync blog from Notion $(date '+%Y-%m-%d %H:%M:%S')"
         git push
     
-    - name: No changes
-      if: steps.verify-changed-files.outputs.changed == 'false'
+    - name: Setup Pages
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      uses: actions/configure-pages@v3
+    
+    - name: Upload artifact
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: '.'
+    
+    - name: Deploy to GitHub Pages
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      id: deployment
+      uses: actions/deploy-pages@v2
+
+    - name: Summary
       run: |
-        echo "📝 No new articles to sync from Notion"
+        if [ "${{ steps.verify-changed-files.outputs.changed }}" == "true" ]; then
+          echo "✅ Blog synchronized and deployed successfully!"
+          echo "🌐 Visit: https://joycegu.github.io/CuriousBuild/"
+        else
+          echo "📝 No changes found in Notion database"
+        fi
