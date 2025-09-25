@@ -1,6 +1,6 @@
 ---
 title: How to Set Up Notion and Blog Sync
-date: 2025-09-25
+date: 2025-09-01
 tags: Productivity
 summary: Overview This integration system allows you to write blog posts directly in Notion and automatically sync them to your website and won't change any ex...
 filename: how-to-set-up-notion-and-blog-sync
