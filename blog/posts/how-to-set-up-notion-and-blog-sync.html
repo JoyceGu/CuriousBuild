@@ -29,8 +29,8 @@
                 <header class="article-header">
                     <h1 class="article-title">How to Set Up Notion and Blog Sync</h1>
                     <div class="article-meta">
-                        <time datetime="2025-08-18">August 18, 2025</time>
-                        <span class="reading-time">3 min</span>
+                        <time datetime="2025-09-25">September 25, 2025</time>
+                        <span class="reading-time">2 min</span>
                         <span class="author">Joyce Gu</span>
                     </div>
                     <div class="article-tags">
@@ -42,9 +42,7 @@
                 <div class="article-content">
                     <h1>Overview</h1>
 
-<p>This integration system allows you to write blog posts directly in Notion and automatically sync them to your website!</p>
-
-<strong>Fully compatible with existing system</strong> ✓ - Won't change any existing blog templates or styles
+<p>This integration system allows you to write blog posts directly in Notion and automatically sync them to your website and won't change any existing blog templates or styles!</p>
 
 <h2>Workflow</h2>
 
@@ -84,9 +82,6 @@
 <li>Visit <a href="https://www.notion.so/my-integrations">Notion Integrations</a></li>
 <li>Click "New integration"</li>
 <li>Fill in the information:</li>
-</ol>
-
-<ol>
 <li>Click "Submit"</li>
 <li>Copy the <strong>Internal Integration Token</strong> (keep it secret!)</li>
 </ol>
@@ -102,44 +97,21 @@
 
 <ol>
 <li>Open your database in the browser</li>
-<li>Copy the database ID from the URL (32-character string)<a href="https://notion.so/your-workspace/DATABASE_ID?v=">https://notion.so/your-workspace/DATABASE_ID?v=</a>...</li>
+<li>Copy the database ID from the URL (32-character string)</li>
 </ol>
-                                ^^^^^^^^^^^
 <h2>Step 3: Local Setup</h2>
 
 <h3>3.1 Set Environment Variables</h3>
 
-<strong>MacOS/Linux:</strong>
-
-<h1>Add to ~/.zshrc or ~/.bash_profile</h1>
+<strong>MacOS/Linux: </strong>Add to ~/.zshrc or ~/.bash_profile
 
 <p>export NOTION_TOKEN="your_integration_token_here"
 export NOTION_DATABASE_ID="your_database_id_here"</p>
 
-<h1>Reload configuration</h1>
-
-<p>source ~/.zshrc</p>
-
-<strong>Temporary Setup (current session only):</strong>
-
-<p>export NOTION_TOKEN="your_integration_token_here"
-export NOTION_DATABASE_ID="your_database_id_here"</p>
-
-<h3>3.2 Test Sync</h3>
+<h3>3.2 Test Sync (For Joyce)</h3>
 
 <p>cd blog
 python3 sync_notion.py</p>
-
-<p>If successful, you'll see:</p>
-
-<h1>🚀 Notion Blog Local Sync</h1>
-
-<p>✅ Found Notion credentials
-📚 Found X published articles
-📄 Processing article: My First Article
-✅ Sync successful: <a href="http://my-first-article.md/">my-first-article.md</a>
-🎉 Sync complete! Processed X articles
-✅ Blog build successful!</p>
 
 <h2>Step 4: GitHub Automation Setup</h2>
 
@@ -151,7 +123,6 @@ python3 sync_notion.py</p>
 <li>Click "New repository secret"</li>
 <li>Add two secrets:</li>
 </ol>
-
 <h3>4.2 Auto Sync</h3>
 
 <p>GitHub Actions will:</p>
@@ -192,16 +163,6 @@ python3 sync_notion.py</p>
 <li>Click "Actions" → "Notion Blog Auto-Sync"</li>
 <li>Click "Run workflow"</li>
 </ol>
-<h2>Supported Notion Formats</h2>
-
-<p>✓ <strong>Text Formatting:</strong> Bold, italic, inline code  
-✓ <strong>Headings:</strong> H1, H2, H3  
-✓ <strong>Lists:</strong> Ordered lists, unordered lists  
-✓ <strong>Quote Blocks:</strong> > Quote text  
-✓ <strong>Code Blocks:</strong> Syntax highlighting support  
-✓ <strong>Dividers:</strong> ---  
-✓ <strong>Links:</strong> Auto conversion</p>
-
 <h2>Troubleshooting</h2>
 
 <h3>Common Issues</h3>

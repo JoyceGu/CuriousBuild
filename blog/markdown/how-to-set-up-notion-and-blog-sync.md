@@ -1,16 +1,14 @@
 ---
 title: How to Set Up Notion and Blog Sync
-date: 2025-08-18
+date: 2025-09-25
 tags: Productivity
-summary: Overview This integration system allows you to write blog posts directly in Notion and automatically sync them to your website! Fully compatible with ...
+summary: Overview This integration system allows you to write blog posts directly in Notion and automatically sync them to your website and won't change any ex...
 filename: how-to-set-up-notion-and-blog-sync
 ---
 
 # Overview
 
-This integration system allows you to write blog posts directly in Notion and automatically sync them to your website!
-
-**Fully compatible with existing system** ✓ - Won't change any existing blog templates or styles
+This integration system allows you to write blog posts directly in Notion and automatically sync them to your website and won't change any existing blog templates or styles!
 
 ## Workflow
 
@@ -43,7 +41,6 @@ Notion Database → Auto Sync → Markdown Files → Blog HTML → Website Updat
 1. Visit [Notion Integrations](https://www.notion.so/my-integrations)
 1. Click "New integration"
 1. Fill in the information:
-
 1. Click "Submit"
 1. Copy the **Internal Integration Token** (keep it secret!)
 ### 2.2 Connect Database
@@ -55,43 +52,20 @@ Notion Database → Auto Sync → Markdown Files → Blog HTML → Website Updat
 ### 2.3 Get Database ID
 
 1. Open your database in the browser
-1. Copy the database ID from the URL (32-character string)[https://notion.so/your-workspace/DATABASE_ID?v=](https://notion.so/your-workspace/DATABASE_ID?v=)...
-                                ^^^^^^^^^^^
+1. Copy the database ID from the URL (32-character string)
 ## Step 3: Local Setup
 
 ### 3.1 Set Environment Variables
 
-**MacOS/Linux:**
-
-# Add to ~/.zshrc or ~/.bash_profile
+**MacOS/Linux: **Add to ~/.zshrc or ~/.bash_profile
 
 export NOTION_TOKEN="your_integration_token_here"
 export NOTION_DATABASE_ID="your_database_id_here"
 
-# Reload configuration
-
-source ~/.zshrc
-
-**Temporary Setup (current session only):**
-
-export NOTION_TOKEN="your_integration_token_here"
-export NOTION_DATABASE_ID="your_database_id_here"
-
-### 3.2 Test Sync
+### 3.2 Test Sync (For Joyce)
 
 cd blog
 python3 sync_notion.py
-
-If successful, you'll see:
-
-# 🚀 Notion Blog Local Sync
-
-✅ Found Notion credentials
-📚 Found X published articles
-📄 Processing article: My First Article
-✅ Sync successful: [my-first-article.md](http://my-first-article.md/)
-🎉 Sync complete! Processed X articles
-✅ Blog build successful!
 
 ## Step 4: GitHub Automation Setup
 
@@ -101,7 +75,6 @@ If successful, you'll see:
 1. Click "Settings" → "Secrets and variables" → "Actions"
 1. Click "New repository secret"
 1. Add two secrets:
-
 ### 4.2 Auto Sync
 
 GitHub Actions will:
@@ -134,16 +107,6 @@ python3 sync_notion.py
 1. Visit GitHub repository
 1. Click "Actions" → "Notion Blog Auto-Sync"
 1. Click "Run workflow"
-## Supported Notion Formats
-
-✓ **Text Formatting:** Bold, italic, inline code  
-✓ **Headings:** H1, H2, H3  
-✓ **Lists:** Ordered lists, unordered lists  
-✓ **Quote Blocks:** > Quote text  
-✓ **Code Blocks:** Syntax highlighting support  
-✓ **Dividers:** ---  
-✓ **Links:** Auto conversion
-
 ## Troubleshooting
 
 ### Common Issues
