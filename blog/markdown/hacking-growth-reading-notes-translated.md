@@ -2,7 +2,7 @@
 title: 《Hacking Growth》 Reading Notes （translated)
 date: 2025-09-11
 tags: Data Science, Career, Reading
-summary: The Growth Hacker Sean Ellis Morgan Brown I finally finished the Growth Hacking book over the holidays, and found quite a few really INSPIRING things ...
+summary: The Growth Hacker Sean Ellis Morgan Brown I finally finished the HackingGrowth over the OOF time, and found quite a few really INSPIRING things about ...
 filename: hacking-growth-reading-notes-translated
 ---
 
@@ -10,7 +10,7 @@ filename: hacking-growth-reading-notes-translated
 
  Sean Ellis Morgan Brown
 
-I finally finished the Growth Hacking book over the holidays, and found quite a few really INSPIRING things about it because of the recent change in groups. As a powerless IC really wish LEADERSHIP had taken the time to read this book as well. 🫢
+I finally finished the HackingGrowth over the OOF time, and found quite a few really INSPIRING things about it because of the recent change in groups. As a powerless IC really wish LEADERSHIP had taken the time to read this book as well. 🫢
 
 The following quotes are translated from Chinese version post.
 
