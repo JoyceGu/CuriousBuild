@@ -4,17 +4,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth scrolling for anchor links
     initSmoothScrolling();
     
-    // Simple fade-in animation for posts
-    initPostAnimations();
-    
     // Handle external links
     initExternalLinks();
     
     // Initialize search functionality
     initSearch();
     
-    // Initialize language switcher
+    // Initialize language switcher FIRST (before animations)
+    // This ensures posts are filtered before animations run
     initLanguageSwitcher();
+    
+    // Simple fade-in animation for posts (after language filtering)
+    // Delay slightly to ensure language filter has applied
+    setTimeout(() => {
+        initPostAnimations();
+    }, 100);
 });
 
 // Smooth scrolling for anchor links
@@ -49,17 +53,16 @@ function initPostAnimations() {
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            // Only animate if the post is visible (not filtered out)
+            if (entry.isIntersecting && entry.target.style.display !== 'none') {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
             }
         });
     }, observerOptions);
     
-    // Initially hide posts and add transition
+    // Add transition styles but don't hide initially - let language filter handle visibility
     posts.forEach((post, index) => {
-        post.style.opacity = '0';
-        post.style.transform = 'translateY(20px)';
         post.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
         observer.observe(post);
     });
@@ -234,65 +237,91 @@ function initSearch() {
 
 // Language switcher functionality
 function initLanguageSwitcher() {
-    const langButtons = document.querySelectorAll('.lang-btn');
+    const langLinks = document.querySelectorAll('.lang-link');
     const postItems = document.querySelectorAll('.post-item');
     
     // Get current language from URL parameter or default to 'English'
     const urlParams = new URLSearchParams(window.location.search);
     let currentLang = urlParams.get('lang') || 'English';
     
-    // Set active button based on current language
-    function setActiveButton(lang) {
-        langButtons.forEach(btn => {
-            if (btn.getAttribute('data-lang') === lang) {
-                btn.classList.add('active');
+    // Normalize language value (handle both "Chinese" and "中文")
+    function normalizeLang(lang) {
+        if (lang === '中文' || lang === 'Chinese') {
+            return 'Chinese';
+        }
+        return lang === 'English' ? 'English' : 'English';
+    }
+    
+    currentLang = normalizeLang(currentLang);
+    
+    // Set active link based on current language
+    function setActiveLink(lang) {
+        langLinks.forEach(link => {
+            const linkLang = normalizeLang(link.getAttribute('data-lang'));
+            if (linkLang === lang) {
+                link.classList.add('active');
             } else {
-                btn.classList.remove('active');
+                link.classList.remove('active');
             }
         });
     }
     
     // Filter posts by language
     function filterPostsByLanguage(lang) {
-        postItems.forEach(item => {
+        let visibleCount = 0;
+        postItems.forEach((item, index) => {
             const postLang = item.getAttribute('data-language') || 'English';
+            const normalizedPostLang = normalizeLang(postLang);
             
-            // Match language (data-language uses "Chinese" from Notion, button uses "Chinese" too)
-            if (postLang === lang) {
+            // Match language (data-language uses "Chinese" from Notion)
+            if (normalizedPostLang === lang) {
                 item.style.display = '';
-                // Trigger animation
+                visibleCount++;
+                // Set initial state for animation
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                // Trigger animation with slight delay for staggered effect
                 setTimeout(() => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateY(0)';
-                }, 10);
+                    if (item.style.display !== 'none') {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }
+                }, index * 50 + 50);
             } else {
                 item.style.opacity = '0';
                 item.style.transform = 'translateY(20px)';
-                setTimeout(() => {
-                    item.style.display = 'none';
-                }, 300);
+                item.style.display = 'none';
             }
         });
+        
+        // Debug log
+        console.log(`Filtered to ${lang}: ${visibleCount} articles visible`);
     }
     
-    // Initialize with current language
-    setActiveButton(currentLang);
+    // Initialize with current language - filter immediately on page load
+    setActiveLink(currentLang);
     filterPostsByLanguage(currentLang);
     
-    // Add click handlers to language buttons
-    langButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const selectedLang = this.getAttribute('data-lang');
+    // Add click handlers to language links
+    langLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const selectedLang = normalizeLang(this.getAttribute('data-lang'));
             currentLang = selectedLang;
             
-            // Update URL without reload
+            // Update URL and reload to ensure proper filtering
             const url = new URL(window.location);
             url.searchParams.set('lang', selectedLang);
-            window.history.pushState({}, '', url);
-            
-            // Update UI
-            setActiveButton(selectedLang);
-            filterPostsByLanguage(selectedLang);
+            window.location.href = url.toString();
         });
+    });
+    
+    // Also handle browser back/forward buttons
+    window.addEventListener('popstate', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const lang = normalizeLang(urlParams.get('lang') || 'English');
+        currentLang = lang;
+        setActiveLink(lang);
+        filterPostsByLanguage(lang);
     });
 }

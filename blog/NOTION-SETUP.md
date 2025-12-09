@@ -12,6 +12,8 @@ This integration system allows you to write blog posts directly in Notion and au
 Notion Database → Auto Sync → Markdown Files → Blog HTML → Website Update
 ```
 
+📊 **详细流程图**：查看 [NOTION-SYNC-FLOWCHART.md](./NOTION-SYNC-FLOWCHART.md) 了解完整的同步流程和步骤说明。
+
 ## 📊 Step 1: Create Notion Database
 
 ### 1.1 Create New Database
