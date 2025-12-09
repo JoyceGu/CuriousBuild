@@ -167,6 +167,7 @@ class SimpleBlogConverter:
         date_str = metadata.get('date', datetime.now().strftime('%Y-%m-%d'))
         tags = metadata.get('tags', [])
         summary = metadata.get('summary', '')
+        language = metadata.get('language', 'English')
         
         # Convert date
         try:
@@ -279,6 +280,7 @@ class SimpleBlogConverter:
             'reading_time': reading_time,
             'tags': tags,
             'summary': summary or f"{markdown_content[:150]}..." if len(markdown_content) > 150 else markdown_content,
+            'language': language,
         }
     
     def convert_all_markdown(self):
@@ -306,10 +308,19 @@ class SimpleBlogConverter:
         # Sort articles by date (newest first)
         articles.sort(key=lambda x: x['date_iso'], reverse=True)
         
-        # Generate article items HTML
+        # Group articles by language
+        articles_by_language = {}
+        for article in articles:
+            lang = article.get('language', 'English')
+            if lang not in articles_by_language:
+                articles_by_language[lang] = []
+            articles_by_language[lang].append(article)
+        
+        # Generate article items HTML with language data attributes
         articles_html = []
         for article in articles:
-            article_html = f'''                <article class="post-item">
+            lang = article.get('language', 'English')
+            article_html = f'''                <article class="post-item" data-language="{lang}">
                     <div class="post-content">
                         <h3 class="post-title">
                             <a href="posts/{article['filename']}">{article['title']}</a>
@@ -344,6 +355,7 @@ class SimpleBlogConverter:
             f.write(updated_content)
         
         print(f"✅ Updated blog index with {len(articles)} articles")
+        print(f"📊 Articles by language: {', '.join([f'{lang}: {len(arts)}' for lang, arts in articles_by_language.items()])}")
 
 def main():
     converter = SimpleBlogConverter()

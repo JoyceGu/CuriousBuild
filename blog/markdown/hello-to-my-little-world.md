@@ -3,6 +3,7 @@ title: Hello to My Little World
 date: 2024-01-18
 tags: Personal, Life, Thoughts
 summary: Welcome to my personal corner of the internet! This is where I'll be sharing my thoughts, discoveries, and adventures in technology, life, and everything in between.
+language: English
 filename: hello-to-my-little-world
 ---
 

@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize search functionality
     initSearch();
+    
+    // Initialize language switcher
+    initLanguageSwitcher();
 });
 
 // Smooth scrolling for anchor links
@@ -226,5 +229,70 @@ function initSearch() {
         if (!e.target.closest('.search-container')) {
             hideSearchResults();
         }
+    });
+}
+
+// Language switcher functionality
+function initLanguageSwitcher() {
+    const langButtons = document.querySelectorAll('.lang-btn');
+    const postItems = document.querySelectorAll('.post-item');
+    
+    // Get current language from URL parameter or default to 'English'
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = urlParams.get('lang') || 'English';
+    
+    // Set active button based on current language
+    function setActiveButton(lang) {
+        langButtons.forEach(btn => {
+            if (btn.getAttribute('data-lang') === lang) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+    
+    // Filter posts by language
+    function filterPostsByLanguage(lang) {
+        postItems.forEach(item => {
+            const postLang = item.getAttribute('data-language') || 'English';
+            
+            // Match language (data-language uses "Chinese" from Notion, button uses "Chinese" too)
+            if (postLang === lang) {
+                item.style.display = '';
+                // Trigger animation
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, 10);
+            } else {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    item.style.display = 'none';
+                }, 300);
+            }
+        });
+    }
+    
+    // Initialize with current language
+    setActiveButton(currentLang);
+    filterPostsByLanguage(currentLang);
+    
+    // Add click handlers to language buttons
+    langButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            currentLang = selectedLang;
+            
+            // Update URL without reload
+            const url = new URL(window.location);
+            url.searchParams.set('lang', selectedLang);
+            window.history.pushState({}, '', url);
+            
+            // Update UI
+            setActiveButton(selectedLang);
+            filterPostsByLanguage(selectedLang);
+        });
     });
 }

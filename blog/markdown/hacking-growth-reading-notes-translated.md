@@ -3,6 +3,7 @@ title: 《Hacking Growth》 Reading Notes （translated)
 date: 2025-09-11
 tags: Data Science, Career, Reading
 summary: The Growth Hacker Sean Ellis Morgan Brown I finally finished the HackingGrowth over the OOF time, and found quite a few really INSPIRING things about ...
+language: English
 filename: hacking-growth-reading-notes-translated
 ---
 

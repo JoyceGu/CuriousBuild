@@ -46,16 +46,78 @@
 1. **主页**：访问 https://joycegu.github.io/CuriousBuild/
 2. **博客**：访问 https://joycegu.github.io/CuriousBuild/blog/
 
+### 🚀 本地启动
+
+#### 前置要求
+- Python 3.x（用于运行本地服务器和构建脚本）
+
+#### 启动步骤
+
+1. **克隆仓库**
+   ```bash
+   git clone https://github.com/JoyceGu/CuriousBuild.git
+   cd CuriousBuild
+   ```
+
+2. **启动本地服务器**
+   
+   在项目根目录运行：
+   ```bash
+   python3 -m http.server 8000
+   ```
+   
+   或者使用 Python 2（如果只有 Python 2）：
+   ```bash
+   python -m SimpleHTTPServer 8000
+   ```
+
+3. **访问网站**
+   
+   打开浏览器访问：
+   - **主页**：http://localhost:8000/
+   - **博客**：http://localhost:8000/blog/
+
+4. **停止服务器**
+   
+   在终端中按 `Ctrl + C` 停止服务器
+
+#### 构建博客（可选）
+
+如果修改了 Markdown 文件或需要重新生成博客：
+
+```bash
+cd blog
+python3 build.py
+```
+
+然后重新启动服务器查看更新。
+
 ### 🖥️ 本地开发
-1. 克隆仓库到本地
-2. 打开`index.html`访问主页
+1. 启动本地服务器（见上方步骤）
+2. 打开浏览器访问 http://localhost:8000/
 3. 将鼠标悬停在果实上可以看到动画效果和网站名称
 4. 点击果实跳转到对应的网站
 
 ### ✍️ 博客写作
 1. 在`blog/markdown/`目录下创建新的Markdown文件
 2. 运行`python3 blog/build.py`构建博客
-3. 或者使用Notion集成功能自动同步文章
+3. 或者使用Notion集成功能自动同步文章（见下方说明）
+
+### 🔄 Notion 同步
+
+#### 本地同步
+1. 设置环境变量（见 `blog/NOTION-SETUP.md`）
+2. 运行同步脚本：
+   ```bash
+   cd blog
+   python3 scripts/notion_sync.py
+   ```
+3. 同步完成后会自动构建博客
+
+#### GitHub Actions 自动同步
+- 每天自动从 Notion 同步已发布的文章
+- 自动构建并部署到 GitHub Pages
+- 详见 `.github/SETUP.md`
 
 ## 自定义链接
 
