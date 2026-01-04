@@ -2,12 +2,12 @@
 title: Vibe Coding 阅读笔记
 date: 2025-12-21
 tags: Reading, GenAI
-summary: Source: 第三章：PRD与文档驱动开发 一定要把 Key 保存到环境变量 .env 文件中. 归档参考文档：将这些 API 的关键文档（如请求格式、示例代码、返回码）整理好，归档在项目中（比如 docs/api-reference.md）。这样下次你需要 AI 写相关功能时，直接把这份文档喂给...
+summary: Source: https://www.vibevibe.cn/Advanced/https://www.vibevibe.cn/Advanced/ 第三章：PRD与文档驱动开发 一定要把 Key 保存到环境变量 .env 文件中. 归档参考文档：将这些 API 的关键文档（如请求格式、示例代码、返...
 language: Chinese
 filename: vibe-coding-阅读笔记
 ---
 
-## Source: 
+## Source:  [https://www.vibevibe.cn/Advanced/](https://www.vibevibe.cn/Advanced/)
 
 ### 第三章：PRD与文档驱动开发
 
