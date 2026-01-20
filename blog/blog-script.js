@@ -10,15 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize search functionality
     initSearch();
     
-    // Initialize language switcher FIRST (before animations)
-    // This ensures posts are filtered before animations run
-    initLanguageSwitcher();
+    // Initialize subscription functionality
+    initSubscription();
     
-    // Simple fade-in animation for posts (after language filtering)
-    // Delay slightly to ensure language filter has applied
-    setTimeout(() => {
-        initPostAnimations();
-    }, 100);
+    // Simple fade-in animation for posts
+    initPostAnimations();
 });
 
 // Smooth scrolling for anchor links
@@ -53,16 +49,17 @@ function initPostAnimations() {
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            // Only animate if the post is visible (not filtered out)
-            if (entry.isIntersecting && entry.target.style.display !== 'none') {
+            if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
             }
         });
     }, observerOptions);
     
-    // Add transition styles but don't hide initially - let language filter handle visibility
+    // Set initial styles and observe all posts
     posts.forEach((post, index) => {
+        post.style.opacity = '0';
+        post.style.transform = 'translateY(20px)';
         post.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
         observer.observe(post);
     });
@@ -235,93 +232,167 @@ function initSearch() {
     });
 }
 
-// Language switcher functionality
-function initLanguageSwitcher() {
-    const langLinks = document.querySelectorAll('.lang-link');
-    const postItems = document.querySelectorAll('.post-item');
+// Subscription functionality
+function initSubscription() {
+    const subscribeBtn = document.getElementById('subscribeBtn');
+    const modal = document.getElementById('subscriptionModal');
+    const closeBtn = document.getElementById('closeModal');
+    const subscriptionForm = document.getElementById('subscriptionForm');
+    const emailInput = document.getElementById('emailInput');
+    const formMessage = document.getElementById('formMessage');
+    const submitBtn = subscriptionForm.querySelector('.submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoading = submitBtn.querySelector('.btn-loading');
+
+    // Open modal
+    subscribeBtn.addEventListener('click', function() {
+        modal.classList.add('show');
+        emailInput.focus();
+        // Clear previous messages
+        hideMessage();
+    });
+
+    // Close modal
+    closeBtn.addEventListener('click', closeModal);
     
-    // Get current language from URL parameter or default to 'English'
-    const urlParams = new URLSearchParams(window.location.search);
-    let currentLang = urlParams.get('lang') || 'English';
-    
-    // Normalize language value (handle both "Chinese" and "中文")
-    function normalizeLang(lang) {
-        if (lang === '中文' || lang === 'Chinese') {
-            return 'Chinese';
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
         }
-        return lang === 'English' ? 'English' : 'English';
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
+            closeModal();
+        }
+    });
+
+    function closeModal() {
+        modal.classList.remove('show');
+        subscriptionForm.reset();
+        hideMessage();
+        resetSubmitButton();
     }
-    
-    currentLang = normalizeLang(currentLang);
-    
-    // Set active link based on current language
-    function setActiveLink(lang) {
-        langLinks.forEach(link => {
-            const linkLang = normalizeLang(link.getAttribute('data-lang'));
-            if (linkLang === lang) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
-        });
-    }
-    
-    // Filter posts by language
-    function filterPostsByLanguage(lang) {
-        let visibleCount = 0;
-        postItems.forEach((item, index) => {
-            const postLang = item.getAttribute('data-language') || 'English';
-            const normalizedPostLang = normalizeLang(postLang);
-            
-            // Match language (data-language uses "Chinese" from Notion)
-            if (normalizedPostLang === lang) {
-                item.style.display = '';
-                visibleCount++;
-                // Set initial state for animation
-                item.style.opacity = '0';
-                item.style.transform = 'translateY(20px)';
-                // Trigger animation with slight delay for staggered effect
-                setTimeout(() => {
-                    if (item.style.display !== 'none') {
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateY(0)';
-                    }
-                }, index * 50 + 50);
-            } else {
-                item.style.opacity = '0';
-                item.style.transform = 'translateY(20px)';
-                item.style.display = 'none';
-            }
-        });
+
+    // Handle form submission
+    subscriptionForm.addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        // Debug log
-        console.log(`Filtered to ${lang}: ${visibleCount} articles visible`);
+        const email = emailInput.value.trim();
+        
+        if (!isValidEmail(email)) {
+            showMessage('Please enter a valid email address.', 'error');
+            return;
+        }
+
+        // Check if already subscribed
+        if (isAlreadySubscribed(email)) {
+            showMessage('This email is already subscribed! 🎉', 'success');
+            return;
+        }
+
+        // Show loading state
+        setLoadingState(true);
+
+        // Simulate API call delay
+        setTimeout(() => {
+            try {
+                // Save subscription
+                saveSubscription(email);
+                
+                // Show success message
+                showMessage('🎉 Successfully subscribed! Thank you for joining my digital garden.', 'success');
+                
+                // Reset form after delay
+                setTimeout(() => {
+                    closeModal();
+                }, 2000);
+                
+            } catch (error) {
+                showMessage('Something went wrong. Please try again.', 'error');
+            } finally {
+                setLoadingState(false);
+            }
+        }, 1000);
+    });
+
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
     }
-    
-    // Initialize with current language - filter immediately on page load
-    setActiveLink(currentLang);
-    filterPostsByLanguage(currentLang);
-    
-    // Add click handlers to language links
-    langLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const selectedLang = normalizeLang(this.getAttribute('data-lang'));
-            currentLang = selectedLang;
-            
-            // Update URL and reload to ensure proper filtering
-            const url = new URL(window.location);
-            url.searchParams.set('lang', selectedLang);
-            window.location.href = url.toString();
-        });
-    });
-    
-    // Also handle browser back/forward buttons
-    window.addEventListener('popstate', function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const lang = normalizeLang(urlParams.get('lang') || 'English');
-        currentLang = lang;
-        setActiveLink(lang);
-        filterPostsByLanguage(lang);
-    });
+
+    function isAlreadySubscribed(email) {
+        const subscribers = getSubscribers();
+        return subscribers.some(sub => sub.email.toLowerCase() === email.toLowerCase());
+    }
+
+    function saveSubscription(email) {
+        const subscribers = getSubscribers();
+        const newSubscriber = {
+            email: email,
+            subscribedAt: new Date().toISOString(),
+            id: generateId()
+        };
+        
+        subscribers.push(newSubscriber);
+        localStorage.setItem('blogSubscribers', JSON.stringify(subscribers));
+        
+        console.log('New subscriber added:', newSubscriber);
+    }
+
+    function getSubscribers() {
+        try {
+            const stored = localStorage.getItem('blogSubscribers');
+            return stored ? JSON.parse(stored) : [];
+        } catch (error) {
+            console.error('Error reading subscribers:', error);
+            return [];
+        }
+    }
+
+    function generateId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+
+    function showMessage(text, type) {
+        formMessage.textContent = text;
+        formMessage.className = `form-message ${type}`;
+    }
+
+    function hideMessage() {
+        formMessage.className = 'form-message';
+        formMessage.textContent = '';
+    }
+
+    function setLoadingState(loading) {
+        if (loading) {
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline-flex';
+        } else {
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+        }
+    }
+
+    function resetSubmitButton() {
+        setLoadingState(false);
+    }
+
+    // Expose function for admin use
+    window.getSubscribers = getSubscribers;
+    window.exportSubscribers = function() {
+        const subscribers = getSubscribers();
+        const dataStr = JSON.stringify(subscribers, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `blog-subscribers-${new Date().toISOString().split('T')[0]}.json`;
+        link.click();
+        URL.revokeObjectURL(url);
+    };
 }

@@ -167,7 +167,6 @@ class SimpleBlogConverter:
         date_str = metadata.get('date', datetime.now().strftime('%Y-%m-%d'))
         tags = metadata.get('tags', [])
         summary = metadata.get('summary', '')
-        language = metadata.get('language', 'English')
         
         # Convert date
         try:
@@ -280,7 +279,6 @@ class SimpleBlogConverter:
             'reading_time': reading_time,
             'tags': tags,
             'summary': summary or f"{markdown_content[:150]}..." if len(markdown_content) > 150 else markdown_content,
-            'language': language,
         }
     
     def convert_all_markdown(self):
@@ -308,19 +306,10 @@ class SimpleBlogConverter:
         # Sort articles by date (newest first)
         articles.sort(key=lambda x: x['date_iso'], reverse=True)
         
-        # Group articles by language
-        articles_by_language = {}
-        for article in articles:
-            lang = article.get('language', 'English')
-            if lang not in articles_by_language:
-                articles_by_language[lang] = []
-            articles_by_language[lang].append(article)
-        
-        # Generate article items HTML with language data attributes
+        # Generate article items HTML
         articles_html = []
         for article in articles:
-            lang = article.get('language', 'English')
-            article_html = f'''                <article class="post-item" data-language="{lang}">
+            article_html = f'''                <article class="post-item">
                     <div class="post-content">
                         <h3 class="post-title">
                             <a href="posts/{article['filename']}">{article['title']}</a>
@@ -355,7 +344,77 @@ class SimpleBlogConverter:
             f.write(updated_content)
         
         print(f"✅ Updated blog index with {len(articles)} articles")
-        print(f"📊 Articles by language: {', '.join([f'{lang}: {len(arts)}' for lang, arts in articles_by_language.items()])}")
+        
+        # Generate RSS feed
+        self.generate_rss_feed(articles)
+
+    def generate_rss_feed(self, articles):
+        """Generate RSS feed for the blog"""
+        from email.utils import formatdate
+        import time
+        
+        # Sort articles by date (newest first)
+        sorted_articles = sorted(articles, key=lambda x: x['date_iso'], reverse=True)
+        
+        # Take only the latest 10 articles for RSS
+        recent_articles = sorted_articles[:10]
+        
+        # RSS template
+        rss_template = '''<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Joyce's Digital Garden</title>
+        <link>https://joycegu.github.io/CuriousBuild/blog/</link>
+        <description>Thoughts, discoveries, and adventures in technology, growth, and life insights.</description>
+        <language>en-us</language>
+        <lastBuildDate>{last_build_date}</lastBuildDate>
+        <atom:link href="https://joycegu.github.io/CuriousBuild/blog/feed.xml" rel="self" type="application/rss+xml"/>
+        <generator>Joyce's Blog Generator</generator>
+        <webMaster>joyce@example.com (Joyce Gu)</webMaster>
+        <managingEditor>joyce@example.com (Joyce Gu)</managingEditor>
+        <ttl>1440</ttl>
+{items}
+    </channel>
+</rss>'''
+
+        # Generate RSS items
+        items = []
+        for article in recent_articles:
+            # Convert date to RFC 822 format
+            try:
+                article_date = datetime.strptime(article['date_iso'], '%Y-%m-%d')
+                pub_date = formatdate(time.mktime(article_date.timetuple()))
+            except:
+                pub_date = formatdate()
+            
+            # Clean summary for RSS (remove HTML if any)
+            clean_summary = article['summary'].replace('<', '&lt;').replace('>', '&gt;')
+            
+            item = f'''        <item>
+            <title><![CDATA[{article['title']}]]></title>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/{article['filename']}</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/{article['filename']}</guid>
+            <description><![CDATA[{clean_summary}]]></description>
+            <pubDate>{pub_date}</pubDate>
+            <author>joyce@example.com (Joyce Gu)</author>
+        </item>'''
+            items.append(item)
+        
+        # Current timestamp for lastBuildDate
+        last_build_date = formatdate()
+        
+        # Generate final RSS content
+        rss_content = rss_template.format(
+            last_build_date=last_build_date,
+            items='\n'.join(items)
+        )
+        
+        # Write RSS file
+        rss_path = self.blog_dir / "feed.xml"
+        with open(rss_path, 'w', encoding='utf-8') as f:
+            f.write(rss_content)
+        
+        print(f"✅ Generated RSS feed with {len(recent_articles)} articles")
 
 def main():
     converter = SimpleBlogConverter()

@@ -220,29 +220,12 @@ class NotionBlogSync:
         if summary_prop and summary_prop.get('rich_text') and summary_prop['rich_text']:
             summary = summary_prop['rich_text'][0]['text']['content']
         
-        # 语言 - 尝试多种可能的字段名
-        language = "English"  # 默认值
-        possible_language_fields = ['Language', 'language', 'Lang', 'lang']
-        
-        for field_name in possible_language_fields:
-            language_prop = properties.get(field_name)
-            if language_prop:
-                if language_prop.get('select') and language_prop['select']:
-                    language = language_prop['select']['name']
-                    break
-                elif language_prop.get('rich_text') and language_prop['rich_text']:
-                    language = language_prop['rich_text'][0]['text']['content']
-                    break
-                elif language_prop.get('title') and language_prop['title']:
-                    language = language_prop['title'][0]['text']['content']
-                    break
         
         return {
             'title': title,
             'date': date,
             'tags': tags,
-            'summary': summary,
-            'language': language
+            'summary': summary
         }
     
     def create_filename(self, title):
@@ -296,13 +279,11 @@ class NotionBlogSync:
                 
                 # 生成前置信息
                 tags_str = ', '.join(properties['tags']) if properties['tags'] else 'Personal'
-                language = properties.get('language', 'English')
                 frontmatter = f"""---
 title: {properties['title']}
 date: {properties['date']}
 tags: {tags_str}
 summary: {properties['summary']}
-language: {language}
 filename: {filename.replace('.md', '')}
 ---
 

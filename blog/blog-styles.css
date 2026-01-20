@@ -80,15 +80,6 @@ body {
     color: var(--primary-color);
 }
 
-/* Language Switcher */
-.lang-link {
-    /* Inherits nav-link styles */
-}
-
-.lang-link.active {
-    color: var(--primary-color);
-    font-weight: 600;
-}
 
 /* Main content */
 .main {
@@ -114,6 +105,68 @@ body {
     font-size: 18px;
     color: var(--secondary-color);
     margin-bottom: 40px;
+}
+
+/* Subscription Section */
+.subscription-section {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.subscribe-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--link-color) 0%, var(--link-hover) 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.2);
+}
+
+.subscribe-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 102, 204, 0.3);
+}
+
+.subscribe-btn:active {
+    transform: translateY(0);
+}
+
+.subscription-options {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.or-text {
+    color: var(--light-text);
+    font-style: italic;
+}
+
+.rss-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--secondary-color);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 15px;
+    transition: all 0.2s ease;
+    font-size: 13px;
+}
+
+.rss-link:hover {
+    color: var(--link-color);
+    background-color: var(--hover-color);
 }
 
 /* Social icons */
@@ -572,6 +625,247 @@ body {
     
     .search-input {
         font-size: 16px; /* Prevent zoom on iOS */
+    }
+}
+
+/* Subscription Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: var(--bg-color);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--secondary-color);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    color: var(--primary-color);
+    background-color: var(--hover-color);
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-body > p {
+    color: var(--secondary-color);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.subscription-form {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: border-color 0.2s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--link-color);
+}
+
+.input-group input::placeholder {
+    color: var(--light-text);
+}
+
+.submit-btn {
+    padding: 12px 20px;
+    background: var(--link-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+}
+
+.submit-btn:hover {
+    background: var(--link-hover);
+}
+
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.form-message {
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 12px;
+    display: none;
+}
+
+.form-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    display: block;
+}
+
+.form-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    display: block;
+}
+
+.privacy-note {
+    padding: 16px;
+    background-color: var(--hover-color);
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.privacy-note p {
+    margin: 0;
+    color: var(--secondary-color);
+}
+
+.alternative-option {
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.alternative-option p {
+    margin: 0;
+    color: var(--light-text);
+}
+
+.alternative-option a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+.alternative-option a:hover {
+    text-decoration: underline;
+}
+
+/* Modal Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsive Design for Subscription */
+@media (max-width: 768px) {
+    .subscribe-btn {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+    
+    .subscription-options {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .modal-content {
+        margin: 20px;
+        width: calc(100% - 40px);
+    }
+    
+    .modal-header, .modal-body {
+        padding: 20px;
+    }
+    
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .input-group input, .submit-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .subscribe-btn {
+        font-size: 13px;
+        padding: 8px 16px;
+    }
+    
+    .modal-header, .modal-body {
+        padding: 16px;
     }
 }
 

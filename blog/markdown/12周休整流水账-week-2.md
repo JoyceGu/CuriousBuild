@@ -3,7 +3,6 @@ title: 12周休整流水账 - Week 2
 date: 2025-12-15
 tags: Life
 summary: 12/15-12/21 时间过得好快，来到了第二周（呜呜。。 Day 1 - 今天没有什么学习input，但是过得很充实，增长了一些生活经验： - Sunnyvale的UPS是在万豪酒店里，parking前30分钟是免费的。 - Sunnyvale的电费是Redmond的3-4倍，（深呼一口气 在思...
-language: Chinese
 filename: 12周休整流水账-week-2
 ---
 

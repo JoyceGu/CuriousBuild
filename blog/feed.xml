@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Joyce's Digital Garden</title>
+        <link>https://joycegu.github.io/CuriousBuild/blog/</link>
+        <description>Thoughts, discoveries, and adventures in technology, growth, and life insights.</description>
+        <language>en-us</language>
+        <lastBuildDate>Tue, 20 Jan 2026 06:35:58 -0000</lastBuildDate>
+        <atom:link href="https://joycegu.github.io/CuriousBuild/blog/feed.xml" rel="self" type="application/rss+xml"/>
+        <generator>Joyce's Blog Generator</generator>
+        <webMaster>joyce@example.com (Joyce Gu)</webMaster>
+        <managingEditor>joyce@example.com (Joyce Gu)</managingEditor>
+        <ttl>1440</ttl>
+        <item>
+            <title><![CDATA[12周休整流水账 - Week 3]]></title>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/12周休整流水账-week-3.html</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/12周休整流水账-week-3.html</guid>
+            <description><![CDATA[12/22 - 12/28 Day 1 - 今天大部分时间在收拾家，为了周三朋友来吃烤肉。发现了一个提升家装审美的方法：把目前的布置拍张照发给ChatGPT有什么改进建议，然后G大哥就能指导了。G大哥说我们家沙发中间有缝，容易显得租房感，我思考了下后来用毛毯盖住了，这么一看确实比原来好看不少。 继续...]]></description>
+            <pubDate>Mon, 22 Dec 2025 08:00:00 -0000</pubDate>
+            <author>joyce@example.com (Joyce Gu)</author>
+        </item>
+        <item>
+            <title><![CDATA[Vibe Coding 阅读笔记]]></title>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/vibe-coding-阅读笔记.html</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/vibe-coding-阅读笔记.html</guid>
+            <description><![CDATA[Source: https://www.vibevibe.cn/Advanced/https://www.vibevibe.cn/Advanced/ 第三章：PRD与文档驱动开发 一定要把 Key 保存到环境变量 .env 文件中. 归档参考文档：将这些 API 的关键文档（如请求格式、示例代码、返...]]></description>
+            <pubDate>Sun, 21 Dec 2025 08:00:00 -0000</pubDate>
+            <author>joyce@example.com (Joyce Gu)</author>
+        </item>
+        <item>
+            <title><![CDATA[12周休整流水账 - Week 2]]></title>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/12周休整流水账-week-2.html</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/12周休整流水账-week-2.html</guid>
+            <description><![CDATA[12/15-12/21 时间过得好快，来到了第二周（呜呜。。 Day 1 - 今天没有什么学习input，但是过得很充实，增长了一些生活经验： - Sunnyvale的UPS是在万豪酒店里，parking前30分钟是免费的。 - Sunnyvale的电费是Redmond的3-4倍，（深呼一口气 在思...]]></description>
+            <pubDate>Mon, 15 Dec 2025 08:00:00 -0000</pubDate>
+            <author>joyce@example.com (Joyce Gu)</author>
+        </item>
+        <item>
+            <title><![CDATA[12周休整流水账 - Week 1]]></title>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/12周休整流水账-week-1.html</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/12周休整流水账-week-1.html</guid>
+            <description><![CDATA[东亚女生常常活成被追着跑的人生，回想自己前30年，尤其高中时期准备高考，真的是对很多事情都极度上心，而责任心和同理心太强常常会让人很累。作为一个工科生，很多人是毕业再找就业，但因为好奇我从大四下就开始实习，临时申请研究生，因为好奇而忙于出国准备和适应异国文化，因为好奇和周围人都在实习而半工半读，找工...]]></description>
+            <pubDate>Mon, 08 Dec 2025 08:00:00 -0000</pubDate>
+            <author>joyce@example.com (Joyce Gu)</author>
+        </item>
+        <item>
+            <title><![CDATA[Hacking Growth - Reading Notes]]></title>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/hacking-growth-reading-notes.html</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/hacking-growth-reading-notes.html</guid>
+            <description><![CDATA[The Growth Hacker Sean Ellis Morgan Brown I finally finished the HackingGrowth over the OOF time, and found quite a few really INSPIRING things about ...]]></description>
+            <pubDate>Thu, 11 Sep 2025 07:00:00 -0000</pubDate>
+            <author>joyce@example.com (Joyce Gu)</author>
+        </item>
+        <item>
+            <title><![CDATA[《增长黑客》阅读笔记]]></title>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/增长黑客阅读笔记.html</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/增长黑客阅读笔记.html</guid>
+            <description><![CDATA[《增长黑客》 肖恩·埃利斯 摩根·布朗 假期终于把《增长黑客》这本书看完了，因为最近换组的原因，发现了不少很inspiring的地方。作为无力的IC真的很希望leadership也抽空读读这本书。 🫢 第二章 好产品是增长的根本 过早追求增长会产生两个层面的机会成本。首先，你会将宝贵的时间和金钱浪费...]]></description>
+            <pubDate>Thu, 11 Sep 2025 07:00:00 -0000</pubDate>
+            <author>joyce@example.com (Joyce Gu)</author>
+        </item>
+        <item>
+            <title><![CDATA[How to Set Up Notion and Blog Sync]]></title>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/how-to-set-up-notion-and-blog-sync.html</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/how-to-set-up-notion-and-blog-sync.html</guid>
+            <description><![CDATA[Overview This integration system allows you to write blog posts directly in Notion and automatically sync them to your website and won't change any ex...]]></description>
+            <pubDate>Mon, 01 Sep 2025 07:00:00 -0000</pubDate>
+            <author>joyce@example.com (Joyce Gu)</author>
+        </item>
+        <item>
+            <title><![CDATA[Hello to My Little World]]></title>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/hello-to-my-little-world.html</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/hello-to-my-little-world.html</guid>
+            <description><![CDATA[Welcome to my personal corner of the internet! This is where I'll be sharing my thoughts, discoveries, and adventures in technology, life, and everything in between.]]></description>
+            <pubDate>Thu, 18 Jan 2024 08:00:00 -0000</pubDate>
+            <author>joyce@example.com (Joyce Gu)</author>
+        </item>
+    </channel>
+</rss>
