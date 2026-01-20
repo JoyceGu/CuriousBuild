@@ -243,16 +243,7 @@
             <p>Manage your blog subscribers</p>
         </div>
 
-        <!-- Authentication Section -->
-        <div id="authSection" class="auth-section">
-            <h3>Admin Access</h3>
-            <p>Enter the admin password to view subscriber data</p>
-            <form id="authForm" class="auth-form">
-                <input type="password" id="passwordInput" class="auth-input" placeholder="Admin password" required>
-                <button type="submit" class="auth-btn">Access Dashboard</button>
-            </form>
-            <div id="authError" class="error-message" style="display: none;"></div>
-        </div>
+        <!-- Authentication handled by JavaScript prompt -->
 
         <!-- Dashboard Section -->
         <div id="dashboard" class="dashboard">
@@ -293,9 +284,6 @@
     </div>
 
     <script>
-        // Simple admin authentication
-        const ADMIN_PASSWORD = 'blog2026joyce'; // Change this to your preferred password
-        
         document.addEventListener('DOMContentLoaded', function() {
             initAdmin();
         });
@@ -303,27 +291,50 @@
         function initAdmin() {
             const authSection = document.getElementById('authSection');
             const dashboard = document.getElementById('dashboard');
-            const authForm = document.getElementById('authForm');
-            const passwordInput = document.getElementById('passwordInput');
-            const authError = document.getElementById('authError');
 
             // Check if already authenticated
             if (sessionStorage.getItem('adminAuthenticated') === 'true') {
                 showDashboard();
+                return;
             }
 
-            // Handle authentication
-            authForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const password = passwordInput.value;
+            // Use browser prompt for secure password entry
+            // This way no password is stored in the code
+            const password = prompt('Enter admin password to access subscriber dashboard:');
+            
+            if (password === null) {
+                // User cancelled
+                document.body.innerHTML = '<div style="text-align: center; margin-top: 50px; font-family: Arial, sans-serif;"><h2>Access Cancelled</h2><p>Admin access was cancelled.</p><button onclick="location.reload()">Try Again</button></div>';
+                return;
+            }
 
-                if (password === ADMIN_PASSWORD) {
+            // Validate password using hash
+            validatePasswordAsync(password).then(isValid => {
+                if (isValid) {
                     sessionStorage.setItem('adminAuthenticated', 'true');
                     showDashboard();
                 } else {
-                    showAuthError('Incorrect password. Please try again.');
+                    alert('Incorrect password. Please refresh the page to try again.');
+                    document.body.innerHTML = '<div style="text-align: center; margin-top: 50px; font-family: Arial, sans-serif;"><h2>Access Denied</h2><p>Incorrect password.</p><button onclick="location.reload()">Try Again</button></div>';
                 }
             });
+
+            // Password validation function using hash
+            async function validatePasswordAsync(inputPassword) {
+                const hash = await hashPassword(inputPassword);
+                // This is a placeholder hash - you'll need to replace it with your actual password hash
+                // To get your password hash, temporarily console.log the hash and copy it
+                return hash === 'PLACEHOLDER_HASH_REPLACE_WITH_ACTUAL';
+            }
+
+            // Hash function for password validation
+            async function hashPassword(password) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(password);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            }
 
             function showDashboard() {
                 authSection.style.display = 'none';
