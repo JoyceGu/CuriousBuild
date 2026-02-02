@@ -5,12 +5,20 @@
         <link>https://joycegu.github.io/CuriousBuild/blog/</link>
         <description>Thoughts, discoveries, and adventures in technology, growth, and life insights.</description>
         <language>en-us</language>
-        <lastBuildDate>Sun, 01 Feb 2026 04:26:19 -0000</lastBuildDate>
+        <lastBuildDate>Mon, 02 Feb 2026 04:19:47 -0000</lastBuildDate>
         <atom:link href="https://joycegu.github.io/CuriousBuild/blog/feed.xml" rel="self" type="application/rss+xml"/>
         <generator>Joyce's Blog Generator</generator>
         <webMaster>joyce@example.com (Joyce Gu)</webMaster>
         <managingEditor>joyce@example.com (Joyce Gu)</managingEditor>
         <ttl>1440</ttl>
+        <item>
+            <title><![CDATA[12周休整流水账 - Week 7]]></title>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/12周休整流水账-week-7.html</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/12周休整流水账-week-7.html</guid>
+            <description><![CDATA[01/19 - 01/26 Monday 今天是MLK假期的小长周末最后一天，约了车辆维护服务，白天一整天似乎都在忙这个。很有意思的是，第一次发现车辆维护的水深，本来约的是离家近的4S店，上周一通操作，非常基础的项目Sales告诉我要近$400，我说我每半年都会保养一次，从没有那么高过，他说因为湾区...]]></description>
+            <pubDate>Mon, 19 Jan 2026 00:00:00 -0000</pubDate>
+            <author>joyce@example.com (Joyce Gu)</author>
+        </item>
         <item>
             <title><![CDATA[12周休整流水账 - Week 6]]></title>
             <link>https://joycegu.github.io/CuriousBuild/blog/posts/12周休整流水账-week-6.html</link>
