@@ -4,6 +4,7 @@ date: 2025-09-11
 tags: Data Science, Career, Reading
 summary: The Growth Hacker Sean Ellis Morgan Brown I finally finished the HackingGrowth over the OOF time, and found quite a few really INSPIRING things about ...
 filename: hacking-growth-reading-notes
+notion_page_id: 279d4ad9-ea64-8094-9d5f-f1ee0cde19b2
 ---
 
 **The Growth Hacker**

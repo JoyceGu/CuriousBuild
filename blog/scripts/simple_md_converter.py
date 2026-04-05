@@ -289,12 +289,19 @@ class SimpleBlogConverter:
             return []
         
         articles = []
+        active_html = set()
         for md_file in sorted(md_files):
             try:
                 article_info = self.convert_markdown_file(md_file)
                 articles.append(article_info)
+                active_html.add(article_info['filename'])
             except Exception as e:
                 print(f"❌ Error converting {md_file.name}: {e}")
+
+        for html_path in list(self.posts_dir.glob('*.html')):
+            if html_path.name not in active_html:
+                html_path.unlink(missing_ok=True)
+                print(f"🗑 Removed orphan HTML: {html_path.name}")
         
         return articles
     

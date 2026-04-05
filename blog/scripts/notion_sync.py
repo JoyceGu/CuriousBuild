@@ -11,6 +11,8 @@ import re
 from datetime import datetime
 from pathlib import Path
 
+from simple_md_converter import SimpleBlogConverter
+
 def load_env_file():
     """Load environment variables from .env file"""
     env_path = Path(__file__).parent.parent.parent / '.env'
@@ -80,7 +82,46 @@ class NotionBlogSync:
         except Exception as e:
             print(f"❌ 连接Notion失败: {e}")
             return []
-    
+
+    def query_all_posts(self):
+        """查询数据库中的全部条目（任意 Status），用于清理已改为 Draft 的本地文件"""
+        url = f'https://api.notion.com/v1/databases/{self.database_id}/query'
+        payload = {
+            "sorts": [
+                {"property": "Date", "direction": "descending"}
+            ],
+            "page_size": 100
+        }
+        results = []
+        start_cursor = None
+        try:
+            while True:
+                body = dict(payload)
+                if start_cursor:
+                    body["start_cursor"] = start_cursor
+                response = requests.post(url, headers=self.headers, json=body)
+                if response.status_code != 200:
+                    print(f"❌ 查询Notion(全部)失败: {response.status_code}")
+                    print(f"错误信息: {response.text}")
+                    return results
+                data = response.json()
+                results.extend(data.get("results", []))
+                if not data.get("has_more"):
+                    break
+                start_cursor = data.get("next_cursor")
+            print(f"📚 数据库共 {len(results)} 条（含 Draft 等）")
+            return results
+        except Exception as e:
+            print(f"❌ 连接Notion失败: {e}")
+            return []
+
+    def get_page_status_name(self, page):
+        props = page.get("properties", {})
+        st = props.get("Status")
+        if st and st.get("select") and st["select"].get("name"):
+            return st["select"]["name"]
+        return None
+
     def get_page_content(self, page_id):
         """获取页面内容"""
         url = f'https://api.notion.com/v1/blocks/{page_id}/children'
@@ -238,6 +279,69 @@ class NotionBlogSync:
         filename = filename.strip('-')
         return f"{filename}.md"
     
+    def _delete_blog_post_files(self, md_path, meta):
+        """删除一篇本地文章对应的 markdown 与 posts 下 HTML"""
+        posts_dir = self.blog_dir / "posts"
+        md_path.unlink(missing_ok=True)
+        stem = meta.get('filename')
+        if stem:
+            html_name = stem if str(stem).endswith('.html') else f'{stem}.html'
+        else:
+            conv = SimpleBlogConverter()
+            html_name = conv.create_filename(meta.get('title', 'untitled'))
+        html_path = posts_dir / html_name
+        html_path.unlink(missing_ok=True)
+
+    def remove_unpublished_local_files(self, published_ids, all_pages):
+        """
+        删除本地仍保留、但 Notion 中已不是 Published 的文章。
+        优先用 frontmatter 中的 notion_page_id；旧文件则按标题与数据库唯一匹配。
+        """
+        converter = SimpleBlogConverter()
+        by_title = {}
+        for page in all_pages:
+            props = self.extract_page_properties(page)
+            t = props['title']
+            if not t or t == 'Untitled':
+                continue
+            by_title.setdefault(t, []).append(page)
+
+        removed = 0
+        for md_path in list(self.markdown_dir.glob('*.md')):
+            try:
+                with open(md_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                meta, _ = converter.parse_frontmatter(content)
+            except OSError:
+                continue
+
+            notion_pid = meta.get('notion_page_id')
+            if notion_pid:
+                if notion_pid in published_ids:
+                    continue
+                self._delete_blog_post_files(md_path, meta)
+                removed += 1
+                print(f"🗑  已移除（Notion 非 Published）: {md_path.name}")
+                continue
+
+            title = meta.get('title')
+            if not title:
+                continue
+            same = by_title.get(title, [])
+            if len(same) != 1:
+                continue
+            st = self.get_page_status_name(same[0])
+            if st == 'Published':
+                continue
+            self._delete_blog_post_files(md_path, meta)
+            removed += 1
+            label = st if st else '未设置 Status'
+            print(f"🗑  已移除（数据库中为 {label}）: {md_path.name}")
+
+        if removed:
+            print(f"📭 共移除 {removed} 篇本地文章（与 Draft 等状态对齐）")
+        return removed
+
     def sync_posts(self):
         """同步所有文章"""
         if not self.notion_token or not self.database_id:
@@ -245,10 +349,11 @@ class NotionBlogSync:
             
         print("🔄 开始从Notion同步文章...")
         posts = self.query_published_posts()
-        
+        published_ids = {p['id'] for p in posts}
+        all_pages = self.query_all_posts()
+
         if not posts:
-            print("📝 没有找到已发布的文章")
-            return
+            print("📝 当前没有 Status=Published 的文章")
         
         synced_count = 0
         
@@ -277,14 +382,16 @@ class NotionBlogSync:
                     clean_content = ' '.join(clean_content.split())
                     properties['summary'] = clean_content[:150] + "..." if len(clean_content) > 150 else clean_content
                 
-                # 生成前置信息
+                # 生成前置信息（notion_page_id 用于下次同步时删除已下线文章）
                 tags_str = ', '.join(properties['tags']) if properties['tags'] else 'Personal'
+                page_id = post['id']
                 frontmatter = f"""---
 title: {properties['title']}
 date: {properties['date']}
 tags: {tags_str}
 summary: {properties['summary']}
 filename: {filename.replace('.md', '')}
+notion_page_id: {page_id}
 ---
 
 """
@@ -303,12 +410,13 @@ filename: {filename.replace('.md', '')}
             except Exception as e:
                 print(f"❌ 同步文章失败: {e}")
                 continue
+
+        self.remove_unpublished_local_files(published_ids, all_pages)
         
-        print(f"\n🎉 同步完成! 共处理 {synced_count} 篇文章")
+        print(f"\n🎉 同步完成! 共写入 {synced_count} 篇 Published 文章")
         
-        if synced_count > 0:
-            print("🔨 正在构建博客...")
-            self.build_blog()
+        print("🔨 正在构建博客...")
+        self.build_blog()
     
     def build_blog(self):
         """构建博客"""
