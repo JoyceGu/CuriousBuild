@@ -5,7 +5,7 @@
         <link>https://joycegu.github.io/CuriousBuild/blog/</link>
         <description>Thoughts, discoveries, and adventures in technology, growth, and life insights.</description>
         <language>en-us</language>
-        <lastBuildDate>Sun, 05 Apr 2026 22:27:47 -0000</lastBuildDate>
+        <lastBuildDate>Mon, 06 Apr 2026 04:41:00 -0000</lastBuildDate>
         <atom:link href="https://joycegu.github.io/CuriousBuild/blog/feed.xml" rel="self" type="application/rss+xml"/>
         <generator>Joyce's Blog Generator</generator>
         <webMaster>joyce@example.com (Joyce Gu)</webMaster>
@@ -16,7 +16,7 @@
             <link>https://joycegu.github.io/CuriousBuild/blog/posts/vibe-coding-阅读笔记.html</link>
             <guid>https://joycegu.github.io/CuriousBuild/blog/posts/vibe-coding-阅读笔记.html</guid>
             <description><![CDATA[Source: https://www.vibevibe.cn/Advanced/https://www.vibevibe.cn/Advanced/ 第三章：PRD与文档驱动开发 一定要把 Key 保存到环境变量 .env 文件中. 归档参考文档：将这些 API 的关键文档（如请求格式、示例代码、返...]]></description>
-            <pubDate>Sun, 21 Dec 2025 08:00:00 -0000</pubDate>
+            <pubDate>Sun, 21 Dec 2025 00:00:00 -0000</pubDate>
             <author>joyce@example.com (Joyce Gu)</author>
         </item>
         <item>
@@ -24,7 +24,7 @@
             <link>https://joycegu.github.io/CuriousBuild/blog/posts/hacking-growth-reading-notes.html</link>
             <guid>https://joycegu.github.io/CuriousBuild/blog/posts/hacking-growth-reading-notes.html</guid>
             <description><![CDATA[The Growth Hacker Sean Ellis Morgan Brown I finally finished the HackingGrowth over the OOF time, and found quite a few really INSPIRING things about ...]]></description>
-            <pubDate>Thu, 11 Sep 2025 07:00:00 -0000</pubDate>
+            <pubDate>Thu, 11 Sep 2025 00:00:00 -0000</pubDate>
             <author>joyce@example.com (Joyce Gu)</author>
         </item>
         <item>
@@ -32,7 +32,7 @@
             <link>https://joycegu.github.io/CuriousBuild/blog/posts/增长黑客阅读笔记.html</link>
             <guid>https://joycegu.github.io/CuriousBuild/blog/posts/增长黑客阅读笔记.html</guid>
             <description><![CDATA[《增长黑客》 肖恩·埃利斯 摩根·布朗 假期终于把《增长黑客》这本书看完了，因为最近换组的原因，发现了不少很inspiring的地方。作为无力的IC真的很希望leadership也抽空读读这本书。 🫢 第二章 好产品是增长的根本 过早追求增长会产生两个层面的机会成本。首先，你会将宝贵的时间和金钱浪费...]]></description>
-            <pubDate>Thu, 11 Sep 2025 07:00:00 -0000</pubDate>
+            <pubDate>Thu, 11 Sep 2025 00:00:00 -0000</pubDate>
             <author>joyce@example.com (Joyce Gu)</author>
         </item>
         <item>
@@ -40,7 +40,7 @@
             <link>https://joycegu.github.io/CuriousBuild/blog/posts/how-to-set-up-notion-and-blog-sync.html</link>
             <guid>https://joycegu.github.io/CuriousBuild/blog/posts/how-to-set-up-notion-and-blog-sync.html</guid>
             <description><![CDATA[Overview This integration system allows you to write blog posts directly in Notion and automatically sync them to your website and won't change any ex...]]></description>
-            <pubDate>Mon, 01 Sep 2025 07:00:00 -0000</pubDate>
+            <pubDate>Mon, 01 Sep 2025 00:00:00 -0000</pubDate>
             <author>joyce@example.com (Joyce Gu)</author>
         </item>
         <item>
@@ -48,7 +48,7 @@
             <link>https://joycegu.github.io/CuriousBuild/blog/posts/hello-to-my-little-world.html</link>
             <guid>https://joycegu.github.io/CuriousBuild/blog/posts/hello-to-my-little-world.html</guid>
             <description><![CDATA[Welcome to my personal corner of the internet! This is where I'll be sharing my thoughts, discoveries, and adventures in technology, life, and everything in between.]]></description>
-            <pubDate>Thu, 18 Jan 2024 08:00:00 -0000</pubDate>
+            <pubDate>Thu, 18 Jan 2024 00:00:00 -0000</pubDate>
             <author>joyce@example.com (Joyce Gu)</author>
         </item>
     </channel>
