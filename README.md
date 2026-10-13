@@ -4,8 +4,8 @@
 
 ## 🌐 在线访问
 
-- **主页**：https://curiousbuild.pages.dev/
-- **博客**：https://curiousbuild.pages.dev/blog/
+- **主页**：https://curiousbuild.aitoolscollection.workers.dev/
+- **博客**：https://curiousbuild.aitoolscollection.workers.dev/blog/
 
 网站托管在 Cloudflare Pages，源码仓库私有，部署方法见 [DEPLOY-CLOUDFLARE.md](DEPLOY-CLOUDFLARE.md)。
 
@@ -47,8 +47,8 @@
 ## 使用方法
 
 ### 🌐 在线访问
-1. **主页**：访问 https://curiousbuild.pages.dev/
-2. **博客**：访问 https://curiousbuild.pages.dev/blog/
+1. **主页**：访问 https://curiousbuild.aitoolscollection.workers.dev/
+2. **博客**：访问 https://curiousbuild.aitoolscollection.workers.dev/blog/
 
 ### 🚀 本地启动
 

@@ -18,7 +18,7 @@
 1. 注册/登录 [Cloudflare](https://dash.cloudflare.com/)，进入 **Workers & Pages** → **Create** → **Pages** → **Connect to Git**。
 2. 授权 GitHub，选择 `JoyceGu/CuriousBuild` 仓库（私有仓库也可以）。
 3. 设置：
-   - **Project name**：`curiousbuild`（网址会是 `https://curiousbuild.pages.dev`）
+   - **Project name**：`curiousbuild`（网址会是 `https://curiousbuild.aitoolscollection.workers.dev`）
    - **Production branch**：`main`
    - **Framework preset**：`None`
    - **Build command**：`python3 build_site.py`
@@ -47,4 +47,4 @@ Cloudflare 会自动发布正式网站。
 ## 注意
 
 - 旧网址 `https://joycegu.github.io/CuriousBuild/` 改成私有后会失效，记得更新你在别处（简历、LinkedIn 等）留的链接。
-- 之前用旧网址订阅 RSS 的读者需要换成新地址：`https://curiousbuild.pages.dev/blog/feed-zh.xml`（中文）或 `feed-en.xml`（英文）。
+- 之前用旧网址订阅 RSS 的读者需要换成新地址：`https://curiousbuild.aitoolscollection.workers.dev/blog/feed-zh.xml`（中文）或 `feed-en.xml`（英文）。

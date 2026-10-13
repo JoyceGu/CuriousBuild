@@ -54,7 +54,7 @@ Notion 里还可以加一个 **Language**（单选：`zh` / `en`）列；不填�
 2. 把用户名填进 `blog/subscribe-config.js` 的 `buttondownUsername`，提交后订阅按钮就会出现。没填之前按钮是隐藏的，只显示 RSS。
 3. 读者填邮箱后会收到 Buttondown 的确认邮件，确认后就进入你的订阅者列表（在 Buttondown 后台查看和导出）。
 4. 想让新文章自动发邮件：在 Buttondown 里开启 RSS-to-email，订阅源填
-   `https://curiousbuild.pages.dev/blog/feed-zh.xml`（中文）或 `feed-en.xml`（英文）。
+   `https://curiousbuild.aitoolscollection.workers.dev/blog/feed-zh.xml`（中文）或 `feed-en.xml`（英文）。
    这两个订阅源里每篇文章只出现一次，订阅者不会因为中英两版收到重复邮件。
    这个功能包含在哪个价格档位，请以 Buttondown 价格页为准。
 

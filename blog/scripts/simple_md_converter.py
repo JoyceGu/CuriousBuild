@@ -13,7 +13,7 @@ from datetime import datetime
 from pathlib import Path
 
 # 网站地址（用于分享链接和 RSS）；换域名时改这里，或设置环境变量 BLOG_SITE_URL
-SITE_URL = os.getenv('BLOG_SITE_URL', 'https://curiousbuild.pages.dev').rstrip('/')
+SITE_URL = os.getenv('BLOG_SITE_URL', 'https://curiousbuild.aitoolscollection.workers.dev').rstrip('/')
 
 
 class SimpleBlogConverter:

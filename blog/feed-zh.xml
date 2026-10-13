@@ -2,41 +2,41 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
     <channel>
         <title>Joyce 的数字花园</title>
-        <link>https://curiousbuild.pages.dev/blog/</link>
+        <link>https://curiousbuild.aitoolscollection.workers.dev/blog/</link>
         <description>关于技术、增长和生活的思考与发现。</description>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 13 Oct 2026 04:35:02 -0000</lastBuildDate>
-        <atom:link href="https://curiousbuild.pages.dev/blog/feed-zh.xml" rel="self" type="application/rss+xml"/>
+        <lastBuildDate>Tue, 13 Oct 2026 04:45:32 -0000</lastBuildDate>
+        <atom:link href="https://curiousbuild.aitoolscollection.workers.dev/blog/feed-zh.xml" rel="self" type="application/rss+xml"/>
         <generator>Joyce's Blog Generator</generator>
         <ttl>1440</ttl>
         <item>
             <title><![CDATA[Vibe Coding 阅读笔记]]></title>
-            <link>https://curiousbuild.pages.dev/blog/posts/vibe-coding-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</link>
-            <guid>https://curiousbuild.pages.dev/blog/posts/vibe-coding-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</guid>
+            <link>https://curiousbuild.aitoolscollection.workers.dev/blog/posts/vibe-coding-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</link>
+            <guid>https://curiousbuild.aitoolscollection.workers.dev/blog/posts/vibe-coding-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</guid>
             <description><![CDATA[Source: https://www.vibevibe.cn/Advanced/https://www.vibevibe.cn/Advanced/ 第三章：PRD与文档驱动开发 一定要把 Key 保存到环境变量 .env 文件中. 归档参考文档：将这些 API 的关键文档（如请求格式、示例代码、返...]]></description>
             <pubDate>Sun, 21 Dec 2025 00:00:00 -0000</pubDate>
             <dc:creator>Joyce Gu</dc:creator>
         </item>
         <item>
             <title><![CDATA[《增长黑客》阅读笔记]]></title>
-            <link>https://curiousbuild.pages.dev/blog/posts/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</link>
-            <guid>https://curiousbuild.pages.dev/blog/posts/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</guid>
+            <link>https://curiousbuild.aitoolscollection.workers.dev/blog/posts/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</link>
+            <guid>https://curiousbuild.aitoolscollection.workers.dev/blog/posts/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</guid>
             <description><![CDATA[《增长黑客》 肖恩·埃利斯 摩根·布朗 假期终于把《增长黑客》这本书看完了，因为最近换组的原因，发现了不少很inspiring的地方。作为无力的IC真的很希望leadership也抽空读读这本书。 🫢 第二章 好产品是增长的根本 过早追求增长会产生两个层面的机会成本。首先，你会将宝贵的时间和金钱浪费...]]></description>
             <pubDate>Thu, 11 Sep 2025 00:00:00 -0000</pubDate>
             <dc:creator>Joyce Gu</dc:creator>
         </item>
         <item>
             <title><![CDATA[How to Set Up Notion and Blog Sync]]></title>
-            <link>https://curiousbuild.pages.dev/blog/posts/how-to-set-up-notion-and-blog-sync.html</link>
-            <guid>https://curiousbuild.pages.dev/blog/posts/how-to-set-up-notion-and-blog-sync.html</guid>
+            <link>https://curiousbuild.aitoolscollection.workers.dev/blog/posts/how-to-set-up-notion-and-blog-sync.html</link>
+            <guid>https://curiousbuild.aitoolscollection.workers.dev/blog/posts/how-to-set-up-notion-and-blog-sync.html</guid>
             <description><![CDATA[Overview This integration system allows you to write blog posts directly in Notion and automatically sync them to your website and won't change any ex...]]></description>
             <pubDate>Mon, 01 Sep 2025 00:00:00 -0000</pubDate>
             <dc:creator>Joyce Gu</dc:creator>
         </item>
         <item>
             <title><![CDATA[Hello to My Little World]]></title>
-            <link>https://curiousbuild.pages.dev/blog/posts/hello-to-my-little-world.html</link>
-            <guid>https://curiousbuild.pages.dev/blog/posts/hello-to-my-little-world.html</guid>
+            <link>https://curiousbuild.aitoolscollection.workers.dev/blog/posts/hello-to-my-little-world.html</link>
+            <guid>https://curiousbuild.aitoolscollection.workers.dev/blog/posts/hello-to-my-little-world.html</guid>
             <description><![CDATA[Welcome to my personal corner of the internet! This is where I'll be sharing my thoughts, discoveries, and adventures in technology, life, and everything in between.]]></description>
             <pubDate>Thu, 18 Jan 2024 00:00:00 -0000</pubDate>
             <dc:creator>Joyce Gu</dc:creator>
