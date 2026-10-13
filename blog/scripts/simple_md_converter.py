@@ -80,6 +80,9 @@ class SimpleBlogConverter:
         html = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', html)
         html = re.sub(r'\*(.*?)\*', r'<em>\1</em>', html)
         
+        # Images (before links, which would otherwise swallow them)
+        html = re.sub(r'!\[([^\]]*)\]\(([^)\s]+)\)', r'<img src="\2" alt="\1" loading="lazy">', html)
+
         # Links
         html = re.sub(r'\[([^\]]+)\]\(([^\)]+)\)', r'<a href="\2">\1</a>', html)
         

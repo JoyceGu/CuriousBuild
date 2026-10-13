@@ -8,6 +8,9 @@ import os
 import requests
 import json
 import re
+import shutil
+import mimetypes
+from urllib.parse import urlparse, quote
 from datetime import datetime
 from pathlib import Path
 
@@ -123,30 +126,42 @@ class NotionBlogSync:
         return None
 
     def get_page_content(self, page_id):
-        """获取页面内容"""
+        """获取页面全部内容块（分页读取，并递归读取嵌套块，如子列表、折叠块）"""
         url = f'https://api.notion.com/v1/blocks/{page_id}/children'
-        
+        blocks = []
+        start_cursor = None
         try:
-            response = requests.get(url, headers=self.headers)
-            if response.status_code == 200:
-                return response.json()['results']
-            else:
-                print(f"❌ 获取页面内容失败: {response.status_code}")
-                return []
+            while True:
+                params = {'page_size': 100}
+                if start_cursor:
+                    params['start_cursor'] = start_cursor
+                response = requests.get(url, headers=self.headers, params=params)
+                if response.status_code != 200:
+                    print(f"❌ 获取页面内容失败: {response.status_code}")
+                    break
+                data = response.json()
+                for block in data.get('results', []):
+                    if block.get('has_children') and block.get('type') != 'child_page':
+                        block['children'] = self.get_page_content(block['id'])
+                    blocks.append(block)
+                if not data.get('has_more'):
+                    break
+                start_cursor = data.get('next_cursor')
         except Exception as e:
             print(f"❌ 获取页面内容错误: {e}")
-            return []
-    
+        return blocks
+
     def extract_rich_text(self, rich_text_array):
         """提取富文本内容"""
         if not rich_text_array:
             return ""
-            
+
         result = []
         for text_obj in rich_text_array:
-            text = text_obj.get('text', {}).get('content', '')
+            # plain_text 也覆盖 @提及、公式等非 text 类型
+            text = text_obj.get('plain_text') or text_obj.get('text', {}).get('content', '')
             annotations = text_obj.get('annotations', {})
-            
+
             # 应用格式
             if annotations.get('bold'):
                 text = f'**{text}**'
@@ -154,73 +169,115 @@ class NotionBlogSync:
                 text = f'*{text}*'
             if annotations.get('code'):
                 text = f'`{text}`'
-            
+
             # 处理链接
-            link = text_obj.get('text', {}).get('link')
+            link = text_obj.get('href') or (text_obj.get('text', {}).get('link') or {}).get('url')
             if link:
-                url = link.get('url', '')
-                text = f'[{text}]({url})'
-            
+                text = f'[{text}]({link})'
+
             result.append(text)
-        
+
         return ''.join(result)
-    
-    def convert_notion_to_markdown(self, blocks):
-        """将Notion块转换为Markdown"""
+
+    def download_image(self, url, image_dir, block_id):
+        """下载 Notion 托管的图片（它的链接约一小时后失效），返回保存的文件名"""
+        try:
+            response = requests.get(url, timeout=60)
+            response.raise_for_status()
+        except Exception as e:
+            print(f"⚠️  图片下载失败: {e}")
+            return None
+        ext = Path(urlparse(url).path).suffix.lower()
+        if ext not in ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg'):
+            ctype = response.headers.get('Content-Type', '').split(';')[0]
+            ext = mimetypes.guess_extension(ctype) or '.png'
+        image_dir.mkdir(parents=True, exist_ok=True)
+        name = f"{block_id.replace('-', '')[:12]}{ext}"
+        (image_dir / name).write_bytes(response.content)
+        return name
+
+    def convert_notion_to_markdown(self, blocks, image_slug=None, depth=0):
+        """将Notion块转换为Markdown；image_slug 用于存放这篇文章图片的文件夹名"""
         markdown_content = []
-        
+        indent = '  ' * depth
+
         for block in blocks:
             block_type = block.get('type')
             block_data = block.get(block_type, {})
-            
+            text = self.extract_rich_text(block_data.get('rich_text', []))
+            children = block.get('children', [])
+
             if block_type == 'paragraph':
-                text = self.extract_rich_text(block_data.get('rich_text', []))
                 if text.strip():
-                    markdown_content.append(text)
+                    markdown_content.append(f'{indent}{text}')
                     markdown_content.append('')
-            
-            elif block_type == 'heading_1':
-                text = self.extract_rich_text(block_data.get('rich_text', []))
-                markdown_content.append(f'# {text}')
+
+            elif block_type in ('heading_1', 'heading_2', 'heading_3'):
+                level = int(block_type[-1])
+                markdown_content.append(f"{'#' * level} {text}")
                 markdown_content.append('')
-            
-            elif block_type == 'heading_2':
-                text = self.extract_rich_text(block_data.get('rich_text', []))
-                markdown_content.append(f'## {text}')
-                markdown_content.append('')
-            
-            elif block_type == 'heading_3':
-                text = self.extract_rich_text(block_data.get('rich_text', []))
-                markdown_content.append(f'### {text}')
-                markdown_content.append('')
-            
+
             elif block_type == 'bulleted_list_item':
-                text = self.extract_rich_text(block_data.get('rich_text', []))
-                markdown_content.append(f'- {text}')
-            
+                markdown_content.append(f'{indent}- {text}')
+
             elif block_type == 'numbered_list_item':
-                text = self.extract_rich_text(block_data.get('rich_text', []))
-                markdown_content.append(f'1. {text}')
-            
-            elif block_type == 'quote':
-                text = self.extract_rich_text(block_data.get('rich_text', []))
-                markdown_content.append(f'> {text}')
+                markdown_content.append(f'{indent}1. {text}')
+
+            elif block_type == 'to_do':
+                mark = '☑' if block_data.get('checked') else '☐'
+                markdown_content.append(f'{indent}- {mark} {text}')
+
+            elif block_type in ('quote', 'callout'):
+                icon = (block_data.get('icon') or {}).get('emoji', '') if block_type == 'callout' else ''
+                markdown_content.append(f"> {icon + ' ' if icon else ''}{text}")
                 markdown_content.append('')
-            
+
+            elif block_type == 'toggle':
+                markdown_content.append(f'{indent}**{text}**')
+                markdown_content.append('')
+
             elif block_type == 'code':
                 language = block_data.get('language', '')
-                text = self.extract_rich_text(block_data.get('rich_text', []))
                 markdown_content.append(f'```{language}')
                 markdown_content.append(text)
                 markdown_content.append('```')
                 markdown_content.append('')
-            
+
             elif block_type == 'divider':
                 markdown_content.append('---')
                 markdown_content.append('')
-        
+
+            elif block_type == 'image':
+                caption = self.extract_rich_text(block_data.get('caption', []))
+                src = None
+                if block_data.get('type') == 'file' and image_slug:
+                    image_dir = self.blog_dir / 'images' / image_slug
+                    name = self.download_image(block_data['file']['url'], image_dir, block['id'])
+                    if name:
+                        # 相对 blog/posts/*.html 的路径
+                        src = f'../images/{quote(image_slug)}/{name}'
+                elif block_data.get('type') == 'external':
+                    src = block_data['external']['url']
+                if src:
+                    markdown_content.append(f'![{caption}]({src})')
+                    if caption:
+                        markdown_content.append(f'*{caption}*')
+                    markdown_content.append('')
+
+            if children:
+                child_md = self.convert_notion_to_markdown(children, image_slug, depth + 1)
+                if child_md.strip():
+                    markdown_content.append(child_md)
+
+            # 列表结束后空一行，避免和下一段粘在一起
+            if depth == 0 and block_type in ('bulleted_list_item', 'numbered_list_item', 'to_do'):
+                idx = blocks.index(block)
+                nxt = blocks[idx + 1].get('type') if idx + 1 < len(blocks) else None
+                if nxt not in ('bulleted_list_item', 'numbered_list_item', 'to_do'):
+                    markdown_content.append('')
+
         return '\n'.join(markdown_content)
-    
+
     def extract_page_properties(self, page):
         """提取页面属性"""
         properties = page.get('properties', {})
@@ -308,6 +365,8 @@ class NotionBlogSync:
             html_name = conv.create_filename(meta.get('title', 'untitled'))
         html_path = posts_dir / html_name
         html_path.unlink(missing_ok=True)
+        if stem:
+            shutil.rmtree(self.blog_dir / 'images' / str(stem).replace('.html', ''), ignore_errors=True)
 
     def remove_unpublished_local_files(self, published_ids, all_pages):
         """
@@ -386,16 +445,21 @@ class NotionBlogSync:
                 print(f"📄 处理文章: {properties['title']}")
                 
                 # 获取内容
-                blocks = self.get_page_content(post['id'])
-                content = self.convert_notion_to_markdown(blocks)
-                
                 # 创建文件名
                 filename = self.create_filename(properties['title'])
+                image_slug = filename.replace('.md', '')
+
+                # 每次同步重新下载这篇文章的图片（Notion 图片链接会过期）
+                shutil.rmtree(self.blog_dir / 'images' / image_slug, ignore_errors=True)
+                blocks = self.get_page_content(post['id'])
+                content = self.convert_notion_to_markdown(blocks, image_slug)
                 
                 # 如果没有摘要，从内容中生成
                 if not properties['summary'] and content:
                     # 提取纯文本用于摘要
-                    clean_content = re.sub(r'[#*`>\[\]()]', '', content)
+                    clean_content = re.sub(r'!\[[^\]]*\]\([^)]*\)', '', content)  # 去掉图片
+                    clean_content = re.sub(r'\]\([^)]*\)', ']', clean_content)  # 链接只留文字
+                    clean_content = re.sub(r'[#*`>\[\]()]', '', clean_content)
                     clean_content = ' '.join(clean_content.split())
                     properties['summary'] = clean_content[:150] + "..." if len(clean_content) > 150 else clean_content
                 

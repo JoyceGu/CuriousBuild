@@ -33,13 +33,20 @@ PUBLIC_PATHS = [
     'blog/feed*.xml',
 ]
 
+# 可能还不存在的目录（例如还没有文章带图片）
+OPTIONAL_PATHS = [
+    'blog/images',
+]
+
 
 def main():
     if DIST.exists():
         shutil.rmtree(DIST)
     count = 0
-    for pattern in PUBLIC_PATHS:
+    for pattern in PUBLIC_PATHS + OPTIONAL_PATHS:
         matches = sorted(ROOT.glob(pattern))
+        if not matches and pattern in OPTIONAL_PATHS:
+            continue
         if not matches:
             raise SystemExit(f'❌ Missing public file: {pattern}')
         for src in matches:
