@@ -869,3 +869,49 @@ body {
     }
 }
 
+
+/* ===== Bilingual (English / 中文) ===== */
+/* A post that exists in both languages is only listed in the reader's language */
+html[data-ui-lang="en"] .post-item[data-lang="zh"][data-has-translation="true"],
+html[data-ui-lang="zh"] .post-item[data-lang="en"][data-has-translation="true"] {
+    display: none;
+}
+
+/* Posts only available in the other language get a small badge */
+.post-lang-badge {
+    display: none;
+    margin-left: 8px;
+    padding: 1px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--light-text);
+    vertical-align: middle;
+}
+
+html[data-ui-lang="en"] .post-item[data-lang="zh"] .post-lang-badge,
+html[data-ui-lang="zh"] .post-item[data-lang="en"] .post-lang-badge {
+    display: inline-block;
+}
+
+.translation-link {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.translation-link:hover {
+    color: var(--link-hover);
+}
+
+.ai-translation-note {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--light-text);
+    font-style: italic;
+}
+
+.article-meta {
+    flex-wrap: wrap;
+}

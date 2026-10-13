@@ -2,6 +2,28 @@
 const fruitsContainer = document.getElementById('fruits-container');
 const tooltip = document.getElementById('tooltip');
 
+// 按当前语言取果实的完整名称 / 简短名称（中文缺省时回退到英文）
+function fruitName(fruit) {
+    const zh = window.I18n && window.I18n.lang === 'zh';
+    return (zh && fruit.name_zh) || fruit.name;
+}
+
+function fruitShortName(fruit) {
+    const zh = window.I18n && window.I18n.lang === 'zh';
+    return (zh && (fruit.shortName_zh || fruit.name_zh)) || fruit.shortName || fruit.name;
+}
+
+// 切换语言时更新果实标签
+document.addEventListener('langchange', () => {
+    fruitLinks.forEach(fruit => {
+        const fruitElement = document.getElementById(fruit.id);
+        const labelElement = fruitElement && fruitElement.parentNode.querySelector('.fruit-label');
+        if (labelElement) {
+            labelElement.textContent = fruitShortName(fruit);
+        }
+    });
+});
+
 // 创建所有果实
 function createFruits() {
     // 使用从fruits-config.js加载的fruitLinks数组
@@ -27,7 +49,7 @@ function createFruits() {
         fruitElement.style.backgroundImage = `radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.1) 0%, transparent 40%)`;
         
         // 添加悬停效果
-        fruitElement.addEventListener('mouseover', (e) => showTooltip(e, fruit.name));
+        fruitElement.addEventListener('mouseover', (e) => showTooltip(e, fruitName(fruit)));
         fruitElement.addEventListener('mousemove', (e) => moveTooltip(e));
         fruitElement.addEventListener('mouseout', hideTooltip);
         
@@ -44,7 +66,7 @@ function createFruits() {
         // 创建标签元素
         const labelElement = document.createElement('div');
         labelElement.className = 'fruit-label';
-        labelElement.textContent = fruit.shortName || fruit.name; // 使用简短名称，如果没有则使用完整名称
+        labelElement.textContent = fruitShortName(fruit); // 使用简短名称，如果没有则使用完整名称
         labelElement.style.marginTop = '5px';
         labelElement.style.fontSize = '12px';
         labelElement.style.fontWeight = 'bold';
@@ -201,7 +223,7 @@ window.addNewFruit = function(name, url, positionX, positionY, type = 1, shortNa
     fruitElement.style.backgroundImage = `radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.1) 0%, transparent 40%)`;
     
     // 添加悬停效果
-    fruitElement.addEventListener('mouseover', (e) => showTooltip(e, newFruit.name));
+    fruitElement.addEventListener('mouseover', (e) => showTooltip(e, fruitName(newFruit)));
     fruitElement.addEventListener('mousemove', (e) => moveTooltip(e));
     fruitElement.addEventListener('mouseout', hideTooltip);
     

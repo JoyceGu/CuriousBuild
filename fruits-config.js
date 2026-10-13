@@ -1,5 +1,6 @@
 // 果实配置数据
 // 修改此文件可以轻松添加、删除或编辑果实
+// name_zh / shortName_zh 是中文模式下显示的文字，不填则沿用英文
 const fruitLinks = [
     {
         id: "fruit1",
@@ -21,7 +22,7 @@ const fruitLinks = [
         id: "fruit3",
         name: "LinkedIn",
         shortName: "LinkedIn",
-        url: "https://linkedin.com",
+        url: "https://www.linkedin.com/in/qiuzi-gu-279445136/",
         position: { x: 90, y: 15 },
         type: 5  // 蓝色
     },
@@ -29,6 +30,8 @@ const fruitLinks = [
         id: "fruit4",
         name: "Shop Sentry - Personal Gmail Agent",
         shortName: "Gmail Agent",
+        name_zh: "Shop Sentry - 个人 Gmail 智能助手",
+        shortName_zh: "Gmail 助手",
         url: "https://shopsentry.cloudautofish.com/",
         position: { x: 35, y: 55 },
         type: 3  // 黄色
@@ -37,6 +40,7 @@ const fruitLinks = [
         id: "fruit5",
         name: "ClarifAI - Bridge for Better Collaboration",
         shortName: "ClarifAI",
+        name_zh: "ClarifAI - 让协作更顺畅的桥梁",
         url: "https://github.com/JoyceGu/ClarifAI",
         position: { x: 8, y: 42 },  // 稍微向左上调整
         type: 3  // 黄色
@@ -45,6 +49,7 @@ const fruitLinks = [
         id: "fruit6",
         name: "Caisalyze - AI-Powered Causal Analysis",
         shortName: "Causalyze",
+        name_zh: "Causalyze - AI 驱动的因果分析",
         url: "https://github.com/JoyceGu/Causalyze",
         position: { x: 22, y: 40 },  // 稍微向右上调整
         type: 3  // 黄色
@@ -53,6 +58,7 @@ const fruitLinks = [
         id: "fruit7",
         name: "StackInsights - Listen to Customers on Stack Overflow",
         shortName: "StackInsights",
+        name_zh: "StackInsights - 倾听 Stack Overflow 上的用户声音",
         url: "https://github.com/JoyceGu/StackInsightsV2",
         position: { x: 20, y: 35 },  // 向右移动 (从75到82)
         type: 2  // 橙色
@@ -61,6 +67,8 @@ const fruitLinks = [
         id: "fruit8",
         name: "Joyce's Personal Blog - Thoughts and Insights",
         shortName: "Blog",
+        name_zh: "Joyce 的个人博客 - 想法与洞见",
+        shortName_zh: "博客",
         url: "./blog/",
         position: { x: 90, y: 20 },  // 向右上移动 (从85,25到90,20)
         type: 6  // 紫色 - 为博客使用特殊颜色

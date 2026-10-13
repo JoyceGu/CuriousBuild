@@ -50,7 +50,7 @@ flowchart TD
     CheckChanges -->|是| Commit[Git Commit<br/>提交更改]
     
     Commit --> Push[Git Push<br/>推送到 GitHub]
-    Push --> Deploy[部署到 GitHub Pages]
+    Push --> Deploy[由 Cloudflare Pages 发布]
     Deploy --> End([完成<br/>网站已更新])
     
     Draft --> End
@@ -134,7 +134,7 @@ query_published_posts()
 - **检测更改**：检查是否有文件被修改
 - **提交更改**：如果有更改，执行 git commit
 - **推送代码**：推送到 GitHub 仓库
-- **部署网站**：自动部署到 GitHub Pages
+- **部署网站**：自动由 Cloudflare Pages 发布
 
 ## 📋 数据流转
 
@@ -150,7 +150,7 @@ HTML 文件 (.html)
 博客首页 (index.html)
     ↓ (Git Push)
 GitHub Repository
-    ↓ (GitHub Pages)
+    ↓ (Cloudflare Pages)
 在线网站
 ```
 
@@ -203,7 +203,7 @@ GitHub Repository
 2. **发布**：设置 Status = "Published"
 3. **同步**：GitHub Actions 自动或手动触发同步
 4. **转换**：Notion → Markdown → HTML
-5. **部署**：自动部署到 GitHub Pages
+5. **部署**：自动由 Cloudflare Pages 发布
 6. **访问**：用户访问更新后的博客网站
 
 ## 📝 注意事项

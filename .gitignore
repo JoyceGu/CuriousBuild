@@ -32,3 +32,6 @@ build/
 # OS specific files
 .DS_Store
 Thumbs.db 
+
+# Cloudflare Pages 构建输出
+dist/

@@ -7,8 +7,14 @@ No external dependencies required - uses only Python standard library
 import os
 import re
 import json
+import html
+from urllib.parse import quote
 from datetime import datetime
 from pathlib import Path
+
+# 网站地址（用于分享链接和 RSS）；换域名时改这里，或设置环境变量 BLOG_SITE_URL
+SITE_URL = os.getenv('BLOG_SITE_URL', 'https://curiousbuild.aitoolscollection.workers.dev').rstrip('/')
+
 
 class SimpleBlogConverter:
     def __init__(self):
@@ -74,6 +80,9 @@ class SimpleBlogConverter:
         html = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', html)
         html = re.sub(r'\*(.*?)\*', r'<em>\1</em>', html)
         
+        # Images (before links, which would otherwise swallow them)
+        html = re.sub(r'!\[([^\]]*)\]\(([^)\s]+)\)', r'<img src="\2" alt="\1" loading="lazy">', html)
+
         # Links
         html = re.sub(r'\[([^\]]+)\]\(([^\)]+)\)', r'<a href="\2">\1</a>', html)
         
@@ -142,65 +151,140 @@ class SimpleBlogConverter:
         
         return '\n\n'.join(html_paragraphs)
     
+    CJK_RE = re.compile(r'[㐀-䶿一-鿿豈-﫿]')
+    LATIN_WORD_RE = re.compile(r'[A-Za-z0-9]+(?:[\'’-][A-Za-z0-9]+)*')
+
+    def detect_lang(self, text):
+        """Guess 'zh' or 'en' from the share of Chinese characters"""
+        cjk = len(self.CJK_RE.findall(text))
+        words = len(self.LATIN_WORD_RE.findall(text))
+        if cjk + words == 0:
+            return 'en'
+        return 'zh' if cjk / (cjk + words) > 0.3 else 'en'
+
     def calculate_reading_time(self, content):
-        """Calculate reading time based on word count"""
-        word_count = len(content.split())
-        reading_time = max(1, round(word_count / 200))
-        return reading_time
-    
+        """Reading time: ~400 Chinese characters or ~200 English words per minute"""
+        cjk = len(self.CJK_RE.findall(content))
+        words = len(self.LATIN_WORD_RE.findall(content))
+        return max(1, round(cjk / 400 + words / 200))
+
     def create_filename(self, title):
         """Create a URL-friendly filename from title"""
         filename = re.sub(r'[^\w\s-]', '', title.lower())
         filename = re.sub(r'[-\s]+', '-', filename)
         return f"{filename}.html"
-    
-    def convert_markdown_file(self, md_file_path):
-        """Convert a single markdown file to HTML"""
+
+    def load_translation_groups(self):
+        """
+        blog/translations.json lists posts that are translations of each other,
+        by markdown filename (without .md), e.g.
+        {"groups": [["增长黑客阅读笔记", "hacking-growth-reading-notes"]]}
+        Useful for pairs written by hand in Notion. Posts can also set
+        `translation_key` in their frontmatter instead.
+        """
+        path = self.blog_dir / "translations.json"
+        if not path.exists():
+            return {}
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except (OSError, ValueError) as e:
+            print(f"⚠️  Could not read translations.json: {e}")
+            return {}
+        mapping = {}
+        for group in data.get('groups', []):
+            if group:
+                for stem in group:
+                    mapping[stem] = group[0]
+        return mapping
+
+    def load_article(self, md_file_path, translation_groups):
+        """Parse a markdown file into an article dict (no HTML written yet)"""
         with open(md_file_path, 'r', encoding='utf-8') as f:
             content = f.read()
-        
-        # Parse frontmatter
+
         metadata, markdown_content = self.parse_frontmatter(content)
-        
-        # Extract metadata with defaults
+
         title = metadata.get('title', 'Untitled')
         date_str = metadata.get('date', datetime.now().strftime('%Y-%m-%d'))
         tags = metadata.get('tags', [])
         summary = metadata.get('summary', '')
-        
-        # Convert date
+
         try:
             date_obj = datetime.strptime(date_str, '%Y-%m-%d')
-            date_iso = date_obj.strftime('%Y-%m-%d')
-            date_formatted = date_obj.strftime('%B %d, %Y')
-        except:
-            date_iso = datetime.now().strftime('%Y-%m-%d')
-            date_formatted = datetime.now().strftime('%B %d, %Y')
-        
-        # Convert markdown to HTML
-        html_content = self.simple_markdown_to_html(markdown_content)
-        
-        # Calculate reading time
-        reading_time = self.calculate_reading_time(markdown_content)
-        
-        # Generate tags HTML
-        tags_html = ""
-        if tags:
-            tag_elements = [f'<span class="tag">{tag}</span>' for tag in tags]
-            tags_html = '\n                        '.join(tag_elements)
-        
-        # Create filename
+        except ValueError:
+            date_obj = datetime.now()
+
         filename = metadata.get('filename') or self.create_filename(title)
         if not filename.endswith('.html'):
             filename += '.html'
-        
-        # HTML template
+
+        lang = metadata.get('lang', '').lower()
+        if lang not in ('zh', 'en'):
+            lang = self.detect_lang(title + '\n' + markdown_content)
+
+        stem = md_file_path.stem
+        translation_key = (
+            metadata.get('translation_key')
+            or translation_groups.get(stem)
+            or stem
+        )
+
+        if not summary:
+            summary = f"{markdown_content[:150]}..." if len(markdown_content) > 150 else markdown_content
+
+        return {
+            'title': title,
+            'filename': filename,
+            'date_iso': date_obj.strftime('%Y-%m-%d'),
+            'date_formatted': date_obj.strftime('%B %d, %Y'),
+            'reading_time': self.calculate_reading_time(markdown_content),
+            'tags': tags,
+            'summary': summary,
+            'lang': lang,
+            'translation_key': translation_key,
+            'ai_translated': metadata.get('ai_translated', '').lower() == 'true',
+            'markdown': markdown_content,
+            'source_name': md_file_path.name,
+        }
+
+    def render_article(self, article, translation):
+        """Write the HTML page for one article; `translation` is the other-language version or None"""
+        title = html.escape(article['title'])
+        filename = article['filename']
+        lang = article['lang']
+        html_lang = 'zh-CN' if lang == 'zh' else 'en'
+        html_content = self.simple_markdown_to_html(article['markdown'])
+        post_url = f"{SITE_URL}/blog/posts/{quote(filename)}"
+
+        tags_html = ""
+        if article['tags']:
+            tag_elements = [f'<span class="tag">{html.escape(tag)}</span>' for tag in article['tags']]
+            tags_html = '\n                        '.join(tag_elements)
+
+        alternate_links = f'<link rel="alternate" hreflang="{lang}" href="{quote(filename)}">'
+        translation_html = ""
+        if translation:
+            other = translation['lang']
+            alternate_links += f'\n    <link rel="alternate" hreflang="{other}" href="{quote(translation["filename"])}">'
+            # Label is written in the target language so readers of that language can find it
+            label = '阅读中文版 →' if other == 'zh' else 'Read in English →'
+            translation_html = (
+                f'<a class="translation-link" href="{quote(translation["filename"])}" '
+                f'lang="{"zh-CN" if other == "zh" else "en"}">{label}</a>'
+            )
+
+        ai_note_html = ""
+        if article['ai_translated']:
+            ai_note_html = '<p class="ai-translation-note" data-i18n="post.aiTranslated">This version was translated with AI from the original article.</p>'
+
         html_template = f'''<!DOCTYPE html>
-<html lang="en">
+<html lang="{html_lang}" data-content-lang="{lang}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title} - Joyce's Blog</title>
+    {alternate_links}
     <link rel="stylesheet" href="../blog-styles.css">
     <link rel="stylesheet" href="../templates/article-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -210,11 +294,12 @@ class SimpleBlogConverter:
         <!-- Header -->
         <header class="header">
             <div class="nav">
-                <a href="../../" class="site-title">Back to Joyce's Playground</a>
+                <a href="../../" class="site-title" data-i18n="nav.backToPlayground">Back to Joyce's Playground</a>
                 <div class="nav-links">
-                    <a href="../" class="nav-link">Home</a>
-                    <a href="#archives" class="nav-link">Archives</a>
-                    <a href="#tags" class="nav-link">Tags</a>
+                    <a href="../" class="nav-link" data-i18n="nav.home">Home</a>
+                    <a href="#archives" class="nav-link" data-i18n="nav.archives">Archives</a>
+                    <a href="#tags" class="nav-link" data-i18n="nav.tags">Tags</a>
+                    <span data-lang-toggle></span>
                 </div>
             </div>
         </header>
@@ -226,13 +311,15 @@ class SimpleBlogConverter:
                 <header class="article-header">
                     <h1 class="article-title">{title}</h1>
                     <div class="article-meta">
-                        <time datetime="{date_iso}">{date_formatted}</time>
-                        <span class="reading-time">{reading_time} min</span>
+                        <time datetime="{article['date_iso']}" data-i18n-date>{article['date_formatted']}</time>
+                        <span class="reading-time" data-minutes="{article['reading_time']}">{article['reading_time']} min</span>
                         <span class="author">Joyce Gu</span>
+                        {translation_html}
                     </div>
                     <div class="article-tags">
                         {tags_html}
                     </div>
+                    {ai_note_html}
                 </header>
 
                 <!-- Article Content -->
@@ -243,16 +330,16 @@ class SimpleBlogConverter:
                 <!-- Article Footer -->
                 <footer class="article-footer">
                     <div class="article-navigation">
-                        <a href="../" class="nav-prev">← Back to Blog</a>
-                        <a href="#" class="nav-next">Next Article →</a>
+                        <a href="../" class="nav-prev" data-i18n="post.backToBlog">← Back to Blog</a>
+                        <a href="#" class="nav-next" data-i18n="post.next">Next Article →</a>
                     </div>
                     
                     <div class="article-share">
-                        <p>Share this article:</p>
+                        <p data-i18n="post.share">Share this article:</p>
                         <div class="share-buttons">
-                            <a href="https://twitter.com/intent/tweet?text={title}&url=https://joycegu.github.io/CuriousBuild/blog/posts/{filename}" class="share-button" target="_blank">Twitter</a>
-                            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://joycegu.github.io/CuriousBuild/blog/posts/{filename}" class="share-button" target="_blank">LinkedIn</a>
-                            <a href="#" class="share-button" onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied to clipboard!')">Copy Link</a>
+                            <a href="https://twitter.com/intent/tweet?text={quote(article['title'])}&url={quote(post_url, safe='')}" class="share-button" target="_blank">Twitter</a>
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={quote(post_url, safe='')}" class="share-button" target="_blank">LinkedIn</a>
+                            <a href="#" class="share-button" data-i18n="post.copyLink" onclick="navigator.clipboard.writeText(window.location.href); alert(window.I18n ? I18n.t('post.copied') : 'Link copied to clipboard!'); return false;">Copy Link</a>
                         </div>
                     </div>
                 </footer>
@@ -260,103 +347,146 @@ class SimpleBlogConverter:
         </main>
     </div>
 
+    <script src="../../i18n.js"></script>
     <script src="../blog-script.js"></script>
 </body>
 </html>'''
-        
-        # Write HTML file
+
         output_path = self.posts_dir / filename
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(html_template)
-        
-        print(f"✅ Converted: {md_file_path.name} → {filename}")
-        
-        return {
-            'title': title,
-            'filename': filename,
-            'date_iso': date_iso,
-            'date_formatted': date_formatted,
-            'reading_time': reading_time,
-            'tags': tags,
-            'summary': summary or f"{markdown_content[:150]}..." if len(markdown_content) > 150 else markdown_content,
-        }
-    
+
+        print(f"✅ Converted: {article['source_name']} → {filename} [{lang}]")
+
+    def find_translations(self, articles):
+        """Map each article filename to its other-language version (or None)"""
+        by_key = {}
+        for article in articles:
+            by_key.setdefault(article['translation_key'], []).append(article)
+        result = {}
+        for article in articles:
+            others = [a for a in by_key[article['translation_key']]
+                      if a is not article and a['lang'] != article['lang']]
+            result[article['filename']] = others[0] if others else None
+        return result
+
     def convert_all_markdown(self):
         """Convert all markdown files"""
         md_files = list(self.markdown_dir.glob('*.md'))
         if not md_files:
             print(f"📝 No markdown files found in {self.markdown_dir}")
             return []
-        
+
+        translation_groups = self.load_translation_groups()
         articles = []
-        active_html = set()
         for md_file in sorted(md_files):
             try:
-                article_info = self.convert_markdown_file(md_file)
-                articles.append(article_info)
-                active_html.add(article_info['filename'])
+                articles.append(self.load_article(md_file, translation_groups))
             except Exception as e:
-                print(f"❌ Error converting {md_file.name}: {e}")
+                print(f"❌ Error reading {md_file.name}: {e}")
+
+        translations = self.find_translations(articles)
+        active_html = set()
+        for article in articles:
+            translation = translations[article['filename']]
+            article['has_translation'] = translation is not None
+            try:
+                self.render_article(article, translation)
+                active_html.add(article['filename'])
+            except Exception as e:
+                print(f"❌ Error converting {article['source_name']}: {e}")
 
         for html_path in list(self.posts_dir.glob('*.html')):
             if html_path.name not in active_html:
                 html_path.unlink(missing_ok=True)
                 print(f"🗑 Removed orphan HTML: {html_path.name}")
-        
-        return articles
-    
+
+        return [a for a in articles if a['filename'] in active_html]
+
     def update_blog_index(self, articles):
         """Update the blog index with articles"""
         if not articles:
             return
-        
+
         # Sort articles by date (newest first)
         articles.sort(key=lambda x: x['date_iso'], reverse=True)
-        
-        # Generate article items HTML
+
+        # Each post is tagged with its language. When the UI is in one language,
+        # blog-styles.css hides posts that also exist in that language and shows
+        # a small badge on posts that are only available in the other one.
         articles_html = []
         for article in articles:
-            article_html = f'''                <article class="post-item">
+            badge_key = f"blog.onlyIn.{article['lang']}"
+            badge_text = '中文' if article['lang'] == 'zh' else 'EN'
+            article_html = f'''                <article class="post-item" lang="{'zh-CN' if article['lang'] == 'zh' else 'en'}" data-lang="{article['lang']}" data-has-translation="{'true' if article['has_translation'] else 'false'}">
                     <div class="post-content">
                         <h3 class="post-title">
-                            <a href="posts/{article['filename']}">{article['title']}</a>
+                            <a href="posts/{quote(article['filename'])}">{html.escape(article['title'])}</a>
+                            <span class="post-lang-badge" data-i18n="{badge_key}">{badge_text}</span>
                         </h3>
-                        <p class="post-summary">{article['summary']}</p>
+                        <p class="post-summary">{html.escape(article['summary'])}</p>
                     </div>
                     <div class="post-meta">
-                        <time datetime="{article['date_iso']}">{article['date_formatted']}</time>
-                        <span class="reading-time">{article['reading_time']} min</span>
+                        <time datetime="{article['date_iso']}" data-i18n-date>{article['date_formatted']}</time>
+                        <span class="reading-time" data-minutes="{article['reading_time']}">{article['reading_time']} min</span>
                         <span class="author">Joyce Gu</span>
                     </div>
                 </article>'''
             articles_html.append(article_html)
-        
+
         # Read current blog index
         blog_index_path = self.blog_dir / "index.html"
         with open(blog_index_path, 'r', encoding='utf-8') as f:
             current_content = f.read()
-        
+
         # Replace the posts section
         posts_section = '\n'.join(articles_html)
         new_posts_section = f'''            <!-- Posts List -->
             <section class="posts">
 {posts_section}
             </section>'''
-        
-        # Update the blog index
-        pattern = r'<!-- Posts List -->.*?</section>'
-        updated_content = re.sub(pattern, new_posts_section, current_content, flags=re.DOTALL)
-        
+
+        # Update the blog index (lambda so backslashes in content aren't treated as escapes)
+        # Leading indentation is part of the match, otherwise it piles up on every build
+        pattern = r'[ \t]*<!-- Posts List -->.*?</section>'
+        updated_content = re.sub(pattern, lambda _: new_posts_section, current_content, flags=re.DOTALL)
+
         with open(blog_index_path, 'w', encoding='utf-8') as f:
             f.write(updated_content)
-        
-        print(f"✅ Updated blog index with {len(articles)} articles")
-        
-        # Generate RSS feed
-        self.generate_rss_feed(articles)
 
-    def generate_rss_feed(self, articles):
-        """Generate RSS feed for the blog"""
+        print(f"✅ Updated blog index with {len(articles)} articles")
+
+        self.generate_search_index(articles)
+
+        # RSS feeds: feed.xml has everything; feed-en.xml / feed-zh.xml follow the
+        # post-list rule (each post once, in that language when available), which is
+        # what email newsletters should read so subscribers don't get duplicates
+        self.generate_rss_feed(articles)
+        for lang in ('en', 'zh'):
+            in_lang = [a for a in articles if a['lang'] == lang or not a['has_translation']]
+            self.generate_rss_feed(in_lang, feed_name=f'feed-{lang}.xml', lang=lang)
+
+    def generate_search_index(self, articles):
+        """Write posts.json, which the blog's search box loads"""
+        entries = []
+        for article in articles:
+            plain = re.sub(r'[#*`>\[\]()_~|-]', ' ', article['markdown'])
+            entries.append({
+                'title': article['title'],
+                'summary': article['summary'],
+                'date': article['date_iso'],
+                'url': f"posts/{quote(article['filename'])}",
+                'lang': article['lang'],
+                'has_translation': article['has_translation'],
+                'tags': article['tags'],
+                'content': ' '.join(plain.split())[:3000],
+            })
+        with open(self.blog_dir / "posts.json", 'w', encoding='utf-8') as f:
+            json.dump(entries, f, ensure_ascii=False, indent=1)
+        print(f"✅ Generated search index with {len(entries)} articles")
+
+    def generate_rss_feed(self, articles, feed_name='feed.xml', lang=None):
+        """Generate an RSS feed for the blog"""
         from email.utils import formatdate
         import time
         
@@ -368,17 +498,15 @@ class SimpleBlogConverter:
         
         # RSS template
         rss_template = '''<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
     <channel>
-        <title>Joyce's Digital Garden</title>
-        <link>https://joycegu.github.io/CuriousBuild/blog/</link>
-        <description>Thoughts, discoveries, and adventures in technology, growth, and life insights.</description>
-        <language>en-us</language>
+        <title>{channel_title}</title>
+        <link>{site_url}/blog/</link>
+        <description>{channel_description}</description>
+        <language>{channel_language}</language>
         <lastBuildDate>{last_build_date}</lastBuildDate>
-        <atom:link href="https://joycegu.github.io/CuriousBuild/blog/feed.xml" rel="self" type="application/rss+xml"/>
+        <atom:link href="{site_url}/blog/{feed_name}" rel="self" type="application/rss+xml"/>
         <generator>Joyce's Blog Generator</generator>
-        <webMaster>joyce@example.com (Joyce Gu)</webMaster>
-        <managingEditor>joyce@example.com (Joyce Gu)</managingEditor>
         <ttl>1440</ttl>
 {items}
     </channel>
@@ -399,11 +527,11 @@ class SimpleBlogConverter:
             
             item = f'''        <item>
             <title><![CDATA[{article['title']}]]></title>
-            <link>https://joycegu.github.io/CuriousBuild/blog/posts/{article['filename']}</link>
-            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/{article['filename']}</guid>
+            <link>{SITE_URL}/blog/posts/{quote(article['filename'])}</link>
+            <guid>{SITE_URL}/blog/posts/{quote(article['filename'])}</guid>
             <description><![CDATA[{clean_summary}]]></description>
             <pubDate>{pub_date}</pubDate>
-            <author>joyce@example.com (Joyce Gu)</author>
+            <dc:creator>Joyce Gu</dc:creator>
         </item>'''
             items.append(item)
         
@@ -411,17 +539,28 @@ class SimpleBlogConverter:
         last_build_date = formatdate()
         
         # Generate final RSS content
+        if lang == 'zh':
+            channel = ('Joyce 的数字花园', '关于技术、增长和生活的思考与发现。', 'zh-cn')
+        else:
+            channel = ("Joyce's Digital Garden",
+                       'Thoughts, discoveries, and adventures in technology, growth, and life insights.',
+                       'en-us')
         rss_content = rss_template.format(
+            channel_title=channel[0],
+            channel_description=channel[1],
+            channel_language=channel[2],
+            feed_name=feed_name,
+            site_url=SITE_URL,
             last_build_date=last_build_date,
             items='\n'.join(items)
         )
         
         # Write RSS file
-        rss_path = self.blog_dir / "feed.xml"
+        rss_path = self.blog_dir / feed_name
         with open(rss_path, 'w', encoding='utf-8') as f:
             f.write(rss_content)
         
-        print(f"✅ Generated RSS feed with {len(recent_articles)} articles")
+        print(f"✅ Generated {feed_name} with {len(recent_articles)} articles")
 
 def main():
     converter = SimpleBlogConverter()

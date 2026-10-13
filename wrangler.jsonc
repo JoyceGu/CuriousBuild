@@ -1,0 +1,8 @@
+// Cloudflare Workers 配置：只发布 build_site.py 生成的 dist/（纯静态网站，没有 Worker 代码）
+{
+  "name": "curiousbuild",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}
