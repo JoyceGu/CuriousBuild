@@ -1,0 +1,6 @@
+{
+  "_comment": "互为翻译的文章（markdown 文件名，不含 .md）。手动在 Notion 里写了中英两版时在这里配对；AI 自动翻译生成的文章不需要写在这里。",
+  "groups": [
+    ["增长黑客阅读笔记", "hacking-growth-reading-notes"]
+  ]
+}

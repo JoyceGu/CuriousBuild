@@ -261,12 +261,29 @@ class NotionBlogSync:
         if summary_prop and summary_prop.get('rich_text') and summary_prop['rich_text']:
             summary = summary_prop['rich_text'][0]['text']['content']
         
-        
+        # 语言（可选，select: zh / en / 中文 / English）；不填时构建脚本会自动识别
+        lang = ""
+        lang_prop = properties.get('Language') or properties.get('Lang')
+        if lang_prop and lang_prop.get('select') and lang_prop['select']:
+            name = lang_prop['select']['name'].strip().lower()
+            if name in ('zh', 'cn', '中文', 'chinese'):
+                lang = 'zh'
+            elif name in ('en', 'english', '英文'):
+                lang = 'en'
+
+        # 翻译配对（可选，rich text）：中英两篇填同一个值即互为翻译
+        translation_key = ""
+        key_prop = properties.get('Translation Key')
+        if key_prop and key_prop.get('rich_text'):
+            translation_key = ''.join(t.get('plain_text', '') for t in key_prop['rich_text']).strip()
+
         return {
             'title': title,
             'date': date,
             'tags': tags,
-            'summary': summary
+            'summary': summary,
+            'lang': lang,
+            'translation_key': translation_key,
         }
     
     def create_filename(self, title):
@@ -392,9 +409,13 @@ tags: {tags_str}
 summary: {properties['summary']}
 filename: {filename.replace('.md', '')}
 notion_page_id: {page_id}
----
-
 """
+                if properties['lang']:
+                    frontmatter += f"lang: {properties['lang']}\n"
+                if properties['translation_key']:
+                    frontmatter += f"translation_key: {properties['translation_key']}\n"
+                frontmatter += "---\n\n"
+
                 
                 # 组合完整内容
                 full_content = frontmatter + content

@@ -7,16 +7,17 @@
     <link rel="stylesheet" href="blog-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body>
+<body data-i18n-title-key="blog.pageTitle">
     <div class="container">
         <!-- Header -->
         <header class="header">
             <div class="nav">
-                <a href="../" class="site-title">Joyce's Playground</a>
+                <a href="../" class="site-title" data-i18n="nav.site">Joyce's Playground</a>
                 <div class="nav-links">
-                    <a href="./" class="nav-link">Home</a>
-                    <a href="#archives" class="nav-link">Archives</a>
-                    <a href="#tags" class="nav-link">Tags</a>
+                    <a href="./" class="nav-link" data-i18n="nav.home">Home</a>
+                    <a href="#archives" class="nav-link" data-i18n="nav.archives">Archives</a>
+                    <a href="#tags" class="nav-link" data-i18n="nav.tags">Tags</a>
+                    <span data-lang-toggle></span>
                 </div>
             </div>
         </header>
@@ -25,8 +26,8 @@
         <main class="main">
             <!-- Hero Section -->
             <section class="hero">
-                <h2 class="greeting">Hi there 👋</h2>
-                <p class="welcome">Welcome to my digital garden!</p>
+                <h2 class="greeting" data-i18n="blog.greeting">Hi there 👋</h2>
+                <p class="welcome" data-i18n="blog.welcome">Welcome to my digital garden!</p>
                 
                 <!-- Subscription Section -->
                 <div class="subscription-section">
@@ -34,15 +35,15 @@
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                         </svg>
-                        Stay updated with my latest thoughts
+                        <span data-i18n="blog.subscribe">Stay updated with my latest thoughts</span>
                     </button>
                     <div class="subscription-options">
-                        <span class="or-text">or</span>
-                        <a href="feed.xml" class="rss-link" target="_blank" title="Subscribe via RSS">
+                        <span class="or-text" data-i18n="blog.or">or</span>
+                        <a href="feed.xml" class="rss-link" target="_blank" title="Subscribe via RSS" data-i18n-title="blog.rssTitle">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248S0 22.546 0 20.752s1.456-3.248 3.252-3.248 3.251 1.454 3.251 3.248zm-6.503-12.572v4.811c6.05.062 10.96 4.966 11.022 11.009h4.817c-.062-8.71-7.118-15.758-15.839-15.82zm0-3.368c10.58.046 19.152 8.594 19.183 19.188h4.817c-.03-13.231-10.755-23.954-24-24v4.812z"/>
                             </svg>
-                            RSS Feed
+                            <span data-i18n="blog.rss">RSS Feed</span>
                         </a>
                     </div>
                 </div>
@@ -71,7 +72,7 @@
             <section class="search-section">
                 <div class="search-container">
                     <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="Search articles..." class="search-input">
+                        <input type="text" id="searchInput" placeholder="Search articles..." data-i18n-placeholder="blog.searchPlaceholder" class="search-input">
                         <button id="searchBtn" class="search-btn">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
@@ -82,71 +83,75 @@
                 </div>
             </section>
 
-<<<<<<< HEAD
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <!-- Posts List -->
+                                    <!-- Posts List -->
             <section class="posts">
-                <article class="post-item">
+                <article class="post-item" lang="zh-CN" data-lang="zh" data-has-translation="false">
                     <div class="post-content">
                         <h3 class="post-title">
-                            <a href="posts/vibe-coding-阅读笔记.html">Vibe Coding 阅读笔记</a>
+                            <a href="posts/vibe-coding-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html">Vibe Coding 阅读笔记</a>
+                            <span class="post-lang-badge" data-i18n="blog.onlyIn.zh">中文</span>
                         </h3>
                         <p class="post-summary">Source: https://www.vibevibe.cn/Advanced/https://www.vibevibe.cn/Advanced/ 第三章：PRD与文档驱动开发 一定要把 Key 保存到环境变量 .env 文件中. 归档参考文档：将这些 API 的关键文档（如请求格式、示例代码、返...</p>
                     </div>
                     <div class="post-meta">
-                        <time datetime="2025-12-21">December 21, 2025</time>
-                        <span class="reading-time">1 min</span>
+                        <time datetime="2025-12-21" data-i18n-date>December 21, 2025</time>
+                        <span class="reading-time" data-minutes="3">3 min</span>
                         <span class="author">Joyce Gu</span>
                     </div>
                 </article>
-                <article class="post-item">
+                <article class="post-item" lang="en" data-lang="en" data-has-translation="true">
                     <div class="post-content">
                         <h3 class="post-title">
                             <a href="posts/hacking-growth-reading-notes.html">Hacking Growth - Reading Notes</a>
+                            <span class="post-lang-badge" data-i18n="blog.onlyIn.en">EN</span>
                         </h3>
                         <p class="post-summary">The Growth Hacker Sean Ellis Morgan Brown I finally finished the HackingGrowth over the OOF time, and found quite a few really INSPIRING things about ...</p>
                     </div>
                     <div class="post-meta">
-                        <time datetime="2025-09-11">September 11, 2025</time>
-                        <span class="reading-time">6 min</span>
+                        <time datetime="2025-09-11" data-i18n-date>September 11, 2025</time>
+                        <span class="reading-time" data-minutes="6">6 min</span>
                         <span class="author">Joyce Gu</span>
                     </div>
                 </article>
-                <article class="post-item">
+                <article class="post-item" lang="zh-CN" data-lang="zh" data-has-translation="true">
                     <div class="post-content">
                         <h3 class="post-title">
-                            <a href="posts/增长黑客阅读笔记.html">《增长黑客》阅读笔记</a>
+                            <a href="posts/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html">《增长黑客》阅读笔记</a>
+                            <span class="post-lang-badge" data-i18n="blog.onlyIn.zh">中文</span>
                         </h3>
                         <p class="post-summary">《增长黑客》 肖恩·埃利斯 摩根·布朗 假期终于把《增长黑客》这本书看完了，因为最近换组的原因，发现了不少很inspiring的地方。作为无力的IC真的很希望leadership也抽空读读这本书。 🫢 第二章 好产品是增长的根本 过早追求增长会产生两个层面的机会成本。首先，你会将宝贵的时间和金钱浪费...</p>
                     </div>
                     <div class="post-meta">
-                        <time datetime="2025-09-11">September 11, 2025</time>
-                        <span class="reading-time">1 min</span>
+                        <time datetime="2025-09-11" data-i18n-date>September 11, 2025</time>
+                        <span class="reading-time" data-minutes="5">5 min</span>
                         <span class="author">Joyce Gu</span>
                     </div>
                 </article>
-                <article class="post-item">
+                <article class="post-item" lang="en" data-lang="en" data-has-translation="false">
                     <div class="post-content">
                         <h3 class="post-title">
                             <a href="posts/how-to-set-up-notion-and-blog-sync.html">How to Set Up Notion and Blog Sync</a>
+                            <span class="post-lang-badge" data-i18n="blog.onlyIn.en">EN</span>
                         </h3>
-                        <p class="post-summary">Overview This integration system allows you to write blog posts directly in Notion and automatically sync them to your website and won't change any ex...</p>
+                        <p class="post-summary">Overview This integration system allows you to write blog posts directly in Notion and automatically sync them to your website and won&#x27;t change any ex...</p>
                     </div>
                     <div class="post-meta">
-                        <time datetime="2025-09-01">September 01, 2025</time>
-                        <span class="reading-time">2 min</span>
+                        <time datetime="2025-09-01" data-i18n-date>September 01, 2025</time>
+                        <span class="reading-time" data-minutes="2">2 min</span>
                         <span class="author">Joyce Gu</span>
                     </div>
                 </article>
-                <article class="post-item">
+                <article class="post-item" lang="en" data-lang="en" data-has-translation="false">
                     <div class="post-content">
                         <h3 class="post-title">
                             <a href="posts/hello-to-my-little-world.html">Hello to My Little World</a>
+                            <span class="post-lang-badge" data-i18n="blog.onlyIn.en">EN</span>
                         </h3>
-                        <p class="post-summary">Welcome to my personal corner of the internet! This is where I'll be sharing my thoughts, discoveries, and adventures in technology, life, and everything in between.</p>
+                        <p class="post-summary">Welcome to my personal corner of the internet! This is where I&#x27;ll be sharing my thoughts, discoveries, and adventures in technology, life, and everything in between.</p>
                     </div>
                     <div class="post-meta">
-                        <time datetime="2024-01-18">January 18, 2024</time>
-                        <span class="reading-time">2 min</span>
+                        <time datetime="2024-01-18" data-i18n-date>January 18, 2024</time>
+                        <span class="reading-time" data-minutes="2">2 min</span>
                         <span class="author">Joyce Gu</span>
                     </div>
                 </article>
@@ -158,16 +163,16 @@
     <div id="subscriptionModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Stay in the loop! 📬</h3>
+                <h3 data-i18n="modal.title">Stay in the loop! 📬</h3>
                 <button class="close-btn" id="closeModal">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Get notified when I publish new articles about technology, growth, and life insights.</p>
+                <p data-i18n="modal.desc">Get notified when I publish new articles about technology, growth, and life insights.</p>
                 <form id="subscriptionForm" class="subscription-form">
                     <div class="input-group">
-                        <input type="email" id="emailInput" placeholder="Enter your email address" required>
+                        <input type="email" id="emailInput" placeholder="Enter your email address" data-i18n-placeholder="modal.emailPlaceholder" required>
                         <button type="submit" class="submit-btn">
-                            <span class="btn-text">Subscribe</span>
+                            <span class="btn-text" data-i18n="modal.submit">Subscribe</span>
                             <span class="btn-loading" style="display: none;">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z">
@@ -180,15 +185,16 @@
                     <div class="form-message" id="formMessage"></div>
                 </form>
                 <div class="privacy-note">
-                    <p><small>📝 Your email will only be used for blog updates. No spam, unsubscribe anytime.</small></p>
+                    <p><small data-i18n="modal.privacy">📝 Your email will only be used for blog updates. No spam, unsubscribe anytime.</small></p>
                 </div>
                 <div class="alternative-option">
-                    <p><small>Prefer RSS? <a href="feed.xml" target="_blank">Subscribe via RSS feed</a></small></p>
+                    <p><small><span data-i18n="modal.preferRss">Prefer RSS?</span> <a href="feed.xml" target="_blank" data-i18n="modal.rssLink">Subscribe via RSS feed</a></small></p>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="../i18n.js"></script>
     <script src="blog-script.js"></script>
 </body>
 </html>

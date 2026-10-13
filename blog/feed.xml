@@ -5,7 +5,7 @@
         <link>https://joycegu.github.io/CuriousBuild/blog/</link>
         <description>Thoughts, discoveries, and adventures in technology, growth, and life insights.</description>
         <language>en-us</language>
-        <lastBuildDate>Mon, 12 Oct 2026 08:26:19 -0000</lastBuildDate>
+        <lastBuildDate>Tue, 13 Oct 2026 00:58:34 -0000</lastBuildDate>
         <atom:link href="https://joycegu.github.io/CuriousBuild/blog/feed.xml" rel="self" type="application/rss+xml"/>
         <generator>Joyce's Blog Generator</generator>
         <webMaster>joyce@example.com (Joyce Gu)</webMaster>
@@ -13,8 +13,8 @@
         <ttl>1440</ttl>
         <item>
             <title><![CDATA[Vibe Coding 阅读笔记]]></title>
-            <link>https://joycegu.github.io/CuriousBuild/blog/posts/vibe-coding-阅读笔记.html</link>
-            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/vibe-coding-阅读笔记.html</guid>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/vibe-coding-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/vibe-coding-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</guid>
             <description><![CDATA[Source: https://www.vibevibe.cn/Advanced/https://www.vibevibe.cn/Advanced/ 第三章：PRD与文档驱动开发 一定要把 Key 保存到环境变量 .env 文件中. 归档参考文档：将这些 API 的关键文档（如请求格式、示例代码、返...]]></description>
             <pubDate>Sun, 21 Dec 2025 00:00:00 -0000</pubDate>
             <author>joyce@example.com (Joyce Gu)</author>
@@ -29,8 +29,8 @@
         </item>
         <item>
             <title><![CDATA[《增长黑客》阅读笔记]]></title>
-            <link>https://joycegu.github.io/CuriousBuild/blog/posts/增长黑客阅读笔记.html</link>
-            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/增长黑客阅读笔记.html</guid>
+            <link>https://joycegu.github.io/CuriousBuild/blog/posts/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</link>
+            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</guid>
             <description><![CDATA[《增长黑客》 肖恩·埃利斯 摩根·布朗 假期终于把《增长黑客》这本书看完了，因为最近换组的原因，发现了不少很inspiring的地方。作为无力的IC真的很希望leadership也抽空读读这本书。 🫢 第二章 好产品是增长的根本 过早追求增长会产生两个层面的机会成本。首先，你会将宝贵的时间和金钱浪费...]]></description>
             <pubDate>Thu, 11 Sep 2025 00:00:00 -0000</pubDate>
             <author>joyce@example.com (Joyce Gu)</author>

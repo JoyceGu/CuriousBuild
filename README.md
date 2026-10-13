@@ -21,6 +21,7 @@
 - Notion集成，支持从Notion数据库同步文章
 - 响应式设计，移动端友好
 - 自动生成文章列表和导航
+- 🌏 中英双语：全站中文 / English 切换，用 Claude 自动润色并翻译文章（见 [双语写作指南](blog/BILINGUAL-WRITING.md)）
 
 ## 文件结构
 
