@@ -19,11 +19,10 @@ your_notion_integration_token_here
 your_notion_database_id_here
 ```
 
-### 2. 启用 GitHub Pages
+### 2. 网站发布
 
-1. 访问 `https://github.com/JoyceGu/CuriousBuild/settings/pages`
-2. 在 "Source" 下选择 "GitHub Actions"
-3. 保存设置
+网站由 Cloudflare Pages 发布，不再使用 GitHub Pages，设置方法见 [DEPLOY-CLOUDFLARE.md](../DEPLOY-CLOUDFLARE.md)。
+如果要 AI 翻译，再添加 `CLAUDE_CODE_OAUTH_TOKEN`（见 [双语写作指南](../blog/BILINGUAL-WRITING.md)）。
 
 ### 3. 权限设置
 
@@ -44,7 +43,6 @@ your_notion_database_id_here
 
 如果遇到权限错误：
 - 检查 Secrets 是否正确设置
-- 确认 GitHub Pages 源设置为 "GitHub Actions"
 - 验证工作流权限设置为 "Read and write permissions"
 
 ## 自动同步
@@ -52,7 +50,7 @@ your_notion_database_id_here
 工作流将：
 - 每天北京时间 10:00 自动运行
 - 从 Notion 同步已发布的文章
-- 自动构建并部署到 GitHub Pages
+- 自动构建博客页面并提交，Cloudflare Pages 随后自动发布
 - 只有在检测到更改时才会提交和部署
 
 

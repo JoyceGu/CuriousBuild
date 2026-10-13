@@ -7,10 +7,9 @@ on:
   workflow_dispatch:
     # 允许手动触发
 
+# 只负责同步 Notion 和翻译并提交到 main；网站由 Cloudflare Pages 在 main 有新提交时自动发布
 permissions:
   contents: write  # 允许推送到仓库
-  pages: write     # 允许部署到 GitHub Pages
-  id-token: write  # 允许 OIDC token
 
 jobs:
   sync-and-deploy:
@@ -87,26 +86,10 @@ jobs:
         git commit -m "🔄 Auto-sync blog from Notion $(date '+%Y-%m-%d %H:%M:%S')"
         git push
     
-    - name: Setup Pages
-      if: steps.verify-changed-files.outputs.changed == 'true'
-      uses: actions/configure-pages@v5
-    
-    - name: Upload artifact
-      if: steps.verify-changed-files.outputs.changed == 'true'
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: '.'
-    
-    - name: Deploy to GitHub Pages
-      if: steps.verify-changed-files.outputs.changed == 'true'
-      id: deployment
-      uses: actions/deploy-pages@v4
-
     - name: Summary
       run: |
         if [ "${{ steps.verify-changed-files.outputs.changed }}" == "true" ]; then
-          echo "✅ Blog synchronized and deployed successfully!"
-          echo "🌐 Visit: https://joycegu.github.io/CuriousBuild/"
+          echo "✅ Blog synchronized! Cloudflare Pages will deploy the new commit."
         else
           echo "📝 No changes found in Notion database"
         fi

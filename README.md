@@ -4,8 +4,10 @@
 
 ## 🌐 在线访问
 
-- **主页**：https://joycegu.github.io/CuriousBuild/
-- **博客**：https://joycegu.github.io/CuriousBuild/blog/
+- **主页**：https://curiousbuild.pages.dev/
+- **博客**：https://curiousbuild.pages.dev/blog/
+
+网站托管在 Cloudflare Pages，源码仓库私有，部署方法见 [DEPLOY-CLOUDFLARE.md](DEPLOY-CLOUDFLARE.md)。
 
 ## 功能特点
 
@@ -45,8 +47,8 @@
 ## 使用方法
 
 ### 🌐 在线访问
-1. **主页**：访问 https://joycegu.github.io/CuriousBuild/
-2. **博客**：访问 https://joycegu.github.io/CuriousBuild/blog/
+1. **主页**：访问 https://curiousbuild.pages.dev/
+2. **博客**：访问 https://curiousbuild.pages.dev/blog/
 
 ### 🚀 本地启动
 
@@ -118,7 +120,7 @@ python3 build.py
 
 #### GitHub Actions 自动同步
 - 每天自动从 Notion 同步已发布的文章
-- 自动构建并部署到 GitHub Pages
+- 自动构建博客并提交，Cloudflare Pages 自动发布
 - 详见 `.github/SETUP.md`
 
 ## 自定义链接

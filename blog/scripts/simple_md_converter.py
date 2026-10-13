@@ -12,6 +12,10 @@ from urllib.parse import quote
 from datetime import datetime
 from pathlib import Path
 
+# 网站地址（用于分享链接和 RSS）；换域名时改这里，或设置环境变量 BLOG_SITE_URL
+SITE_URL = os.getenv('BLOG_SITE_URL', 'https://curiousbuild.pages.dev').rstrip('/')
+
+
 class SimpleBlogConverter:
     def __init__(self):
         self.blog_dir = Path(__file__).parent.parent
@@ -248,7 +252,7 @@ class SimpleBlogConverter:
         lang = article['lang']
         html_lang = 'zh-CN' if lang == 'zh' else 'en'
         html_content = self.simple_markdown_to_html(article['markdown'])
-        post_url = f"https://joycegu.github.io/CuriousBuild/blog/posts/{quote(filename)}"
+        post_url = f"{SITE_URL}/blog/posts/{quote(filename)}"
 
         tags_html = ""
         if article['tags']:
@@ -440,7 +444,8 @@ class SimpleBlogConverter:
             </section>'''
 
         # Update the blog index (lambda so backslashes in content aren't treated as escapes)
-        pattern = r'<!-- Posts List -->.*?</section>'
+        # Leading indentation is part of the match, otherwise it piles up on every build
+        pattern = r'[ \t]*<!-- Posts List -->.*?</section>'
         updated_content = re.sub(pattern, lambda _: new_posts_section, current_content, flags=re.DOTALL)
 
         with open(blog_index_path, 'w', encoding='utf-8') as f:
@@ -493,11 +498,11 @@ class SimpleBlogConverter:
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
     <channel>
         <title>{channel_title}</title>
-        <link>https://joycegu.github.io/CuriousBuild/blog/</link>
+        <link>{site_url}/blog/</link>
         <description>{channel_description}</description>
         <language>{channel_language}</language>
         <lastBuildDate>{last_build_date}</lastBuildDate>
-        <atom:link href="https://joycegu.github.io/CuriousBuild/blog/{feed_name}" rel="self" type="application/rss+xml"/>
+        <atom:link href="{site_url}/blog/{feed_name}" rel="self" type="application/rss+xml"/>
         <generator>Joyce's Blog Generator</generator>
         <ttl>1440</ttl>
 {items}
@@ -519,8 +524,8 @@ class SimpleBlogConverter:
             
             item = f'''        <item>
             <title><![CDATA[{article['title']}]]></title>
-            <link>https://joycegu.github.io/CuriousBuild/blog/posts/{quote(article['filename'])}</link>
-            <guid>https://joycegu.github.io/CuriousBuild/blog/posts/{quote(article['filename'])}</guid>
+            <link>{SITE_URL}/blog/posts/{quote(article['filename'])}</link>
+            <guid>{SITE_URL}/blog/posts/{quote(article['filename'])}</guid>
             <description><![CDATA[{clean_summary}]]></description>
             <pubDate>{pub_date}</pubDate>
             <dc:creator>Joyce Gu</dc:creator>
@@ -542,6 +547,7 @@ class SimpleBlogConverter:
             channel_description=channel[1],
             channel_language=channel[2],
             feed_name=feed_name,
+            site_url=SITE_URL,
             last_build_date=last_build_date,
             items='\n'.join(items)
         )
