@@ -18,12 +18,22 @@
 
 > 中文原文不会被改动，只有译文会被润色。
 
-### 一次性设置
+### 一次性设置（用 Claude 订阅，不需要 API key）
 
-1. 在 [Claude Console](https://console.anthropic.com/) 创建 API key。
+翻译走你的 Claude Pro / Max 订阅额度，不额外付费（会占用订阅的使用量）。
+
+1. 在自己电脑上（装好并登录 Claude Code 后）运行：
+   ```bash
+   claude setup-token
+   ```
+   按提示登录，会输出一个长期有效的 token。
 2. 打开 GitHub 仓库 → Settings → Secrets and variables → Actions → New repository secret，
-   名字填 `ANTHROPIC_API_KEY`。
+   名字填 `CLAUDE_CODE_OAUTH_TOKEN`，值填刚才的 token。
 3. 没有设置这个 secret 时，翻译步骤会自动跳过，其余功能照常。
+
+> 以后如果有了 Anthropic API key，也可以改用 `ANTHROPIC_API_KEY` secret，两个都配置时优先用 API key。
+
+本地手动翻译：登录过 Claude Code 的电脑上直接运行 `python3 blog/scripts/ai_translate.py`。
 
 默认使用 `claude-sonnet-5-5` 模型，可以用环境变量 `BLOG_AI_MODEL` 换。只想中译英的话，把 workflow 里的 `BLOG_TRANSLATE_DIRECTION` 改成 `zh2en`。
 

@@ -14,7 +14,11 @@
    --direction both   中英互译（默认）
    --dry-run          只列出要翻译的文章，不调用 API
 
-需要环境变量 ANTHROPIC_API_KEY（或 `ant auth login` 登录过的凭据）。
+两种调用方式（环境变量 BLOG_AI_BACKEND 指定，不填时自动选择）：
+   claude-code  用 Claude Code CLI，走你的 Claude 订阅额度，不需要 API key。
+                本地登录过 Claude Code 即可；GitHub Action 里用 CLAUDE_CODE_OAUTH_TOKEN
+                （本地运行 `claude setup-token` 生成）。没有 ANTHROPIC_API_KEY 时默认用它。
+   api          用 Anthropic API，需要 ANTHROPIC_API_KEY。
 文章 frontmatter 里写 `ai_translate: false` 可以让某篇文章不自动翻译。
 """
 
@@ -23,6 +27,8 @@ import hashlib
 import json
 import os
 import re
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -30,6 +36,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from simple_md_converter import SimpleBlogConverter
 
 MODEL = os.getenv('BLOG_AI_MODEL', 'claude-sonnet-5-5')
+BACKEND = os.getenv('BLOG_AI_BACKEND') or ('api' if os.getenv('ANTHROPIC_API_KEY') else 'claude-code')
 LANG_NAMES = {'zh': 'Simplified Chinese', 'en': 'English'}
 
 STYLE_GUIDE = """\
@@ -43,6 +50,7 @@ Formatting rules (always):
 - Do not add, remove or summarize content. Every paragraph in the input has a counterpart in the output.
 - Quoted material (blockquotes, book excerpts) is translated faithfully, not rewritten.
 - Output the article body only, without YAML frontmatter.
+- Chinese text uses full-width Chinese punctuation (，。！？：；“”《》), with ASCII punctuation kept only inside code, URLs and English phrases.
 """
 
 TRANSLATE_SYSTEM = STYLE_GUIDE + """
@@ -53,7 +61,7 @@ inside Chinese text) should come out the way a native {target} writer would put 
 
 Also return:
 - title: the post title in {target}
-- summary: one or two plain-text sentences in {target} (no Markdown, under 160 characters) for the post list
+- summary: one or two plain-text sentences in {target} (no Markdown, under 160 characters) for the post list, written in Joyce's own first-person voice
 - slug: {slug_rule}
 """
 
@@ -98,6 +106,35 @@ def clean_slug(slug, lang):
 
 
 def call_claude(client, system, user_content, schema):
+    if BACKEND == 'claude-code':
+        return call_claude_code(system, user_content, schema)
+    return call_claude_api(client, system, user_content, schema)
+
+
+def call_claude_code(system, user_content, schema):
+    """Run Claude Code headless (no tools) and read its schema-validated output"""
+    cmd = [
+        'claude', '-p',
+        '--model', MODEL,
+        '--output-format', 'json',
+        '--json-schema', json.dumps(schema),
+        '--system-prompt', system,
+        '--tools', '',
+        '--no-session-persistence',
+    ]
+    env = dict(os.environ, CLAUDE_CODE_MAX_OUTPUT_TOKENS='64000')
+    proc = subprocess.run(cmd, input=user_content, capture_output=True, text=True,
+                          timeout=900, env=env)
+    try:
+        data = json.loads(proc.stdout)
+    except ValueError:
+        raise RuntimeError(f'Claude Code failed: {(proc.stderr or proc.stdout).strip()[:500]}')
+    if data.get('is_error') or data.get('structured_output') is None:
+        raise RuntimeError(f"Claude Code error: {str(data.get('result'))[:500]}")
+    return data['structured_output']
+
+
+def call_claude_api(client, system, user_content, schema):
     """Single structured-output request; streams so long articles don't hit HTTP timeouts"""
     with client.beta.messages.stream(
         model=MODEL,
@@ -124,6 +161,11 @@ def call_claude(client, system, user_content, schema):
 
 
 def make_client():
+    if BACKEND == 'claude-code':
+        if not shutil.which('claude'):
+            print('❌ 找不到 claude 命令，请先安装 Claude Code: npm install -g @anthropic-ai/claude-code')
+            sys.exit(1)
+        return None
     try:
         import anthropic
     except ImportError:

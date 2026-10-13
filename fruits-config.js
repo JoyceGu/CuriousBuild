@@ -22,7 +22,7 @@ const fruitLinks = [
         id: "fruit3",
         name: "LinkedIn",
         shortName: "LinkedIn",
-        url: "https://linkedin.com",
+        url: "https://www.linkedin.com/in/qiuzi-gu-279445136/",
         position: { x: 90, y: 15 },
         type: 5  // 蓝色
     },

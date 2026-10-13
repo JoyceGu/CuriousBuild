@@ -47,19 +47,27 @@ jobs:
         python3 sync_notion.py
 
     - name: AI translate missing language versions
-      # 没有配置 ANTHROPIC_API_KEY secret 时自动跳过；翻译失败不影响其余文章发布
+      # 用 Claude 订阅（CLAUDE_CODE_OAUTH_TOKEN，本地运行 `claude setup-token` 生成）
+      # 或 Anthropic API（ANTHROPIC_API_KEY）；两个都没配置时跳过。翻译失败不影响其余文章发布
       env:
+        CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         BLOG_TRANSLATE_DIRECTION: both
       run: |
-        if [ -z "$ANTHROPIC_API_KEY" ]; then
-          echo "ANTHROPIC_API_KEY not set, skipping AI translation"
+        if [ -n "$ANTHROPIC_API_KEY" ]; then
+          export BLOG_AI_BACKEND=api
+        elif [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+          unset ANTHROPIC_API_KEY
+          export BLOG_AI_BACKEND=claude-code
+          npm install -g @anthropic-ai/claude-code
+        else
+          echo "No CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY secret, skipping AI translation"
           exit 0
         fi
         python3 blog/scripts/ai_translate.py || echo "::warning::Some articles failed to translate, see log above"
         cd blog
         python3 build.py
-    
+
     - name: Check for changes
       id: verify-changed-files
       run: |
