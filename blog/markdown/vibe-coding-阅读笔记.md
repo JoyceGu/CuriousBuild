@@ -2,12 +2,13 @@
 title: Vibe Coding 阅读笔记
 date: 2025-12-21
 tags: Reading, GenAI
-summary: Source: https://www.vibevibe.cn/Advanced/https://www.vibevibe.cn/Advanced/ 第三章：PRD与文档驱动开发 一定要把 Key 保存到环境变量 .env 文件中. 归档参考文档：将这些 API 的关键文档（如请求格式、示例代码、返...
+summary: Source: https://www.vibevibe.cn/Advanced/ https://www.vibevibe.cn/Advanced/ 第三章：PRD与文档驱动开发 一定要把 Key 保存到环境变量 .env 文件中. 归档参考文档：将这些 API 的关键文档（如请求格式、示例代码、...
 filename: vibe-coding-阅读笔记
 notion_page_id: 2d2d4ad9-ea64-8010-a3cd-e2bac3f8093f
+lang: zh
 ---
 
-## Source:  [https://www.vibevibe.cn/Advanced/](https://www.vibevibe.cn/Advanced/)
+## Source: [https://www.vibevibe.cn/Advanced/](https://www.vibevibe.cn/Advanced/) [https://www.vibevibe.cn/Advanced/](https://www.vibevibe.cn/Advanced/)
 
 ### 第三章：PRD与文档驱动开发
 
@@ -20,6 +21,7 @@ notion_page_id: 2d2d4ad9-ea64-8010-a3cd-e2bac3f8093f
 
 - **CSS (层叠样式表)**：如果说 HTML 是网页的**骨架**（素颜），那 CSS 就是**化妆品**。它决定了按钮是圆角还是直角，背景是渐变还是纯色。
 - **组件 (Component)**：现代网页不是画出来的，而是**搭**出来的。导航栏、按钮、输入框，这些都是预先做好的**乐高积木**。你不需要每次都手写一个“带圆角、有阴影、鼠标悬停变色的红色按钮”，而是直接拿来一个叫做 `<Button />` 的积木就能用。
+
 ---
 
 ### 第七章：数据持久化与数据库
@@ -53,6 +55,7 @@ SEO，为了让搜索软件能够搜到应用网页，需要设置一些文件�
 - **Metadata (元数据)**：你学会了在 Next.js 的 `layout.tsx` 里配置 `metadata` 对象。你填上了清晰的 `title`（标题）和 `description`（简介），告诉爬虫你是谁。
 - **Sitemap (站点地图)**：你让 AI 帮你生成了一个 `sitemap.xml`。这就像是给爬虫的一张地图，告诉它你网站里有哪些页面，哪些是最新的。
 - **Robots.txt**：这是给爬虫看的，告诉它哪些能爬，哪些不能爬。
+
 链接附图，让AI配置Open Graph（OG）协议，首先在Next.js里放一张图片命名为`opengraph-image.png`，Next.js就会自动把它作为社交分享卡片。
 
 统计，除了Google Analytics，还可以用1Panel中的Umami搭建一个轻量级，开源的统计系统。

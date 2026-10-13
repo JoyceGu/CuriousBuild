@@ -5,7 +5,7 @@
         <link>https://curiousbuild.aitoolscollection.workers.dev/blog/</link>
         <description>Thoughts, discoveries, and adventures in technology, growth, and life insights.</description>
         <language>en-us</language>
-        <lastBuildDate>Tue, 13 Oct 2026 04:45:32 -0000</lastBuildDate>
+        <lastBuildDate>Tue, 13 Oct 2026 08:50:22 -0000</lastBuildDate>
         <atom:link href="https://curiousbuild.aitoolscollection.workers.dev/blog/feed-en.xml" rel="self" type="application/rss+xml"/>
         <generator>Joyce's Blog Generator</generator>
         <ttl>1440</ttl>
@@ -13,7 +13,7 @@
             <title><![CDATA[Vibe Coding 阅读笔记]]></title>
             <link>https://curiousbuild.aitoolscollection.workers.dev/blog/posts/vibe-coding-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</link>
             <guid>https://curiousbuild.aitoolscollection.workers.dev/blog/posts/vibe-coding-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</guid>
-            <description><![CDATA[Source: https://www.vibevibe.cn/Advanced/https://www.vibevibe.cn/Advanced/ 第三章：PRD与文档驱动开发 一定要把 Key 保存到环境变量 .env 文件中. 归档参考文档：将这些 API 的关键文档（如请求格式、示例代码、返...]]></description>
+            <description><![CDATA[Source: https://www.vibevibe.cn/Advanced/ https://www.vibevibe.cn/Advanced/ 第三章：PRD与文档驱动开发 一定要把 Key 保存到环境变量 .env 文件中. 归档参考文档：将这些 API 的关键文档（如请求格式、示例代码、...]]></description>
             <pubDate>Sun, 21 Dec 2025 00:00:00 -0000</pubDate>
             <dc:creator>Joyce Gu</dc:creator>
         </item>

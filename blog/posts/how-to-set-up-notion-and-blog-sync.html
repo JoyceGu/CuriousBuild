@@ -32,7 +32,7 @@
                     <h1 class="article-title">How to Set Up Notion and Blog Sync</h1>
                     <div class="article-meta">
                         <time datetime="2025-09-01" data-i18n-date>September 01, 2025</time>
-                        <span class="reading-time" data-minutes="2">2 min</span>
+                        <span class="reading-time" data-minutes="3">3 min</span>
                         <span class="author">Joyce Gu</span>
                         
                     </div>
@@ -61,6 +61,7 @@
 <li>Add a Database</li>
 <li>Select "Table" view</li>
 </ol>
+
 <h3>1.2 Setup Database Fields</h3>
 
 <strong>Required Fields:</strong>
@@ -70,12 +71,14 @@
 <li><strong>Status</strong> - Select type - Options: 'Draft', 'Published'</li>
 <li><strong>Date</strong> - Date type - Publication date</li>
 </ul>
+
 <strong>Optional Fields:</strong>
 
 <ul>
 <li><strong>Tags</strong> - Multi-select type - Article tags</li>
 <li><strong>Summary</strong> - Text type - Article summary</li>
 </ul>
+
 <h3>1.3 Database Example</h3>
 
 <h2>Step 2: Get Notion API Key</h2>
@@ -86,9 +89,17 @@
 <li>Visit <a href="https://www.notion.so/my-integrations">Notion Integrations</a></li>
 <li>Click "New integration"</li>
 <li>Fill in the information:</li>
+<ul>
+</ol>
+<li>Name: 'Blog Sync'Name: 'Blog Sync'</li>
+<li>Associated workspace: Select your workspaceAssociated workspace: Select your workspace</li>
+<li>Capabilities: Check 'Read content'Capabilities: Check 'Read content'</li>
+<ol>
+</ul>
 <li>Click "Submit"</li>
 <li>Copy the <strong>Internal Integration Token</strong> (keep it secret!)</li>
 </ol>
+
 <h3>2.2 Connect Database</h3>
 
 <ol>
@@ -97,12 +108,14 @@
 <li>Select "Add connections"</li>
 <li>Choose your newly created "Blog Sync" integration</li>
 </ol>
+
 <h3>2.3 Get Database ID</h3>
 
 <ol>
 <li>Open your database in the browser</li>
 <li>Copy the database ID from the URL (32-character string)</li>
 </ol>
+
 <h2>Step 3: Local Setup</h2>
 
 <h3>3.1 Set Environment Variables</h3>
@@ -126,7 +139,12 @@ python3 sync_notion.py</p>
 <li>Click "Settings" → "Secrets and variables" → "Actions"</li>
 <li>Click "New repository secret"</li>
 <li>Add two secrets:</li>
+<ul>
 </ol>
+<li><strong>Name:</strong> 'NOTION_TOKEN', <strong>Value:</strong> Your Integration Token<strong>Name:</strong> 'NOTION_TOKEN', <strong>Value:</strong> Your Integration Token</li>
+<li><strong>Name:</strong> 'NOTION_DATABASE_ID', <strong>Value:</strong> Your Database ID<strong>Name:</strong> 'NOTION_DATABASE_ID', <strong>Value:</strong> Your Database ID</li>
+</ul>
+
 <h3>4.2 Auto Sync</h3>
 
 <p>GitHub Actions will:</p>
@@ -136,6 +154,7 @@ python3 sync_notion.py</p>
 <li>Sync published articles</li>
 <li>Auto build and deploy blog</li>
 </ul>
+
 <h2>Step 5: Writing Workflow</h2>
 
 <h3>5.1 Writing in Notion</h3>
@@ -146,6 +165,7 @@ python3 sync_notion.py</p>
 <li><strong>Set Status to 'Draft'</strong></li>
 <li>Write content in the page (supports all Notion formats)</li>
 </ol>
+
 <h3>5.2 Publishing Articles</h3>
 
 <ol>
@@ -153,6 +173,7 @@ python3 sync_notion.py</p>
 <li>Set publication date</li>
 <li>Wait for auto sync (daily) or trigger manually</li>
 </ol>
+
 <h3>5.3 Manual Sync</h3>
 
 <strong>Local Sync:</strong>
@@ -167,6 +188,7 @@ python3 sync_notion.py</p>
 <li>Click "Actions" → "Notion Blog Auto-Sync"</li>
 <li>Click "Run workflow"</li>
 </ol>
+
 <h2>Troubleshooting</h2>
 
 <h3>Common Issues</h3>

@@ -5,11 +5,14 @@ tags: Data Science, Career, Reading
 summary: The Growth Hacker Sean Ellis Morgan Brown I finally finished the HackingGrowth over the OOF time, and found quite a few really INSPIRING things about ...
 filename: hacking-growth-reading-notes
 notion_page_id: 279d4ad9-ea64-8094-9d5f-f1ee0cde19b2
+lang: en
 ---
 
 **The Growth Hacker**
 
  Sean Ellis Morgan Brown
+
+![](../images/hacking-growth-reading-notes/279d4ad9ea64.png)
 
 I finally finished the HackingGrowth over the OOF time, and found quite a few really INSPIRING things about it because of the recent change in groups. As a powerless IC really wish LEADERSHIP had taken the time to read this book as well. 🫢
 
@@ -43,7 +46,7 @@ This paragraph is a short summary of ABtesting, it is important to meet with the
 
 >  Companies should consider having more products with limited but more specialized features, rather than having all possible features in one product.
 
- Cursor is a product that focuses on AI programming, but Copilot integrates too many TOOLS, making users sometimes call irrelevant TOOLS while using it. interestingly we can use Copilot to look up which files were used to build Copilot (open source repo:   ) can cause Copilot performance to degrade, here is Copilot's answer:
+ Cursor is a product that focuses on AI programming, but Copilot integrates too many TOOLS, making users sometimes call irrelevant TOOLS while using it. interestingly we can use Copilot to look up which files were used to build Copilot (open source repo: [https://github.com/microsoft/vscode-copilot-chat](https://github.com/microsoft/vscode-copilot-chat) [https://github.com/microsoft/vscode-copilot-chat](https://github.com/microsoft/vscode-copilot-chat) ) can cause Copilot performance to degrade, here is Copilot's answer:
 
  "
 
@@ -55,6 +58,7 @@ This paragraph is a short summary of ABtesting, it is important to meet with the
 -  Fallbacks for large histories or tool failures.
 -  Overly aggressive file protection or missing context due to sensitive file restrictions.
 -  Workspace AGENTS.md file that misguides the agent.
+
  "
 
 **Chapter 8 Cashing in: Increasing Revenue Per User**
