@@ -37,9 +37,7 @@
             'modal.preferRss': 'Prefer RSS?',
             'modal.rssLink': 'Subscribe via RSS feed',
             'msg.invalidEmail': 'Please enter a valid email address.',
-            'msg.already': 'This email is already subscribed! 🎉',
-            'msg.success': '🎉 Successfully subscribed! Thank you for joining my digital garden.',
-            'msg.error': 'Something went wrong. Please try again.',
+            'msg.checkInbox': '📬 Almost done! Check your inbox and click the confirmation link.',
 
             'post.minutes': '{n} min',
             'post.backToBlog': '← Back to Blog',
@@ -82,9 +80,7 @@
             'modal.preferRss': '更喜欢 RSS？',
             'modal.rssLink': '通过 RSS 订阅',
             'msg.invalidEmail': '请输入有效的邮箱地址。',
-            'msg.already': '这个邮箱已经订阅过啦！🎉',
-            'msg.success': '🎉 订阅成功！欢迎来到我的数字花园。',
-            'msg.error': '出了点问题，请再试一次。',
+            'msg.checkInbox': '📬 还差一步！请查收邮件，点击里面的确认链接。',
 
             'post.minutes': '{n} 分钟',
             'post.backToBlog': '← 返回博客',

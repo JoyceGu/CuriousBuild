@@ -16,7 +16,7 @@
    - 你自己写的译文永远不会被覆盖。
 3. 如果某篇不想自动翻译，在 markdown 的 frontmatter 里加 `ai_translate: false`。
 
-> 中文原文不会被自动改写。原文是你的声音，改动要你自己确认，所以润色放在发布前、由你审阅（见下一节）。
+> 中文原文不会被改动，只有译文会被润色。
 
 ### 一次性设置
 
@@ -25,28 +25,7 @@
    名字填 `ANTHROPIC_API_KEY`。
 3. 没有设置这个 secret 时，翻译步骤会自动跳过，其余功能照常。
 
-默认使用 `claude-opus-5-5` 模型，可以用环境变量 `BLOG_AI_MODEL` 换。只想中译英的话，把 workflow 里的 `BLOG_TRANSLATE_DIRECTION` 改成 `zh2en`。
-
-## 发布前润色中文（可选）
-
-想让中文稿也润色一下，又想自己把关：
-
-```bash
-pip install anthropic
-export ANTHROPIC_API_KEY=你的key
-python3 blog/scripts/ai_translate.py polish 我的草稿.md
-```
-
-会在 `blog/drafts/`（不会提交到 git）里生成三个文件：
-
-- `我的草稿.polished.zh.md`：轻度润色后的中文（改错字、标点、病句和段落衔接，保留你的语气和表情）
-- `我的草稿.en.md`：根据润色稿翻译的英文
-- `我的草稿.notes.md`：主要改了哪些地方，方便你逐条确认
-
-满意后把润色稿贴回 Notion 发布即可；英文版可以交给每天的自动翻译，也可以把 `.en.md` 也贴进 Notion 自己发。
-
-不想用命令行的话，也可以直接在 Notion AI 或 Claude 里贴上文章，用类似这样的提示词：
-「请轻度润色这篇中文博客：修正错别字、标点和不通顺的句子，保留我的口吻、表情和中英混用的习惯，不要增删内容。然后把润色后的版本翻译成自然地道的英文。」
+默认使用 `claude-sonnet-5-5` 模型，可以用环境变量 `BLOG_AI_MODEL` 换。只想中译英的话，把 workflow 里的 `BLOG_TRANSLATE_DIRECTION` 改成 `zh2en`。
 
 ## 手动配对中英两篇
 
@@ -56,3 +35,17 @@ python3 blog/scripts/ai_translate.py polish 我的草稿.md
 - 在 `blog/translations.json` 里写上两篇的文件名（不含 `.md`）。
 
 Notion 里还可以加一个 **Language**（单选：`zh` / `en`）列；不填时会根据内容自动识别。
+
+## 邮件订阅
+
+博客的「订阅」按钮接的是 [Buttondown](https://buttondown.com)（邮件订阅服务，免费档就能开始用）：
+
+1. 注册 Buttondown 账号，记下你的用户名。
+2. 把用户名填进 `blog/subscribe-config.js` 的 `buttondownUsername`，提交后订阅按钮就会出现。没填之前按钮是隐藏的，只显示 RSS。
+3. 读者填邮箱后会收到 Buttondown 的确认邮件，确认后就进入你的订阅者列表（在 Buttondown 后台查看和导出）。
+4. 想让新文章自动发邮件：在 Buttondown 里开启 RSS-to-email，订阅源填
+   `https://joycegu.github.io/CuriousBuild/blog/feed-zh.xml`（中文）或 `feed-en.xml`（英文）。
+   这两个订阅源里每篇文章只出现一次，订阅者不会因为中英两版收到重复邮件。
+   这个功能包含在哪个价格档位，请以 Buttondown 价格页为准。
+
+RSS 订阅源：`feed-zh.xml`（中文）、`feed-en.xml`（英文）、`feed.xml`（全部文章，兼容旧的订阅）。博客上的 RSS 链接会跟着当前语言切换。

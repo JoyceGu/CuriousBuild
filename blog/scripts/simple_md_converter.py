@@ -450,8 +450,13 @@ class SimpleBlogConverter:
 
         self.generate_search_index(articles)
 
-        # Generate RSS feed
+        # RSS feeds: feed.xml has everything; feed-en.xml / feed-zh.xml follow the
+        # post-list rule (each post once, in that language when available), which is
+        # what email newsletters should read so subscribers don't get duplicates
         self.generate_rss_feed(articles)
+        for lang in ('en', 'zh'):
+            in_lang = [a for a in articles if a['lang'] == lang or not a['has_translation']]
+            self.generate_rss_feed(in_lang, feed_name=f'feed-{lang}.xml', lang=lang)
 
     def generate_search_index(self, articles):
         """Write posts.json, which the blog's search box loads"""
@@ -472,8 +477,8 @@ class SimpleBlogConverter:
             json.dump(entries, f, ensure_ascii=False, indent=1)
         print(f"✅ Generated search index with {len(entries)} articles")
 
-    def generate_rss_feed(self, articles):
-        """Generate RSS feed for the blog"""
+    def generate_rss_feed(self, articles, feed_name='feed.xml', lang=None):
+        """Generate an RSS feed for the blog"""
         from email.utils import formatdate
         import time
         
@@ -485,17 +490,15 @@ class SimpleBlogConverter:
         
         # RSS template
         rss_template = '''<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
     <channel>
-        <title>Joyce's Digital Garden</title>
+        <title>{channel_title}</title>
         <link>https://joycegu.github.io/CuriousBuild/blog/</link>
-        <description>Thoughts, discoveries, and adventures in technology, growth, and life insights.</description>
-        <language>en-us</language>
+        <description>{channel_description}</description>
+        <language>{channel_language}</language>
         <lastBuildDate>{last_build_date}</lastBuildDate>
-        <atom:link href="https://joycegu.github.io/CuriousBuild/blog/feed.xml" rel="self" type="application/rss+xml"/>
+        <atom:link href="https://joycegu.github.io/CuriousBuild/blog/{feed_name}" rel="self" type="application/rss+xml"/>
         <generator>Joyce's Blog Generator</generator>
-        <webMaster>joyce@example.com (Joyce Gu)</webMaster>
-        <managingEditor>joyce@example.com (Joyce Gu)</managingEditor>
         <ttl>1440</ttl>
 {items}
     </channel>
@@ -520,7 +523,7 @@ class SimpleBlogConverter:
             <guid>https://joycegu.github.io/CuriousBuild/blog/posts/{quote(article['filename'])}</guid>
             <description><![CDATA[{clean_summary}]]></description>
             <pubDate>{pub_date}</pubDate>
-            <author>joyce@example.com (Joyce Gu)</author>
+            <dc:creator>Joyce Gu</dc:creator>
         </item>'''
             items.append(item)
         
@@ -528,17 +531,27 @@ class SimpleBlogConverter:
         last_build_date = formatdate()
         
         # Generate final RSS content
+        if lang == 'zh':
+            channel = ('Joyce 的数字花园', '关于技术、增长和生活的思考与发现。', 'zh-cn')
+        else:
+            channel = ("Joyce's Digital Garden",
+                       'Thoughts, discoveries, and adventures in technology, growth, and life insights.',
+                       'en-us')
         rss_content = rss_template.format(
+            channel_title=channel[0],
+            channel_description=channel[1],
+            channel_language=channel[2],
+            feed_name=feed_name,
             last_build_date=last_build_date,
             items='\n'.join(items)
         )
         
         # Write RSS file
-        rss_path = self.blog_dir / "feed.xml"
+        rss_path = self.blog_dir / feed_name
         with open(rss_path, 'w', encoding='utf-8') as f:
             f.write(rss_content)
         
-        print(f"✅ Generated RSS feed with {len(recent_articles)} articles")
+        print(f"✅ Generated {feed_name} with {len(recent_articles)} articles")
 
 def main():
     converter = SimpleBlogConverter()

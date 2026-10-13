@@ -32,5 +32,3 @@ build/
 # OS specific files
 .DS_Store
 Thumbs.db 
-# AI 润色草稿（本地审阅用）
-blog/drafts/

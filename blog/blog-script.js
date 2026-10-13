@@ -223,7 +223,8 @@ function initSearch() {
     });
 }
 
-// Subscription functionality
+// Subscription functionality: the form posts to Buttondown (see subscribe-config.js),
+// which stores subscribers and sends them a confirmation email
 function initSubscription() {
     const t = (key) => (window.I18n ? window.I18n.t(key) : key);
     const subscribeBtn = document.getElementById('subscribeBtn');
@@ -232,32 +233,40 @@ function initSubscription() {
     const subscriptionForm = document.getElementById('subscriptionForm');
     const emailInput = document.getElementById('emailInput');
     const formMessage = document.getElementById('formMessage');
+
+    initRssLinks();
+
     if (!subscribeBtn || !modal || !subscriptionForm) {
         return;
     }
-    const submitBtn = subscriptionForm.querySelector('.submit-btn');
-    const btnText = submitBtn.querySelector('.btn-text');
-    const btnLoading = submitBtn.querySelector('.btn-loading');
 
-    // Open modal
+    const config = window.BLOG_SUBSCRIBE || {};
+    const username = (config.buttondownUsername || '').trim();
+    if (!username) {
+        // Not set up yet: don't show a form that goes nowhere
+        subscribeBtn.style.display = 'none';
+        document.querySelectorAll('.or-text').forEach(el => { el.style.display = 'none'; });
+        return;
+    }
+
+    subscriptionForm.action = `https://buttondown.com/api/emails/embed-subscribe/${encodeURIComponent(username)}`;
+    subscriptionForm.method = 'post';
+    subscriptionForm.target = '_blank';
+
     subscribeBtn.addEventListener('click', function() {
         modal.classList.add('show');
         emailInput.focus();
-        // Clear previous messages
         hideMessage();
     });
 
-    // Close modal
     closeBtn.addEventListener('click', closeModal);
-    
-    // Close modal when clicking outside
+
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
             closeModal();
         }
     });
 
-    // Close modal with Escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && modal.classList.contains('show')) {
             closeModal();
@@ -268,87 +277,24 @@ function initSubscription() {
         modal.classList.remove('show');
         subscriptionForm.reset();
         hideMessage();
-        resetSubmitButton();
     }
 
-    // Handle form submission
+    // Let the browser submit the form to Buttondown (opens its confirmation page
+    // in a new tab); only block it when the address is obviously invalid
     subscriptionForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
         const email = emailInput.value.trim();
-        
         if (!isValidEmail(email)) {
+            e.preventDefault();
             showMessage(t('msg.invalidEmail'), 'error');
             return;
         }
-
-        // Check if already subscribed
-        if (isAlreadySubscribed(email)) {
-            showMessage(t('msg.already'), 'success');
-            return;
-        }
-
-        // Show loading state
-        setLoadingState(true);
-
-        // Simulate API call delay
-        setTimeout(() => {
-            try {
-                // Save subscription
-                saveSubscription(email);
-                
-                // Show success message
-                showMessage(t('msg.success'), 'success');
-                
-                // Reset form after delay
-                setTimeout(() => {
-                    closeModal();
-                }, 2000);
-                
-            } catch (error) {
-                showMessage(t('msg.error'), 'error');
-            } finally {
-                setLoadingState(false);
-            }
-        }, 1000);
+        showMessage(t('msg.checkInbox'), 'success');
+        setTimeout(closeModal, 4000);
     });
 
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-    }
-
-    function isAlreadySubscribed(email) {
-        const subscribers = getSubscribers();
-        return subscribers.some(sub => sub.email.toLowerCase() === email.toLowerCase());
-    }
-
-    function saveSubscription(email) {
-        const subscribers = getSubscribers();
-        const newSubscriber = {
-            email: email,
-            subscribedAt: new Date().toISOString(),
-            id: generateId()
-        };
-        
-        subscribers.push(newSubscriber);
-        localStorage.setItem('blogSubscribers', JSON.stringify(subscribers));
-        
-        console.log('New subscriber added:', newSubscriber);
-    }
-
-    function getSubscribers() {
-        try {
-            const stored = localStorage.getItem('blogSubscribers');
-            return stored ? JSON.parse(stored) : [];
-        } catch (error) {
-            console.error('Error reading subscribers:', error);
-            return [];
-        }
-    }
-
-    function generateId() {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
 
     function showMessage(text, type) {
@@ -360,34 +306,17 @@ function initSubscription() {
         formMessage.className = 'form-message';
         formMessage.textContent = '';
     }
+}
 
-    function setLoadingState(loading) {
-        if (loading) {
-            submitBtn.disabled = true;
-            btnText.style.display = 'none';
-            btnLoading.style.display = 'inline-flex';
-        } else {
-            submitBtn.disabled = false;
-            btnText.style.display = 'inline';
-            btnLoading.style.display = 'none';
-        }
-    }
-
-    function resetSubmitButton() {
-        setLoadingState(false);
-    }
-
-    // Expose function for admin use
-    window.getSubscribers = getSubscribers;
-    window.exportSubscribers = function() {
-        const subscribers = getSubscribers();
-        const dataStr = JSON.stringify(subscribers, null, 2);
-        const dataBlob = new Blob([dataStr], {type: 'application/json'});
-        const url = URL.createObjectURL(dataBlob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `blog-subscribers-${new Date().toISOString().split('T')[0]}.json`;
-        link.click();
-        URL.revokeObjectURL(url);
+// RSS links point at the feed for the current language
+function initRssLinks() {
+    const update = () => {
+        const lang = window.I18n ? window.I18n.lang : 'en';
+        document.querySelectorAll('a[href$="feed.xml"], a[data-feed-link]').forEach(link => {
+            link.dataset.feedLink = 'true';
+            link.setAttribute('href', `feed-${lang}.xml`);
+        });
     };
+    update();
+    document.addEventListener('langchange', update);
 }
